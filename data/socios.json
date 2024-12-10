@@ -1,0 +1,112 @@
+[
+    {
+        "dni": "66974164G",
+        "nombre": "Ana",
+        "apellidos": "Martínez García",
+        "fecha_nac": "1992-05-18",
+        "telefono": "622345678",
+        "email": "ana.martinez@gym.com",
+        "tarifa": "1",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "82709958A",
+        "nombre": "Luis",
+        "apellidos": "Pérez Sánchez",
+        "fecha_nac": "1988-10-12",
+        "telefono": "611987654",
+        "email": "luis.perez@gym.com",
+        "tarifa": "2",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "93330782W",
+        "nombre": "Sofía",
+        "apellidos": "López Jiménez",
+        "fecha_nac": "1995-01-25",
+        "telefono": "612345987",
+        "email": "sofia.lopez@gym.com",
+        "tarifa": "3",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "55534150Y",
+        "nombre": "Javier",
+        "apellidos": "Rodríguez Fernández",
+        "fecha_nac": "1990-07-04",
+        "telefono": "613456123",
+        "email": "javier.rod@gym.com",
+        "tarifa": "1",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "28539505R",
+        "nombre": "Laura",
+        "apellidos": "Hernández Ruiz",
+        "fecha_nac": "1986-11-30",
+        "telefono": "614567890",
+        "email": "laura.hernandez@gym.com",
+        "tarifa": "2",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "17304391L",
+        "nombre": "Miguel",
+        "apellidos": "Gómez Martín",
+        "fecha_nac": "1993-06-15",
+        "telefono": "615678234",
+        "email": "miguel.gomez@gym.com",
+        "tarifa": "3",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "10129216Q",
+        "nombre": "Carmen",
+        "apellidos": "Sánchez Domínguez",
+        "fecha_nac": "1987-03-28",
+        "telefono": "616789567",
+        "email": "carmen.sanchez@gym.com",
+        "tarifa": "1",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "38735211Z",
+        "nombre": "Antonio",
+        "apellidos": "Ruiz Pérez",
+        "fecha_nac": "1991-12-20",
+        "telefono": "617890345",
+        "email": "antonio.ruiz@gym.com",
+        "tarifa": "2",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "84084556Y",
+        "nombre": "Elena",
+        "apellidos": "Díaz López",
+        "fecha_nac": "1996-08-09",
+        "telefono": "618901234",
+        "email": "elena.diaz@gym.com",
+        "tarifa": "3",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "32520517N",
+        "nombre": "Pablo",
+        "apellidos": "Romero Ortega",
+        "fecha_nac": "1994-02-14",
+        "telefono": "619012678",
+        "email": "pablo.romero@gym.com",
+        "tarifa": "1",
+        "fecha_alta": "10-12-2024",
+        "fecha_baja": "desconocida"
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "dni": "16280029P",
+        "nombre": "Nuria",
+        "apellidos": "Gonzalez Lopez",
+        "fecha_nac": "1975-08-23",
+        "telefono": "677123456",
+        "email": "nuria_lopez@gmail.com",
+        "cuenta_bancaria": "ES9345678921244368890123",
+        "funcion": "recepcionista",
+        "sueldo": "1150",
+        "horas_extra": "0",
+        "jornada": "40",
+        "password": "$2y$10$y4HOeiHkcdq62wAePv3L0ujmf2LuJL9967TgMb5PaRP0O0inNZ47W"
+    }
+]
