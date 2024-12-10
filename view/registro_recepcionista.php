@@ -67,6 +67,8 @@ $recepcionista1 = [
         
         <button type="submit" name='registrar'>Registrar</button>
     </form>
+    <br>
+    <a href="login_recepcionista.php">Ir al login recepcionista</a>
 
     <?php
     
@@ -76,8 +78,9 @@ $recepcionista1 = [
         switch ($error) {
             case 'dni_existente':
                 echo '<p style="color: red;">La recepcionista ya está registrada, redirigiendo al login</p>';
-                header('Refresh:3 login_recepcionista.php?dni='); 
+                header('Refresh:3 login_recepcionista.php?dni'); 
                 break;
+               
             default:
                 echo '<p style="color: red;">Ha ocurrido un error</p>';
         }

@@ -52,7 +52,7 @@ exit;
             exit();
         }
 
-    // Métodos login() y logout() los implementarás después
+    
 }
 
 
@@ -91,6 +91,16 @@ exit;
         header('Location: /MVC2/view/login_recepcionista.php');
         exit;
     }
+
+
+    //NO FUNCIONA
+   /* public function olvidado($dni){
+
+      Trabajador::olvidado($dni); 
+      header("Location: /MVC2/view/registro_recepcionista.php?error=nuevo_dni"); 
+      exit; 
+
+    }*/
 }
 
 

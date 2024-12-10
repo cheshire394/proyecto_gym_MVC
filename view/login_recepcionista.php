@@ -2,6 +2,11 @@
     session_start(); 
     if(isset($_SESSION['dni']))$dni_registrado= $_SESSION['dni']; 
 
+    if(isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas'){
+        echo "<p> Error, las credenciales no son correctas, redirigiendo al registro automáticamente</p>";
+        header('Refresh: 2 login_recepcionista.php'); 
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +28,9 @@
 
         <button type="submit" name="login">Iniciar Sesión</button>
     </form>
-   
+    <a href="registro_recepcionista.php">Registrar recepcionista</a>
+    <br>
+
 
 </body>
 </html>

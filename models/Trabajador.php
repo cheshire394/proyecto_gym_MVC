@@ -124,8 +124,25 @@ class Trabajador extends Persona {
         return false;
     }
 
+    
+    //NO FUNCIONA
+   /* public static function olvidado($dni) {
+        $recepcionistas = self::getAllRecepcionistas(); 
 
+        // Si encontramos la recepcionista con ese DNI, la eliminamos
+        foreach ($recepcionistas as $index => $recepcionista) {
+            if ($recepcionista['dni'] == $dni) {
+                // Eliminar la recepcionista del array
+                unset($recepcionistas[$index]);
 
+                // Guardar el array actualizado en el archivo JSON
+                file_put_contents(self::$file, json_encode(array_values($recepcionistas), JSON_PRETTY_PRINT));
+
+    
+            }
+        }
+
+    }*/
 
 
 

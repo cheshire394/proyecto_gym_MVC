@@ -26,6 +26,7 @@ if (isset($_GET['action'])) {
             $controlador->logout();
             break;
 
+    
         default:
             echo "Acción no reconocida.";
             break;

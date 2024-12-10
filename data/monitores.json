@@ -1,47 +1,55 @@
 [
-    [
-        {
-            "dni": "50489319H",
-            "nombre": "Laura",
-            "apellidos": "Rodriguez Vallejo",
-            "fecha_nac": "1994-06-17",
-            "telefono": "650448327",
-            "email": "laura_boxing@gmail.com",
-            "cuenta_bancaria": "ES9123456789012345678901",
-            "funcion": "monitor",
-            "sueldo": 1100,
-            "horas_extra": 0,
-            "jornada": 16,
-            "disciplinas": ["boxeo", "kickboxing"]
-        },
-        {
-            "dni": "09626574Q",
-            "nombre": "Carlos",
-            "apellidos": "Gómez Pérez",
-            "fecha_nac": "1990-03-12",
-            "telefono": "691234567",
-            "email": "carlos@gmail.com",
-            "cuenta_bancaria": "ES9234567890123456789012",
-            "funcion": "monitor",
-            "sueldo": 1200,
-            "horas_extra": 0,
-            "jornada": 8,
-            "disciplinas": ["taekwondo", "karate", "boxeo"]
-        },
-        {
-            "dni": "55462206Y",
-            "nombre": "Ana",
-            "apellidos": "Martínez López",
-            "fecha_nac": "1988-09-23",
-            "telefono": "677123456",
-            "email": "ana.judo@gmail.com",
-            "cuenta_bancaria": "ES9345678901234567890123",
-            "funcion": "monitor",
-            "sueldo": 1150,
-            "horas_extra": 0,
-            "jornada": 310,
-            "disciplinas": ["judo", "aikido"]
-        }
-    ]
-    
+    {
+        "dni": "50489319H",
+        "nombre": "Laura",
+        "apellidos": "Rodriguez Vallejo",
+        "fecha_nac": "1994-06-17",
+        "telefono": "650448327",
+        "email": "laura_boxing@gmail.com",
+        "cuenta_bancaria": "ES9123456789012345678901",
+        "funcion": "monitor",
+        "sueldo": 1100,
+        "horas_extra": 0,
+        "jornada": 16,
+        "disciplinas": [
+            "boxeo",
+            "kickboxing",
+            "MMA"
+        ]
+    },
+    {
+        "dni": "09626574Q",
+        "nombre": "Carlos",
+        "apellidos": "G\u00f3mez P\u00e9rez",
+        "fecha_nac": "1990-03-12",
+        "telefono": "691234567",
+        "email": "carlos@gmail.com",
+        "cuenta_bancaria": "ES9234567890123456789012",
+        "funcion": "monitor",
+        "sueldo": 1200,
+        "horas_extra": 0,
+        "jornada": 8,
+        "disciplinas": [
+            "taekwondo",
+            "karate",
+            "boxeo"
+        ]
+    },
+    {
+        "dni": "55462206Y",
+        "nombre": "Ana",
+        "apellidos": "Mart\u00ednez L\u00f3pez",
+        "fecha_nac": "1988-09-23",
+        "telefono": "677123456",
+        "email": "ana.judo@gmail.com",
+        "cuenta_bancaria": "ES9345678901234567890123",
+        "funcion": "monitor",
+        "sueldo": 1150,
+        "horas_extra": 0,
+        "jornada": 310,
+        "disciplinas": [
+            "judo",
+            "aikido"
+        ]
+    }
 ]
