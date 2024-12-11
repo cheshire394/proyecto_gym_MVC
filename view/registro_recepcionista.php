@@ -12,6 +12,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+/* The `` array is storing the data of a receptionist for example purposes. Each key in
+the array represents a specific piece of information about the receptionist, such as their ID number
+(`dni`), name (`nombre`), last name (`apellidos`), date of birth (`fecha_nac`), phone number
+(`telefono`), email address (`email`), bank account number (`cuenta_bancaria`), role (`funcion`),
+salary (`sueldo`), extra hours worked (`horas_extra`), and working hours per week (`jornada`). */
+
 //Se define un array asociativo $recepcionista1 con los datos de un recepcionista de ejemplo. Estos datos son de solo lectura para el formulario.
 $recepcionista1 = [
     'dni' => '16280029P',
@@ -28,8 +35,9 @@ $recepcionista1 = [
 ];
 ?>
 
-
-<!-- HTML con el formulario-->
+<!--HTML con el formulario
+The provided HTML code is creating a registration form for a
+receptionist. Here's a breakdown of what each part of the code is doing: -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -121,6 +129,9 @@ $recepcionista1 = [
     //Incluye el archivo controladorRecepcionista.php, donde se encuentra la lógica para procesar los datos del formulario.
     require_once('../controllers/controladorRecepcionista.php'); 
     
+    /* This PHP code block is checking if there is a specific error message passed through the URL
+    parameters using `['error']`. If the 'error' parameter is set, it assigns the value to the
+    variable ``. */
     //Errores
     if (isset($_GET['error'])) {
         $error = $_GET['error'];

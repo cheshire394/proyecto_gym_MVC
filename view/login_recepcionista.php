@@ -41,7 +41,7 @@
             <input type="text" id="dni" name="dni" value="<?= htmlentities($dni_registrado) ?>"><br><br>
 
             <label for="password">Contraseña:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
+            <input type="password" id="password" name="password" required><br>
         </fieldset>
 
         <br>
