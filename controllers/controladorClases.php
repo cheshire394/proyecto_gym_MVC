@@ -33,6 +33,49 @@ class ControladorClases {
     
         
     }
+
+    public static function mostrar_todas_Clases() {
+        $clases = Clase::getHorario_gym();
+        $horario = [];
+    
+        // Organizar las clases por día y hora
+        foreach ($clases as $id_clase => $obj_Clase) {
+            $claseArray = $obj_Clase->toArray(); // Conversión a array para trabajar con los datos
+            $horario[$claseArray['dia_semana']][$claseArray['hora_inicio']] = $claseArray;
+        }
+    
+        // Devolver los datos organizados
+        return $horario;
+    }
+    
+    public static function mostrar_clases_filtradas(){
+
+        $propiedad_filtrada = $_POST['propiedad_filtrada']; 
+
+        if($propiedad_filtrada == 'dni_monitor') $valor_filtrado = htmlentities(strtoupper(trim($_POST['valor_filtrado']))); 
+        else $valor_filtrado = htmlentities(strtolower(trim($_POST['valor_filtrado'])));
+        
+        
+        //recuperramos el array con las clases filtradas
+        $clases_filtradas=Clase::Clases_filtradas($propiedad_filtrada, $valor_filtrado);
+
+        if(empty($clases_filtradas)) return []; 
+
+        $horario = [];
+        // Organizar las clases por día y hora
+        foreach ($clases_filtradas as $id_clase => $obj_Clase) {
+            $claseArray = $obj_Clase->toArray(); // Conversión a array para trabajar con los datos
+            $horario[$claseArray['dia_semana']][$claseArray['hora_inicio']] = $claseArray;
+        }
+        // Devolver los datos organizados
+        return $horario;
+
+
+   }
+
+   
+
+    
     
 
     

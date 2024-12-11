@@ -92,65 +92,66 @@ require_once('Monitor.php');
         
             try {
 
-                //RECUPERAMOS LOS MONITORES EXISTENTES
-                $rutaJSON = __DIR__ . '/../data/monitores.json';
+                        //RECUPERAMOS LOS MONITORES EXISTENTES
+                        $rutaJSON = __DIR__ . '/../data/monitores.json';
 
-            // Leer el contenido actual del archivo JSON
-            $monitoresJSON = file_get_contents($rutaJSON);
-            $monitores = json_decode($monitoresJSON, true);
+                        // Leer el contenido actual del archivo JSON
+                        $monitoresJSON = file_get_contents($rutaJSON);
+                        $monitores = json_decode($monitoresJSON, true);
 
-        // Flag para saber si se modificó el JSON
-        $modificado = false;
-        $monitorEncontrado = null;
+                        // Flag para saber si se modificó el JSON
+                        $modificado = false;
+                        $monitorEncontrado = null;
 
-        // Buscar y modificar el monitor
-        foreach($monitores as &$monitor) {
-            if($monitor['dni'] == $dni_monitor) {
-                // Si la disciplina no existe, añadirla
-                if(!in_array($nombre_actividad, $monitor['disciplinas'])) {
-                    $monitor['disciplinas'][] = $nombre_actividad;
-                    $modificado = true;
-                }
-                
-                // Guardar el monitor encontrado
-                $monitorEncontrado = $monitor;
-                break;
-            }
-        }
+                        // Buscar y modificar el monitor
+                        foreach($monitores as &$monitor) {
+                            if($monitor['dni'] == $dni_monitor) {
+                                // Si la disciplina no existe, añadirla
+                                if(!in_array($nombre_actividad, $monitor['disciplinas'])) {
+                                    $monitor['disciplinas'][] = $nombre_actividad;
+                                    $modificado = true;
+                                }
+                                
+                                // Guardar el monitor encontrado
+                                $monitorEncontrado = $monitor;
+                                break;
+                            }
+                        }
 
-        // Si se modificó el JSON, guardarlo
-        if ($modificado) {
-            file_put_contents($rutaJSON, json_encode($monitores, JSON_PRETTY_PRINT));
-        }
+                        // Si se modificó el JSON, guardarlo
+                        if ($modificado) {
+                            file_put_contents($rutaJSON, json_encode($monitores, JSON_PRETTY_PRINT));
+                        }
 
-        // Verificar que se encontró el monitor
-        if (!$monitorEncontrado) {
-            throw new datosIncorrectos('<b>ERROR: No se encontró el monitor con DNI ' . $dni_monitor . '</b>');
-        }
+                        // Verificar que se encontró el monitor
+                        if (!$monitorEncontrado) {
+                            throw new datosIncorrectos('<b>ERROR: No se encontró el monitor con DNI ' . $dni_monitor . '</b>');
+                        }
 
-        // Crear el objeto Monitor
-        new Monitor(
-            $monitorEncontrado['dni'],
-            $monitorEncontrado['nombre'],
-            $monitorEncontrado['apellidos'],
-            $monitorEncontrado['fecha_nac'],
-            $monitorEncontrado['telefono'],
-            $monitorEncontrado['email'],
-            $monitorEncontrado['cuenta_bancaria'],
-            'monitor',
-            $monitorEncontrado['sueldo'] ?? 1100,
-            $monitorEncontrado['horas_extra'] ?? 0,
-            $monitorEncontrado['jornada'] ?? 40,
-            $monitorEncontrado['disciplinas']
-        );
+                        // Crear el objeto Monitor
+                        new Monitor(
+                            $monitorEncontrado['dni'],
+                            $monitorEncontrado['nombre'],
+                            $monitorEncontrado['apellidos'],
+                            $monitorEncontrado['fecha_nac'],
+                            $monitorEncontrado['telefono'],
+                            $monitorEncontrado['email'],
+                            $monitorEncontrado['cuenta_bancaria'],
+                            'monitor',
+                            $monitorEncontrado['sueldo'] ?? 1100,
+                            $monitorEncontrado['horas_extra'] ?? 0,
+                            $monitorEncontrado['jornada'] ?? 40,
+                            $monitorEncontrado['disciplinas']
+                        );
         
-        // Crear un nuevo objeto Clase
-        $clase = new Clase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio);
+                        // Crear un nuevo objeto Clase
+                        $clase = new Clase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio);
 
-        // Guardar la clase en el archivo JSON
-        $clase->guardarClaseEnJSON();
+                        // Guardar la clase en el archivo JSON
+                        $clase->guardarClaseEnJSON();
 
-        return true; 
+                        return true; 
+
     
     } catch(datosIncorrectos $e) {
         return $e->datosIncorrectos();
@@ -195,7 +196,7 @@ require_once('Monitor.php');
 
         
         /*LAS CLASES, SON MUY IMPORTANTES PARA LA GESTIÓN DEL NEGOCIO, CUALQUIER CAMBIO EN UNA PROPIEDAD DE OBJETO, VA A AFECTAR
-        A LA CLASE MONITORES Y ADEMÁS SI EL GIMNASIO SOLO TIENE UNA SALA, NO TIENE SENTIDO QUE POR EJEMPLO PUEDA MODIFICAR LA HORA
+        A  MONITORES Y ADEMÁS SI EL GIMNASIO SOLO TIENE UNA SALA, NO TIENE SENTIDO QUE POR EJEMPLO PUEDA MODIFICAR LA HORA
         DE LA CLASE CON UN SETTER Y DUPLICAR UNA CLASE A LA MISMA HORA (PORQUE FISICAMENTE ESE ESPACIO NO EXISTE EN EL GIMNASIO)
         POR ESE MOTIVO UNA VEZ EL OBJETO CLASE ES CREADO, LA UNICA PROPIEDAD MODIFICABLE ES EL MONITOR, Y SIEMPRE Y CUANDO CUMPLA LOS
         REQUISITOS DEL METODO ASGINAR MONITOR: */      
@@ -224,55 +225,51 @@ require_once('Monitor.php');
         
        
 
-        public static function mostrar_todas_Clases(){
-
-            echo "<b>DATOS DE TODAS LAS CLASES DISPONIBLES: </b><br>";
-                foreach(self::$horario_gym as $id_clase => $obj_Clase){
-
-                    $propiedades = get_object_vars($obj_Clase); 
-
-                    foreach($propiedades as $propiedad => $valor){
-                        echo "$propiedad => $valor <br>"; 
-                    }
-                    echo "<br>"; 
-
-                
-
-                }
-        }
+      
 
          
-        private static function Clases_filtradas($propiedad_filtrada, $valor_filtrado){
-           
-                     $clases_filtradas = array_filter(self::$horario_gym, function($clase) use ($propiedad_filtrada, $valor_filtrado) {
-                        return $clase->$propiedad_filtrada === $valor_filtrado;
-                    });
+        public static function Clases_filtradas($propiedad_filtrada, $valor_filtrado){
 
-            return $clases_filtradas; 
+
+            try{
+                $rutaJSON = __DIR__ . '/../data/clases.json';
+            
+                // Leer el contenido actual del archivo JSON
+                $clasesJSON = file_get_contents($rutaJSON);
+                $clasesJSON = json_decode($clasesJSON, true);
+
+
+            
+                foreach($clasesJSON as $i => $claseJSON){
+                    new Clase(
+                        
+                    $claseJSON['dni_monitor'],
+                    $claseJSON['nombre_actividad'],
+                    $claseJSON['dia_semana'],
+                    $claseJSON['hora_inicio']
+
+                    ); 
+                }
+                    
+
+                $clases_filtradas = array_filter(self::$horario_gym, function($clase) use ($propiedad_filtrada, $valor_filtrado) {
+                    return $clase->$propiedad_filtrada === $valor_filtrado;
+                });
+
+                return $clases_filtradas; 
+                
+
+            }catch(datosIncorrectos $e){
+                return $e->datosIncorrectos(); 
+
+            }catch(Exception $e){
+                return $e->getMessage(); 
+            }
         
          }
 
 
-         public static function mostrar_clases_filtradas($propiedad_filtrada, $valor_filtrado){
-
-              //MOSTRAMOS LOS RESULTADOS DE LAS FILTRACIONES
-              $clases_filtradas=self::Clases_filtradas($propiedad_filtrada, $valor_filtrado);
-
-
-              if(empty($clases_filtradas)) echo "<p> no existe ninguna clase disponible con el filtro establecido</p><br>"; 
-              else{
-                echo "<p><b>CLASES DISPONIBLES CON EL FILTRO ".strtoupper($valor_filtrado).":</b></p>"; 
-                  foreach ($clases_filtradas as $obj_Clase) {
-                      $propiedades = get_object_vars($obj_Clase);
-              
-                      foreach ($propiedades as $propiedad => $valor) {
-                          echo "$propiedad => $valor <br>";
-                      }
-                      echo "<br>";
-                  }
-              }
-         }
-
+    
 
          public static function eliminarDisciplina($nombre_actividad)
          {
@@ -310,7 +307,48 @@ require_once('Monitor.php');
 
         public static function getHorario_gym()
         {
-                return self::$horario_gym;
+
+        try{
+                $rutaJSON = __DIR__ . '/../data/clases.json';
+            
+                // Leer el contenido actual del archivo JSON
+                $clasesJSON = file_get_contents($rutaJSON);
+                $clasesJSON = json_decode($clasesJSON, true);
+
+
+            
+                foreach($clasesJSON as $i => $claseJSON){
+                    new Clase(
+                        
+                    $claseJSON['dni_monitor'],
+                    $claseJSON['nombre_actividad'],
+                    $claseJSON['dia_semana'],
+                    $claseJSON['hora_inicio']
+
+                    ); 
+                }
+                    return self::$horario_gym; //se crea el array con todas las clases cuando llamamos al constructor.
+
+            }catch(datosIncorrectos $e){
+                return $e->datosIncorrectos(); 
+
+            }catch(Exception $e){
+                return $e->getMessage(); 
+            }
+        }
+
+        /* toArray es una alternativa a get_object_vars($obj) , ya que este metodo no es capaz devolverte las propiedades
+         cuando lo llamas desde una script diferente al de la clase al cual pertenece el objeto, y to array, si nos permite esta acción:*/
+
+        public function toArray() {
+            return [
+                'id_clase' => $this->id_clase,
+                'dni_monitor' => $this->dni_monitor,
+                'nombre_actividad' => $this->nombre_actividad,
+                'dia_semana' => $this->dia_semana,
+                'hora_inicio' => $this->hora_inicio,
+                'hora_fin' => $this->hora_fin
+            ];
         }
     }
 

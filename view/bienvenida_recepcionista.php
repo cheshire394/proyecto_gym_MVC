@@ -2,6 +2,9 @@
 
     session_start(); 
     if(isset($_SESSION['nombre'])) $nombre= $_SESSION['nombre'] ?? ""; 
+    else{
+        header('location: login_recepcionista.php'); 
+    }
 
 ?>
 <!DOCTYPE html>
@@ -16,14 +19,14 @@
     
     
     <fieldset>
-        <legend>Gestión de clases o Disciplinas</legend>
+        <legend style="font-size: xx-large;">Gestión de clases o Disciplinas</legend>
         
         <ul>
-            <li><a href="/MVC2/view/clases/addClase.php">Añadir clase</a></li>
-            <li><a href="/MVC2/view/clases/sustituirMonitor.php">Sustituir monitor</a></li>
-            <li><a href="/MVC2/view/clases/verClases.php">Mostrar todas las clases</a></li>
-            <li><a href="/MVC2/view/clases/clasesFiltro.php">Mostrar clases con filtro</a></li>
-            <li><a href="/MVC2/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
+            <li style="font-size: x-large;"><a href="/MVC2/view/clases/addClase.php">Añadir clase</a></li>
+            <li style="font-size: x-large;"><a href="/MVC2/view/clases/sustituirMonitor.php">Sustituir monitor</a></li>
+            <li style="font-size: x-large;"><a href="/MVC2/view/clases/verClases.php">Mostrar todas las clases</a></li>
+            <li style="font-size: x-large;"><a href="/MVC2/view/clases/clasesFiltro.php">Mostrar clases con filtro</a></li>
+            <li style="font-size: x-large;"><a href="/MVC2/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
         </ul>
     </fieldset>
 

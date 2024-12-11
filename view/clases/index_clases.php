@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 require_once '../../controllers/controladorClases.php';
 
-echo "PRUEBA: estoy en index.php"; 
+
 
 
 if (isset($_GET['action'])) {
@@ -15,23 +15,17 @@ if (isset($_GET['action'])) {
 
     switch ($action) {
 
-        case 'addClase':
-            $controlador->addClase();
-            break;
+            case 'addClase':
+                $controlador->addClase();
+                break;
 
-        /*case 'verClases':
-            $controlador->verClases();
-            break;
-        
-        case 'verClasesFiltradas': // Acción para cerrar sesión
-            $controlador->verClasesFiltradas();
-            break;
 
-        case 'verClasesFiltradas': // Acción para cerrar sesión
-            $controlador->verClasesFiltradas();
-            break;
+            case 'verClasesFiltradas':
+                $horario = $controlador->mostrar_clases_filtradas();
+                require 'clasesFiltro.php'; // Cargamos la vista con los datos procesados
+                break;
 
-        case 'eliminarDiciplina': // Acción para cerrar sesión
+       /* case 'eliminarDiciplina': // Acción para cerrar sesión
             $controlador->eliminarDiciplina();
             break;
 
