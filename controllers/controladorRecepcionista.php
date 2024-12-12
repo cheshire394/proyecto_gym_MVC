@@ -39,7 +39,7 @@ class ControladorRecepcionista {
 
         if ($resultado) {
             // Registro exitoso
-            header("Location: /MVC2/index.php?action=login");
+            header("Location: /MVC2/view/login_recepcionista.php?action=login");
             exit();
         } else {
             

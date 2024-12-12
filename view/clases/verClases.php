@@ -87,18 +87,6 @@ $horario = ControladorClases::mostrar_todas_Clases();
             ?>
         </tbody>
     </table>
-    <br>
-    <?php
-        if (isset($_GET['msg']) && $_GET['msg'] == 'addClase'){
-            echo "<p style='color:green'><b>Clase añadida correctamente, hemos actualizado el horario</b></p>";
-
-        }elseif(isset($_GET['msg']) && $_GET['msg'] == 'sustituido'){
-
-            echo "<p style='color:green'><b>Monitor sustituido correctamente, puedes ver que se ha modificado el dni de la clase en el horario</b></p>";
-
-        }
-       
-    ?>
     <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
 </body>
 </html>

@@ -27,7 +27,6 @@ class ControladorClases {
             header('Location: /MVC2/view/clases/verClases.php?msg=addClase');
             exit;
         }else{
-            //mostrar con mensaje de error
             header('Location: /MVC2/view/clases/addClase.php?msg=errorAddClase');
             exit;
         }
@@ -53,7 +52,6 @@ class ControladorClases {
 
         $propiedad_filtrada = $_POST['propiedad_filtrada']; 
 
-        //si el formulario filtra por DNI, pasar a mayusculas el string, pero sino pasar a misnusculas.
         if($propiedad_filtrada == 'dni_monitor') $valor_filtrado = htmlentities(strtoupper(trim($_POST['valor_filtrado']))); 
         else $valor_filtrado = htmlentities(strtolower(trim($_POST['valor_filtrado'])));
         
@@ -73,30 +71,6 @@ class ControladorClases {
         return $horario;
 
 
-   }
-
-   public function sustituirMonitor(){
-
-    $dia = $_POST['dia']; 
-    $hora =$_POST['hora']; 
-    $dni_sustituto = $_POST['dni_monitor']; 
-
-    $exitoso= Clase::sustituirMonitor($dni_sustituto, $dia, $hora); 
-
-    if($exitoso){
-
-        // registro  correcto: redirigir a mostrar Clases
-        header('Location: /MVC2/view/clases/verClases.php?msg=sustituido');
-        exit;
-    }else{
-        //mostrar con mensaje de error
-        header('Location: /MVC2/view/clases/sustituirMonitor.php?msg=errorAddSustituido');
-        exit;
-    }
-
-
-    
-    
    }
 
    

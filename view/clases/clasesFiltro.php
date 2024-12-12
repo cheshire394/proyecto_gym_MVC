@@ -15,8 +15,6 @@ require_once '../../controllers/controladorClases.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horario del Gimnasio</title>
     <style>
-
-  /*Este codigo ha sido desarrollado por la IA para hacer más atractiva la tabla (no evaluable en esta práctica el aspecto estético):*/
         table {
             width: 100%;
             border-collapse: collapse;
@@ -144,7 +142,7 @@ require_once '../../controllers/controladorClases.php';
 
 
     <script>
-        //Este codigo ha sido desarrollado por la IA para hacer más atractivo el formulario (no evaluable en esta práctica el aspecto estético): 
+        //Este codigo ha sido desarrollado por la IA para hacer más atractiva la tabla y el formulario (no evaluable en esta práctica el aspecto estético): 
 
         document.getElementById("propiedad_filtrada").addEventListener("change", function() {
             var filtroSeleccionado = this.value;

@@ -10,71 +10,13 @@
         "funcion": "monitor",
         "sueldo": 1100,
         "horas_extra": 0,
-        "jornada": 22,
+        "jornada": 16,
         "disciplinas": [
             "boxeo",
             "kickboxing",
             "MMA",
-            "moay thai",
-            "capoira"
-        ],
-        "clases": {
-            "lunes-12:00": {
-                "nombre_actividad": "kickboxing",
-                "dia_semana": "lunes",
-                "hora_inicio": "12:00"
-            },
-            "lunes-16:00": {
-                "nombre_actividad": "boxeo",
-                "dia_semana": "lunes",
-                "hora_inicio": "16:00"
-            },
-            "lunes-18:00": {
-                "nombre_actividad": "kickboxing",
-                "dia_semana": "lunes",
-                "hora_inicio": "18:00"
-            },
-            "miercoles-12:00": {
-                "nombre_actividad": "kickboxing",
-                "dia_semana": "miercoles",
-                "hora_inicio": "12:00"
-            },
-            "miercoles-16:00": {
-                "nombre_actividad": "boxeo",
-                "dia_semana": "miercoles",
-                "hora_inicio": "16:00"
-            },
-            "miercoles-18:00": {
-                "nombre_actividad": "kickboxing",
-                "dia_semana": "miercoles",
-                "hora_inicio": "18:00"
-            },
-            "sabado-10:00": {
-                "nombre_actividad": "capoira",
-                "dia_semana": "sabado",
-                "hora_inicio": "10:00"
-            },
-            "miercoles-10:00": {
-                "nombre_actividad": "moay thai",
-                "dia_semana": "miercoles",
-                "hora_inicio": "10:00"
-            },
-            "jueves-12:00": {
-                "nombre_actividad": "moay thai",
-                "dia_semana": "jueves",
-                "hora_inicio": "12:00"
-            },
-            "sabado-16:00": {
-                "nombre_actividad": "capoira",
-                "dia_semana": "sabado",
-                "hora_inicio": "16:00"
-            },
-            "lunes-10:00": {
-                "nombre_actividad": "MMA",
-                "dia_semana": "lunes",
-                "hora_inicio": "10:00"
-            }
-        }
+            "moay thai"
+        ]
     },
     {
         "dni": "09626574Q",
@@ -87,52 +29,12 @@
         "funcion": "monitor",
         "sueldo": 1200,
         "horas_extra": 0,
-        "jornada": 18,
+        "jornada": 8,
         "disciplinas": [
             "taekwondo",
             "karate",
-            "boxeo",
-            "MMA",
-            "moay thai",
-            "capoira"
-        ],
-        "clases": {
-            "viernes-10:00": {
-                "nombre_actividad": "taekwondo",
-                "dia_semana": "viernes",
-                "hora_inicio": "10:00"
-            },
-            "viernes-12:00": {
-                "nombre_actividad": "karate",
-                "dia_semana": "viernes",
-                "hora_inicio": "12:00"
-            },
-            "viernes-16:00": {
-                "nombre_actividad": "taekwondo",
-                "dia_semana": "viernes",
-                "hora_inicio": "16:00"
-            },
-            "viernes-18:00": {
-                "nombre_actividad": "karate",
-                "dia_semana": "viernes",
-                "hora_inicio": "18:00"
-            },
-            "sabado-12:00": {
-                "nombre_actividad": "karate",
-                "dia_semana": "sabado",
-                "hora_inicio": "12:00"
-            },
-            "sabado-18:00": {
-                "nombre_actividad": "taekwondo",
-                "dia_semana": "sabado",
-                "hora_inicio": "18:00"
-            },
-            "sabado-10:00": {
-                "nombre_actividad": "capoira",
-                "dia_semana": "sabado",
-                "hora_inicio": "10:00"
-            }
-        }
+            "boxeo"
+        ]
     },
     {
         "dni": "55462206Y",
@@ -145,52 +47,10 @@
         "funcion": "monitor",
         "sueldo": 1150,
         "horas_extra": 0,
-        "jornada": 40,
+        "jornada": 310,
         "disciplinas": [
             "judo",
             "aikido"
-        ],
-        "clases": {
-            "martes-10:00": {
-                "nombre_actividad": "judo",
-                "dia_semana": "martes",
-                "hora_inicio": "10:00"
-            },
-            "martes-12:00": {
-                "nombre_actividad": "aikido",
-                "dia_semana": "martes",
-                "hora_inicio": "12:00"
-            },
-            "martes-16:00": {
-                "nombre_actividad": "judo",
-                "dia_semana": "martes",
-                "hora_inicio": "16:00"
-            },
-            "martes-18:00": {
-                "nombre_actividad": "aikido",
-                "dia_semana": "martes",
-                "hora_inicio": "18:00"
-            },
-            "jueves-10:00": {
-                "nombre_actividad": "judo",
-                "dia_semana": "jueves",
-                "hora_inicio": "10:00"
-            },
-            "jueves-16:00": {
-                "nombre_actividad": "judo",
-                "dia_semana": "jueves",
-                "hora_inicio": "16:00"
-            },
-            "jueves-18:00": {
-                "nombre_actividad": "aikido",
-                "dia_semana": "jueves",
-                "hora_inicio": "18:00"
-            },
-            "sabado-16:00": {
-                "nombre_actividad": "judo",
-                "dia_semana": "sabado",
-                "hora_inicio": "16:00"
-            }
-        }
+        ]
     }
 ]

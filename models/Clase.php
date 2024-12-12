@@ -36,7 +36,11 @@ require_once('Monitor.php');
             //la empresa creciera y ampliara el número de salas, tendremos que buscar otro id para que puedan existir dos o mas clases al mismo tiempo.
             $this->id_clase= $this->dia_semana."-".$this->hora_inicio;
 
-            //guardamos la nueva clase en un array asociativo
+            //Esta método, sirve para que los monitores puedan rellenar su array de clases, cuando se crea una clase.
+            //pero es importante, porque si el monitor no existe o no ejerce esta disciplina que se está creando, el objeto 
+            //no se va a llegar a crear, porque las excepciones personalizadas lo van a impedir.
+            $this->asignarMonitor($this->dni_monitor); 
+
             self::$horario_gym[$this->id_clase] = $this; 
 
         }
@@ -46,76 +50,115 @@ require_once('Monitor.php');
             else throw new Exception("ERROR EN EL GETTER DE LA CLASE 'CLASES': SE HA TRATADO DE OBTENER UNA PROPIEDAD QUE NO EXISTE"); 
         }
 
-        public function setDniMonitor($valor){
-            $this->dni_monitor=$valor; 
-        }
 
+        private function asignarMonitor($dni_monitor){
 
-    
+            //obtenems todos los monitores
+            $monitores = Trabajador:: getTrabajadoresMonitores(); 
+            
+            if(isset($monitores[$dni_monitor])){
+ 
+            if(isset($monitores[$dni_monitor])){
+             $monitor = $monitores[$dni_monitor]; //obtenemos el objeto de monitores que corresponde a ese dni.
+ 
+             //Comprobamos que el monitor asignado, además de existir, en su array disciplinas pueda ejercer como monitor en esa disciplina.
+             if(!in_array($this->nombre_actividad, $monitor->__get('disciplinas'))){
+ 
+                 throw new datosIncorrectos('<b>ERROR: EN LA CREACIÓN DE UN OBBJETO CLASE, EL MONITOR ASIGNADO NO EJERCE ESA ACTIVIDAD</b>');
+             } 
+ 
+              // Agregar la clase al array `clases` del monitor
+              $clases_monitor = $monitor->__get('clases');
+ 
+              //el horario será el id de la clase, para que un profesor no pueda tener más de una clase a la misma hora, el mismo dia de la semana. 
+ 
+              if(isset($clases_monitor[$this->id_clase])){
+                 throw new datosIncorrectos('<b>ERROR: EN LA CREACIÓN DE UN OBBJETO CLASE, EL MONITOR YA TIENE ASIGNADA UNA CLASE EN ESE HORARIO</b>');
+              } 
+ 
+              $clases_monitor[$this->id_clase] = $this;
+              $monitor->__set('clases', $clases_monitor);
+              $monitor->__set('jornada', count($clases_monitor) * Clase::DURACION_CLASE); //actualizamos las hosras trabajadas
+ 
+ 
+         }else throw new datosIncorrectos('<b>ERROR: EN LA CREACIÓN DE UN OBBJETO CLASE, EL DNI ASIGNADO, NO CORRESPONDE A NINGUN MONITOR</b>'); 
+       
+     }
+         }
+
 
         public static function addClase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio) {
+          
+        
             try {
-                // Recuperamos los monitores existen
-                $rutaJSON = __DIR__ . '/../data/monitores.json';
-                $monitoresJSON = file_get_contents($rutaJSON);
-                $monitores = json_decode($monitoresJSON, true);
-        
-                // Buscar el monitor en el JSON
-                $monitorEncontrado = null;
-                foreach ($monitores as &$monitor) {
-                    if ($monitor['dni'] === $dni_monitor) {
 
-                        // Inicializar "clases" y "diciplinas" si no existe en el JSON
-                        if (!isset($monitor['clases'])) {
-                            $monitor['clases'] = [];
+                        //RECUPERAMOS LOS MONITORES EXISTENTES
+                        $rutaJSON = __DIR__ . '/../data/monitores.json';
+
+                        // Leer el contenido actual del archivo JSON
+                        $monitoresJSON = file_get_contents($rutaJSON);
+                        $monitores = json_decode($monitoresJSON, true);
+
+                        // Flag para saber si se modificó el JSON
+                        $modificado = false;
+                        $monitorEncontrado = null;
+
+                        // Buscar y modificar el monitor
+                        foreach($monitores as &$monitor) {
+                            if($monitor['dni'] == $dni_monitor) {
+                                // Si la disciplina no existe, añadirla
+                                if(!in_array($nombre_actividad, $monitor['disciplinas'])) {
+                                    $monitor['disciplinas'][] = $nombre_actividad;
+                                    $modificado = true;
+                                }
+                                
+                                // Guardar el monitor encontrado
+                                $monitorEncontrado = $monitor;
+                                break;
+                            }
                         }
 
-                        if (!isset($monitor['disciplinas'])) {
-                            $monitor['disciplinas'] = [];
+                        // Si se modificó el JSON, guardarlo
+                        if ($modificado) {
+                            file_put_contents($rutaJSON, json_encode($monitores, JSON_PRETTY_PRINT));
                         }
-                        $monitorEncontrado = &$monitor;
-                        break;
-                    }
-                }
-        
-                // Verificamos que se encontró el monitro antes de continuar 
-                if (!$monitorEncontrado) {
-                    throw new datosIncorrectos('<b>ERROR: No se encontró el monitor con DNI ' . $dni_monitor . '</b>');
-                }
-        
-                // Añadimos la disciplina si no existe en el array monitores solo si no existe (para no duplicar)
-                if (!in_array($nombre_actividad, $monitorEncontrado['disciplinas'])) {
-                    $monitorEncontrado['disciplinas'][] = $nombre_actividad;
-                }
-        
-                // Crear un nuevo objeto Clase
-                $clase = new Clase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio);
-        
-                // Agregamos la nueva clase al monitor array del monitor que la imparte
-                $monitorEncontrado['clases'][$clase->id_clase] = [
-                    'nombre_actividad' => $nombre_actividad,
-                    'dia_semana' => $dia_semana,
-                    'hora_inicio' => $hora_inicio
-                ];
-        
-                // Actualizamos la jornada del monitor, según el número de clases que ejerce
-                $monitorEncontrado['jornada'] = count($monitorEncontrado['clases']) * Clase::DURACION_CLASE;
-        
-                // Guardar los cambios en el archivo JSON monitores
-                file_put_contents($rutaJSON, json_encode($monitores, JSON_PRETTY_PRINT));
-        
-                // Guardar la clase en el JSON de la clases.
-                $clase->guardarClaseEnJSON();
-        
-                return true;//retorna conexito, para el mensaje de la vista
 
-            } catch (datosIncorrectos $e) {
-                return $e->datosIncorrectos();
-            } catch (Exception $e) {
-                return $e->getMessage();
-            }
-        }
+                        // Verificar que se encontró el monitor
+                        if (!$monitorEncontrado) {
+                            throw new datosIncorrectos('<b>ERROR: No se encontró el monitor con DNI ' . $dni_monitor . '</b>');
+                        }
+
+                        // Crear el objeto Monitor
+                        new Monitor(
+                            $monitorEncontrado['dni'],
+                            $monitorEncontrado['nombre'],
+                            $monitorEncontrado['apellidos'],
+                            $monitorEncontrado['fecha_nac'],
+                            $monitorEncontrado['telefono'],
+                            $monitorEncontrado['email'],
+                            $monitorEncontrado['cuenta_bancaria'],
+                            'monitor',
+                            $monitorEncontrado['sueldo'] ?? 1100,
+                            $monitorEncontrado['horas_extra'] ?? 0,
+                            $monitorEncontrado['jornada'] ?? 40,
+                            $monitorEncontrado['disciplinas']
+                        );
         
+                        // Crear un nuevo objeto Clase
+                        $clase = new Clase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio);
+
+                        // Guardar la clase en el archivo JSON
+                        $clase->guardarClaseEnJSON();
+
+                        return true; 
+
+    
+    } catch(datosIncorrectos $e) {
+        return $e->datosIncorrectos();
+    } catch (Exception $e) {
+        return $e->getMessage();
+    }
+}
         
         
         private function guardarClaseEnJSON() {
@@ -137,7 +180,14 @@ require_once('Monitor.php');
             }
         
             // Agregar la nueva clase a los datos existentes
-            $clasesJSON[] = $this->toArray(); 
+            $clasesJSON[] = [
+                'id_clase' => $this->dia_semana."-".$this->hora_inicio,
+                'dni_monitor' => $this->dni_monitor,
+                'nombre_actividad' => $this->nombre_actividad,
+                'dia_semana' => $this->dia_semana,
+                'hora_inicio' => $this->hora_inicio,
+                'hora_fin'=>$this->horaFinalClase($this->hora_inicio) 
+            ];
 
             // Guardar los datos actualizados en el archivo JSON
             file_put_contents($rutaJSON, json_encode($clasesJSON, JSON_PRETTY_PRINT));
@@ -148,96 +198,18 @@ require_once('Monitor.php');
         /*LAS CLASES, SON MUY IMPORTANTES PARA LA GESTIÓN DEL NEGOCIO, CUALQUIER CAMBIO EN UNA PROPIEDAD DE OBJETO, VA A AFECTAR
         A  MONITORES Y ADEMÁS SI EL GIMNASIO SOLO TIENE UNA SALA, NO TIENE SENTIDO QUE POR EJEMPLO PUEDA MODIFICAR LA HORA
         DE LA CLASE CON UN SETTER Y DUPLICAR UNA CLASE A LA MISMA HORA (PORQUE FISICAMENTE ESE ESPACIO NO EXISTE EN EL GIMNASIO)
-        POR ESE MOTIVO UNA VEZ EL OBJETO CLASE ES CREADO, LA UNICA PROPIEDAD MODIFICABLE ES EL MONITOR, ES DECIR NO EXISTE SETTER DE CLASES*/
+        POR ESE MOTIVO UNA VEZ EL OBJETO CLASE ES CREADO, LA UNICA PROPIEDAD MODIFICABLE ES EL MONITOR, Y SIEMPRE Y CUANDO CUMPLA LOS
+        REQUISITOS DEL METODO ASGINAR MONITOR: */      
              
-        public static function sustituirMonitor($dni_sustituto, $dia, $hora)
-{           
-    try {
-                    $rutaClasesJSON = __DIR__ . '/../data/clases.json';
-                    $rutaMonitoresJSON = __DIR__ . '/../data/monitores.json';
-
-                    // Recuperamos la información del JSON de clases
-                    $clasesJSON = json_decode(file_get_contents($rutaClasesJSON), true);
-
-                    // Recuperamos el horario actual del gimnasio
-                    $clases = self::getHorario_gym(); 
+        public function sustituirMonitor(string $dni_new_monitor)
+        {           
+                    $this->asignarMonitor($dni_new_monitor); 
+                    $this->dni_monitor = $dni_new_monitor;
+                   
+                    return $this;
+        } 
 
 
-                    // Clave de la clase a modificar
-                    $class_id_sustituir = $dia."-".$hora;
-
-                    // Verificar si la clase existe
-                    if (!isset($clases[$class_id_sustituir])) {
-                        throw new Exception("Clase no encontrada");
-                    }
-
-                    // Almacenamos el DNI del monitor antiguo
-                    $old_monitor = $clases[$class_id_sustituir]->__get('dni_monitor');
-
-                    // Cambiamos el monitor de la clase en el objeto Clase
-                    $clases[$class_id_sustituir]->setDniMonitor($dni_sustituto);
-
-                    // Convertimos los objetos Clase de vuelta a un array para guardar en JSON
-                    $clasesJSON = [];
-                    foreach ($clases as $key => $clase) {
-                        $clasesJSON[] = [
-                            'id_clase' => $key,
-                            'dni_monitor' => $clase->__get('dni_monitor'),
-                            'nombre_actividad' => $clase->__get('nombre_actividad'),
-                            'dia_semana' => $clase->__get('dia_semana'),
-                            'hora_inicio' => $clase->__get('hora_inicio'),
-                            'hora_fin' => $clase->__get('hora_fin') 
-                        ];
-                    }
-
-                    // Guardar los datos actualizados en el archivo JSON de clases
-                    file_put_contents($rutaClasesJSON, json_encode($clasesJSON, JSON_PRETTY_PRINT));
-
-                    // Recuperamos los monitores
-                    $monitoresJSON = json_decode(file_get_contents($rutaMonitoresJSON), true);
-
-                    // Encontrar y actualizaMOS los monitores
-                    foreach ($monitoresJSON as &$monitorJSON) {
-                        
-                        if ($monitorJSON['dni'] === $old_monitor) {
-                            // Eliminamos la clase del monitor antiguo
-                            if (isset($monitorJSON['clases'][$class_id_sustituir])) {
-                                unset($monitorJSON['clases'][$class_id_sustituir]);
-                            }
-                            
-                            // Actualizamos jornada
-                            $monitorJSON['jornada'] -= self::DURACION_CLASE;
-                        }
-
-                      
-                        if ($monitorJSON['dni'] === $dni_sustituto) {
-                            // Añadimos la clase al nuevo monitor
-                            $monitorJSON['clases'][$class_id_sustituir] = [
-                                'nombre_actividad' => $clases[$class_id_sustituir]->__get('nombre_actividad'),
-                                'dia_semana' => $clases[$class_id_sustituir]->__get('dia_semana'),
-                                'hora_inicio' => $clases[$class_id_sustituir]->__get('hora_inicio')
-                            ];
-                            
-                            // Actualizamos jornada del nuevo monitor
-                            $monitorJSON['jornada'] += self::DURACION_CLASE;
-                        }
-                    }
-
-                    // Guardar los monitores actualizados
-                    file_put_contents($rutaMonitoresJSON, json_encode($monitoresJSON, JSON_PRETTY_PRINT));
-
-                    return true;
-
-    } catch(datosIncorrectos $e){
-        
-        return $e->datosIncorrectos();
-    
-    }catch(Exception $e) {
-        return $e->getMessage();
-    }
-}
-
-        
 
        
 
@@ -339,12 +311,12 @@ require_once('Monitor.php');
         try{
                 $rutaJSON = __DIR__ . '/../data/clases.json';
             
-                // recuperamos el contenido actual del archivo JSON de clases
+                // Leer el contenido actual del archivo JSON
                 $clasesJSON = file_get_contents($rutaJSON);
                 $clasesJSON = json_decode($clasesJSON, true);
 
 
-            // creamos todos los objetos que se encuentran en el json
+            
                 foreach($clasesJSON as $i => $claseJSON){
                     new Clase(
                         
@@ -355,7 +327,7 @@ require_once('Monitor.php');
 
                     ); 
                 }
-                    return self::$horario_gym; //este array se crea cuando llamamos al constructor.
+                    return self::$horario_gym; //se crea el array con todas las clases cuando llamamos al constructor.
 
             }catch(datosIncorrectos $e){
                 return $e->datosIncorrectos(); 
