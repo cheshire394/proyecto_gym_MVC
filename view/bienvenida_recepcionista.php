@@ -14,7 +14,7 @@
         $nombre = $_SESSION['nombre'] ?? ""; 
     } else {
         // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-        header('location: login_recepcionista.php'); 
+       // header('location: login_recepcionista.php'); 
     }
 ?>
 
@@ -34,8 +34,8 @@
 <h3 style="color:grey">Aquí tienes disponible todas las tareas de gestión del gimnasio:</h3>
 
 <fieldset>
-    <!-- Gestión -->
-    <legend>Gestión de Clases o Disciplinas</legend>
+    <!-- Gestión Clases-->
+    <legend><b>Gestión de Clases o Disciplinas</b></legend>
     <fieldset>
         <legend>Añadir y Modificar</legend>
         <ul>
@@ -54,6 +54,30 @@
         <legend>Eliminar</legend>
         <ul>
             <li><a href="/MVC2/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
+        </ul>
+    </fieldset>
+</fieldset>
+<br>
+<fieldset>
+    <!-- Gestión Socios-->
+    <legend><b>Gestión de Socios</b></legend>
+    <fieldset>
+        <legend>Añadir y Modificar</legend>
+        <ul>
+            <li><a href="/MVC2/view/socios/addSocio.php">Registrar nuevo socio</a></li>
+            <li><a href="/MVC2/view/socios/modificarSocio.php">Modificar socio</a></li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Buscar socio</legend>
+        <ul>
+            <li><a href="/MVC2/view/socios/verSocio.php">Mostrar socio</a></li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Eliminar</legend>
+        <ul>
+            <li><a href="/MVC2/view/socios/eliminarSocio.php">Eliminar disciplina</a></li>
         </ul>
     </fieldset>
 </fieldset>
