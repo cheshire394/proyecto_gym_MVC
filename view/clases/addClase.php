@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -64,10 +66,20 @@
         <button type="submit">Añadir Clase</button>
             </form>
 
+        <br>
+        <?php  
+                if(isset($_GET['msg']) && $_GET['msg'] == 'errorAddClase'){
+                    echo "<p style='color:red'> Error al intentar añadir una nueva clase al horario</p>";
+                
+                }
+        ?>
+
      
      
     </fieldset>
 
     <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
+
+ 
 </body>
 </html>

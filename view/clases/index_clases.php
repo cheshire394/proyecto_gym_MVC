@@ -27,11 +27,11 @@ if (isset($_GET['action'])) {
 
        /* case 'eliminarDiciplina': // Acción para cerrar sesión
             $controlador->eliminarDiciplina();
-            break;
-
-        case 'sustituirMonitor': // Acción para cerrar sesión
-            $controlador->sustituirMonitor();
             break;*/
+
+        case 'sustituir_monitor': 
+            $controlador->sustituirMonitor();
+            break;
 
     
         default:

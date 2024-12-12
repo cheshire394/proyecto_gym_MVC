@@ -45,8 +45,15 @@ class Trabajador extends Persona {
     public function __set($name, $value) {
         if (property_exists($this, $name)) {
 
-            $this->$name = $value; 
+            
+            if($name == 'jornada' && ($this->__get('jornada') - $value < 0)) $this->$name = 0; 
+            else{
+
+                $this->$name = $value; 
+            }
+          
             if($name == 'horas_extra') $this->cobrarHorasExtra();
+            
         } else {
             throw new Exception('ERROR EN EL SETTER TRABAJADOR: LA PROPIEDAD QUE DESEAS MODIFICAR NO EXISTE'); 
         }
