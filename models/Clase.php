@@ -10,6 +10,9 @@ require_once('Monitor.php');
 
 final class Clase {
 
+    public const DURACION_CLASE = 2;
+    public const RUTA_JSON_CLASE= __DIR__ . '/../data/clases.json';
+
     private $dni_monitor;
     private $nombre_actividad;
     private $dia_semana;
@@ -17,7 +20,7 @@ final class Clase {
     private $hora_fin;
     private $id_clase;
     private static $horario_gym = [];
-    public const DURACION_CLASE = 2;
+    
 
     function __construct($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio) {
         $this->dni_monitor = $dni_monitor;
@@ -156,26 +159,17 @@ final class Clase {
 
     public static function Clases_filtradas($propiedad_filtrada, $valor_filtrado) {
         try {
-            $rutaJSON = __DIR__ . '/../data/clases.json';
-
-            // Leer el contenido actual del archivo JSON
-            $clasesJSON = file_get_contents($rutaJSON);
-            $clasesJSON = json_decode($clasesJSON, true);
-
-            foreach ($clasesJSON as $i => $claseJSON) {
-                new Clase(
-                    $claseJSON['dni_monitor'],
-                    $claseJSON['nombre_actividad'],
-                    $claseJSON['dia_semana'],
-                    $claseJSON['hora_inicio']
-                );
-            }
-
-            $clases_filtradas = array_filter(self::$horario_gym, function($clase) use ($propiedad_filtrada, $valor_filtrado) {
+            
+            //Recoge todos los monitores guardados en el Json , crea los objetos, y los en un array.
+            $clases = self::getHorario_gym(); 
+            
+            //el primer parametro retorna rescata los valores del json, crea las clases y las retorna
+            $clases_filtradas = array_filter($clases, function($clase) use ($propiedad_filtrada, $valor_filtrado) {
                 return $clase->$propiedad_filtrada === $valor_filtrado;
             });
 
             return $clases_filtradas;
+            
         } catch (datosIncorrectos $e) {
             return $e->datosIncorrectos();
         } catch (Exception $e) {
@@ -212,14 +206,15 @@ final class Clase {
 
     public static function getHorario_gym() {
         try {
-            $rutaJSON = __DIR__ . '/../data/clases.json';
+            
 
             // Leer el contenido actual del archivo JSON
-            $clasesJSON = file_get_contents($rutaJSON);
+            $clasesJSON = file_get_contents(self::RUTA_JSON_CLASE);
             $clasesJSON = json_decode($clasesJSON, true);
 
             foreach ($clasesJSON as $i => $claseJSON) {
                 new Clase(
+                    //id_clase y hora_fin se crean en el costructor automáricamente
                     $claseJSON['dni_monitor'],
                     $claseJSON['nombre_actividad'],
                     $claseJSON['dia_semana'],
@@ -227,7 +222,9 @@ final class Clase {
                 );
             }
 
-            return self::$horario_gym; // Se crea el array con todas las clases cuando llamamos al constructor.
+            // Se crea el array con todas las clases cuando llamamos al constructor.
+            return self::$horario_gym; 
+
         } catch (datosIncorrectos $e) {
             return $e->datosIncorrectos();
         } catch (Exception $e) {
