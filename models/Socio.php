@@ -68,6 +68,7 @@ final class Socio extends Persona
     public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria, $reservas_clases = [])
     {
         try {
+            
             $rutaJSON = __DIR__ . '/../data/socios.json';
 
             // Leer el archivo JSON
