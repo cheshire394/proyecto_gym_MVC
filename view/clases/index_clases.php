@@ -11,33 +11,33 @@ require_once '../../controllers/controladorClases.php';
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
-    $controlador = new controladorClases();
+    
 
     switch ($action) {
 
             case 'addClase':
-                $controlador->addClase();
+                controladorClases::addClase();
                 break;
 
 
             case 'verClasesFiltradas':
-                $horario = $controlador->mostrar_clases_filtradas();
+                $horario = ControladorClases::mostrar_clases_filtradas();
                 require 'clasesFiltro.php'; // Cargamos la vista con los datos procesados
                 break;
 
-       /* case 'eliminarDiciplina': // Acción para cerrar sesión
-            $controlador->eliminarDiciplina();
-            break;
+        /* case 'eliminarDiciplina': // Acción para cerrar sesión
+                $controlador->eliminarDiciplina();
+                break;*/
 
-        case 'sustituirMonitor': // Acción para cerrar sesión
-            $controlador->sustituirMonitor();
-            break;*/
+            case 'sustituirMonitor': 
+                ControladorClases::sustituirMonitor();
+                break;
 
-    
-        default:
-            echo "Acción no reconocida.";
-            break;
-    }
+        
+            default:
+                echo "Acción no reconocida.";
+                break;
+        }
 } else {
     echo "NO hay ningún acción disponible";
 }

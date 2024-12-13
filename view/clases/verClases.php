@@ -4,7 +4,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once '../../controllers/controladorClases.php';
-
 // Obtener el horario organizado desde el controlador
 $horario = ControladorClases::mostrar_todas_Clases();
 ?>
@@ -87,6 +86,23 @@ $horario = ControladorClases::mostrar_todas_Clases();
             ?>
         </tbody>
     </table>
+    <br>
     <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
+    <br>
+    <?php
+
+        if (isset($_GET['msg']) && $_GET['msg'] == 'addClase') {
+           
+            echo "<p style='color: green;'><b>La clase ha sido añadida correctamente, el horario  está actualizado</b></p>";
+        }
+
+
+        if (isset($_GET['msg']) && $_GET['msg'] == 'sustituido') {
+           
+            echo "<p style='color: green;'><b>El monitor de la clase ha sido sustituido correctamente, el horario está actualizado</b></p>";
+            
+            }
+
+    ?>
 </body>
 </html>

@@ -128,23 +128,15 @@ receptionist. Here's a breakdown of what each part of the code is doing: -->
     <?php
     //Incluye el archivo controladorRecepcionista.php, donde se encuentra la lógica para procesar los datos del formulario.
     require_once('../controllers/controladorRecepcionista.php'); 
-    
-    /* This PHP code block is checking if there is a specific error message passed through the URL
-    parameters using `['error']`. If the 'error' parameter is set, it assigns the value to the
-    variable ``. */
-    //Errores
-    if (isset($_GET['error'])) {
-        $error = $_GET['error'];
-        switch ($error) {
-            case 'dni_existente':
+
+        /* The `if` statement you provided is checking if a specific condition is met in the URL
+        parameters. Let's break it down: */
+        if (isset($_GET['error']) && $_GET['error'] === 'dni_existente') {
                 echo '<p style="color: red;">La recepcionista ya está registrada, redirigiendo al login</p>';
-                header('Refresh:3 login_recepcionista.php?dni'); 
-                break;
-               
-            default:
-                echo '<p style="color: red;">Ha ocurrido un error</p>';
-        }
-    }
-    ?>
+                header('Refresh:3; url=login_recepcionista.php?dni');
+            } 
+?>
+
+   
 </body>
 </html>

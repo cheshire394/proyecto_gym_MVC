@@ -13,9 +13,8 @@
 
     // Comprueba si se pasó un error de credenciales incorrectas a través de la URL.
     if (isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas') {
-
     // Muestra un mensaje de error y redirige automáticamente al login después de 2 segundos.
-    echo "<p> Error, las credenciales no son correctas, redirigiendo al registro automáticamente</p>";
+    echo "<p style='color: red;'> Error, las credenciales no son correctas, redirigiendo al registro automáticamente</p>";
     header('Refresh: 2 login_recepcionista.php'); 
     }
 ?>

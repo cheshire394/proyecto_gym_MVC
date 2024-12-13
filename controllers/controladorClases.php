@@ -11,7 +11,7 @@ require_once __DIR__ . '/../models/Clase.php';
 class ControladorClases {
 
   
-    public function addClase() {
+    public static function addClase() {
         
         // Obtener los datos del formulario
         $dni_monitor = $_POST['dni_monitor'];
@@ -73,7 +73,29 @@ class ControladorClases {
 
    }
 
-   
+
+        public static  function sustituirMonitor(){
+
+            $dni_monitor_sustituto = $_POST['dni_monitor'];
+            $dia_semana = $_POST['dia_semana'];   
+            $hora_inicio = $_POST['hora_inicio']; 
+
+            $exitoso= clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
+
+        
+            if($exitoso){
+    
+                // registro  correcto: redirigir a mostrar Clases
+                header('Location: /MVC2/view/clases/verClases.php?msg=sustituido');
+                exit;
+            }else{
+                header('Location: /MVC2/view/clases/sustituirMonitor.php?msg=errorSustituido');
+                exit;
+            }
+
+
+
+        }
 
     
     

@@ -61,15 +61,20 @@
                 <option value="18:00">18:00</option>
             </select>
             <br>
+            <button type="submit">Añadir Clase</button>
         </form>
-    </fieldset>
-    <br>
-    <fieldset>
-        <button type="submit">Añadir Clase</button>
-    </fieldset>
+    
     <br>
     <fieldset>
         <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
     </fieldset>
+    <br>
+    <?php
+           if (isset($_GET['msg']) && $_GET['msg'] == 'erroraddClase') {
+           
+            echo "<p style='color: red;'><b>Error, la clase no ha sido añadida</b></p>";
+        }
+
+    ?>
 </body>
 </html>
