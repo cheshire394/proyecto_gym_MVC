@@ -72,6 +72,7 @@
         <legend>Buscar socio</legend>
         <ul>
             <li><a href="/MVC2/view/socios/verSocio.php">Mostrar socio</a></li>
+            <li><a href="/MVC2/view/socios/mostrarSocios.php">Mostrar todos los socios</a></li>
         </ul>
     </fieldset>
     <fieldset>
