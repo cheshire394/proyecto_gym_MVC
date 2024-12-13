@@ -10,7 +10,7 @@ final class Socio extends Persona
     private $tarifa; // Tipos de tarifas: 2 clases, 3 clases o indefinidas (a la semana)
     private $fecha_alta;
     private $fecha_baja;
-    private $reservas_clases = [];
+    //private $reservas_clases = [];
     private $cuenta_bancaria;
 
     private static $contador_socios = 0;
@@ -18,7 +18,7 @@ final class Socio extends Persona
     private static $bajas_socios = [];
 
     // Constructor de la clase
-    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa = "2", $cuenta_bancaria, $reservas_clases = [])
+    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa = "2", $cuenta_bancaria)
     {
         // Validar entradas
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -33,7 +33,7 @@ final class Socio extends Persona
         $this->fecha_baja = 'desconocida';
         $this->tarifa = $tarifa;
         $this->cuenta_bancaria = $cuenta_bancaria;
-        $this->reservas_clases = $reservas_clases;
+        //$this->reservas_clases = $reservas_clases;
 
         parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email);
 
@@ -65,7 +65,7 @@ final class Socio extends Persona
     }
 
     // Agregar un nuevo socio
-    public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria, $reservas_clases = [])
+    public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria)
     {
         try {
             
@@ -76,7 +76,7 @@ final class Socio extends Persona
 
             // Verificar si el socio ya existe
             foreach ($sociosJson as $socio) {
-                if ($socio['dni'] === $dni) {
+                if ($socio['dni'] == $dni) {
                     throw new datosIncorrectos("<b>ERROR: Ya existe un socio con el DNI $dni</b>");
                 }
             }

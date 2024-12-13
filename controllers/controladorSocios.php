@@ -28,28 +28,24 @@ class controladorSocios {
         
 
         // Llamada a la clase para agregar el socio
-        $exitoso = Socio::addSocio(
+        $exitoso = Socio::addSocio( //$dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria, $reservas_clases = []
             $dni,
             $nombre,
             $apellidos,
             $fecha_nac,
-            $edad,
             $telefono,
-            $email,
+            $telefono,
             $tarifa,
-            $fecha_alta,
-            $fecha_baja,
-            $reservas_clases,
-            $cuenta_bancaria
+            $cuenta_bancaria,
         );
 
         if ($exitoso) {
             // Registro correcto: redirigir a bienvenida
-            header('Location: /MVC2/view/socios/bienvenida_recepcion.php?msg=addSocio');
+            header('Location: /proyecto_gym_MVC//view/socios/bienvenida_recepcion.php?msg=addSocio');
             exit;
         } else {
             // Error al agregar socio
-            header('Location: /MVC2/view/socios/addSocio.php?msg=errorAddSocio');
+            header('Location:/proyecto_gym_MVC/view/socios/addSocio.php?msg=errorAddSocio');
             exit;
         }
     }
@@ -72,7 +68,7 @@ class controladorSocios {
         // Validación de campos
         if (empty($dni) || empty($nombre) || empty($apellidos) || empty($fecha_nac) || empty($edad) || empty($telefono) || empty($email) || empty($tarifa) || empty($fecha_alta) || empty($reservas_clases) || empty($cuenta_bancaria)) {
             // Si faltan campos importantes, redirigir con mensaje de error
-            header('Location: /MVC2/view/socios/modificarSocio.php?msg=errorCamposVacios');
+            header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php?msg=errorCamposVacios');
             exit;
         }
     
@@ -108,11 +104,11 @@ class controladorSocios {
                 file_put_contents(__DIR__ . '/../data/socios.json', json_encode($sociosJson, JSON_PRETTY_PRINT));
     
                 // Modificación exitosa: redirigir a una página de éxito
-                header('Location: /MVC2/view/socios/modificarSocio.php?msg=modSocio');
+                header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php?msg=modSocio');
                 exit;
             } else {
                 // Si el socio no existe
-                header('Location: /MVC2/view/socios/modificarSocio.php?msg=socioNoEncontrado');
+                header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php?msg=socioNoEncontrado');
                 exit;
             }
         } else {
