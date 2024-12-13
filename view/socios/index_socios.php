@@ -16,8 +16,16 @@ if (isset($_GET['action'])) {
             $controladorSocios->addSocio();
             break;
 
-        case 'modifySocio': // Acción para modificar un socio
+        case 'modificarSocio': // Acción para modificar un socio
             $controladorSocios->modificarSocio();
+            break;
+
+        case 'verSocio':
+            $controladorSocios->verSocio(); 
+            break;
+
+        case 'mostrarTodos':
+            $controladorSocios->mostrarTodos(); 
             break;
 
         default:

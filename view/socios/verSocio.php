@@ -1,4 +1,3 @@
-<!-- verSocio.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,74 +11,122 @@
             border: 1px solid #ddd;
         }
         th {
-            background-color: #FFA500; /* Naranja claro */
+            background-color: #FFA500;
         }
     </style>
 </head>
 <body>
 
     <h2>Buscar Socio</h2>
-
+ 
     <fieldset>
-    <!-- Formulario para buscar el DNI del socio -->
-    <form action="socio.php" method="get">
-        <label for="dni">DNI del Socio:</label>
-        <input type="text" id="dni" name="dni" required>
-        <br><br>
+        <legend>Buscar por:</legend>
+        <form method="POST" action="index_socios.php?action=verSocio">
+            <select id="campo" name="campo" required>
+                <option value="dni">DNI</option>
+                <option value="nombre">Nombre</option>
+                <option value="apellidos">Apellidos</option>
+                <option value="fecha_nac">Fecha de Nacimiento</option>
+                <option value="telefono">Teléfono</option>
+                <option value="email">Email</option>
+                <option value="tarifa">Tarifa</option>
+                <option value="fecha_alta">Fecha de Alta</option>
+                <option value="fecha_baja">Fecha de Baja</option>
+                <option value="reservas_clases">Reservas de Clases</option>
+            </select>
+            <br><br>
+
+            <fieldset>
+                <label for="valor">Valor:</label>
+                <input type="text" id="valor" name="valor" required>
+                <br>
+            </fieldset>
+
+            <br>
+            <fieldset>
+                <input type="hidden" name="action" value="verSocio">
+                <input type="submit" value="Buscar">
+            </fieldset>
+        </form>
+    </fieldset>
+ <br>
+    <form method="POST" action="index_socios.php?action=mostrarTodos">
         <fieldset>
-        <input type="submit" value="Buscar">
+            <input type="submit" value="Mostrar Todos los Socios">
         </fieldset>
     </form>
-    </fieldset>
 
-    <?php
-    // Mostrar mensajes de éxito o error si existen
-    if (isset($_GET['msg'])) {
-        $msg = $_GET['msg'];
-        if ($msg == 'modSocio') {
-            echo "<p>El socio ha sido modificado correctamente.</p>";
-        } elseif ($msg == 'socioNoEncontrado') {
-            echo "<p>No se encontró el socio.</p>";
-        } elseif ($msg == 'errorCamposVacios') {
-            echo "<p>Por favor, complete todos los campos obligatorios.</p>";
-        }
-    }
+    <!-- Aquí se muestran los resultados -->
+    <!-- Busqueda concreta -->
+    <?php 
+    include __DIR__ . '/../view/socios/verSocio.php';
 
-    // Verificar si el DNI es proporcionado en la URL
-    if (isset($_GET['dni'])) {
-        $dni = $_GET['dni'];
-        
-        // Obtener los socios del archivo JSON
-        $sociosJson = json_decode(file_get_contents('../data/socios.json'), true);
+if (isset($sociosEncontrados) && !empty($sociosEncontrados)): ?>
+        <h2>Resultados de la búsqueda</h2>
+        <table>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Tarifa</th>
+                <th>Fecha de Alta</th>
+                <th>Fecha de Baja</th>
+                <th>Reservas de Clases</th>
+            </tr>
+            <?php foreach ($sociosEncontrados as $socio): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($socio['dni']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['nombre']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['apellidos']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['fecha_nac']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['telefono']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['email']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['tarifa']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['fecha_alta']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['fecha_baja']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['reservas_clases']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 
-        // Buscar el socio por DNI
-        $socioEncontrado = null;
-        foreach ($sociosJson as $socio) {
-            if ($socio['dni'] == $dni) {
-                $socioEncontrado = $socio;
-                break;
-            }
-        }
+    <!-- Mostrar todos -->
+    <?php if (isset($sociosJson) && !empty($sociosJson)): ?>
+        <h2>Listado de todos los socios</h2>
+        <table>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Tarifa</th>
+                <th>Fecha de Alta</th>
+                <th>Fecha de Baja</th>
+                <th>Reservas de Clases</th>
+            </tr>
+            <?php foreach ($sociosJson as $socio): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($socio['dni']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['nombre']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['apellidos']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['fecha_nac']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['telefono']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['email']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['tarifa']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['fecha_alta']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['fecha_baja']); ?></td>
+                    <td><?php echo htmlspecialchars($socio['reservas_clases']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+  
 
-        // Si el socio se encuentra, mostrar los detalles
-        if ($socioEncontrado !== null) {
-            echo "<table>";
-            echo "<tr><th>DNI</th><td>" . htmlspecialchars($socioEncontrado['dni']) . "</td></tr>";
-            echo "<tr><th>Nombre</th><td>" . htmlspecialchars($socioEncontrado['nombre']) . "</td></tr>";
-            echo "<tr><th>Apellidos</th><td>" . htmlspecialchars($socioEncontrado['apellidos']) . "</td></tr>";
-            echo "<tr><th>Fecha de Nacimiento</th><td>" . htmlspecialchars($socioEncontrado['fecha_nac']) . "</td></tr>";
-            echo "<tr><th>Teléfono</th><td>" . htmlspecialchars($socioEncontrado['telefono']) . "</td></tr>";
-            echo "<tr><th>Email</th><td>" . htmlspecialchars($socioEncontrado['email']) . "</td></tr>";
-            echo "<tr><th>Tarifa</th><td>" . htmlspecialchars($socioEncontrado['tarifa']) . "</td></tr>";
-            echo "<tr><th>Fecha de Alta</th><td>" . htmlspecialchars($socioEncontrado['fecha_alta']) . "</td></tr>";
-            echo "<tr><th>Fecha de Baja</th><td>" . htmlspecialchars($socioEncontrado['fecha_baja']) . "</td></tr>";
-            echo "<tr><th>Reservas</th><td>" . htmlspecialchars($socioEncontrado['reservas_clases']) . "</td></tr>";
-            echo "</table>";
-        } else {
-            echo "<p>No se encontró el socio con DNI: $dni.</p>";
-        }
-    }
-    ?>
 
 </body>
 </html>

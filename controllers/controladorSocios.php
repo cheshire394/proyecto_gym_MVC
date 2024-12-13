@@ -9,7 +9,6 @@ require_once __DIR__ . '/../models/Clase.php';
 require_once __DIR__ . '/../models/Monitor.php';
 
 
-
 class controladorSocios {
 
     public function addSocio() {
@@ -122,6 +121,45 @@ class controladorSocios {
             exit;
         }
     }
+    public function verSocio() {
+        $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
+        if (file_exists($file)) {
+            include $file;
+        } else {
+            echo "El archivo no se encuentra en la ruta: $file";
+        }
+        
+        
+
+        if (isset($_POST['campo']) && isset($_POST['valor'])) {
+            $campo = $_POST['campo']; 
+            $valor = $_POST['valor']; 
+            
+            // Obtener los socios del archivo JSON
+            $sociosJson = json_decode(file_get_contents(__DIR__ . '/../data/socios.json'), true);
+    
+            // Filtrar los socios
+            $sociosEncontrados = array_filter($sociosJson, function($socio) use ($campo, $valor) {
+                return stripos($socio[$campo], $valor) !== false;
+            });
+    
+            // Pasar la variable $sociosEncontrados a la vista
+            include '../view/socios/verSocio.php'; 
+        } else {
+            echo "<p>No se han recibido datos para realizar la búsqueda.</p>";
+        }
+    }
+    
+    public function mostrarTodos() {
+        // Obtener todos los socios desde el archivo JSON
+        $sociosJson = json_decode(file_get_contents(__DIR__ . '/../data/socios.json'), true);
+        
+        // Pasar los socios a la vista
+        include '../view/socios/verSocio.php'; 
+    }
+    
+    
 }
+
     
 ?>
