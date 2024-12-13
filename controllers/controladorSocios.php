@@ -122,44 +122,91 @@ class controladorSocios {
         }
     }
     public function verSocio() {
+        // Ruta absoluta al archivo de vista principal
         $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
+    
+        // Verificar si la vista principal existe
         if (file_exists($file)) {
             include $file;
         } else {
             echo "El archivo no se encuentra en la ruta: $file";
+            return; // Salir si el archivo no existe
         }
-        
-        
-
-        if (isset($_POST['campo']) && isset($_POST['valor'])) {
-            $campo = $_POST['campo']; 
-            $valor = $_POST['valor']; 
-            
-            // Obtener los socios del archivo JSON
-            $sociosJson = json_decode(file_get_contents(__DIR__ . '/../data/socios.json'), true);
     
-            // Filtrar los socios
+        // Verificar si se recibieron los datos del formulario
+        if (isset($_POST['campo']) && isset($_POST['valor'])) {
+            $campo = $_POST['campo'];
+            $valor = $_POST['valor'];
+    
+            // Ruta al archivo JSON de socios
+            $jsonPath = __DIR__ . '/../data/socios.json';
+    
+            // Verificar si el archivo JSON existe y se puede leer
+            if (!file_exists($jsonPath)) {
+                echo "<p>El archivo de socios no existe.</p>";
+                return;
+            }
+    
+            // Leer y decodificar el archivo JSON
+            $sociosJson = json_decode(file_get_contents($jsonPath), true);
+    
+            // Verificar si el JSON es válido
+            if (!is_array($sociosJson)) {
+                echo "<p>No se pudo leer el archivo de socios o el formato JSON es incorrecto.</p>";
+                return;
+            }
+    
+            // Verificar que el campo sea válido
+            if (!array_key_exists($campo, $sociosJson[0])) {
+                echo "<p>El campo seleccionado no es válido.</p>";
+                return;
+            }
+    
+            // Filtrar los socios por el campo y el valor
             $sociosEncontrados = array_filter($sociosJson, function($socio) use ($campo, $valor) {
-                return stripos($socio[$campo], $valor) !== false;
+                return isset($socio[$campo]) && stripos($socio[$campo], $valor) !== false;
             });
     
-            // Pasar la variable $sociosEncontrados a la vista
-            include '../view/socios/verSocio.php'; 
+            // Incluir la vista de filtro con los resultados
+            $filtroView = __DIR__ . '/../view/socios/filtroSocio.php';
+            if (file_exists($filtroView)) {
+                include $filtroView;
+            } else {
+                echo "<p>No se encontró la vista de filtro de socios.</p>";
+            }
         } else {
             echo "<p>No se han recibido datos para realizar la búsqueda.</p>";
         }
     }
-    
     public function mostrarTodos() {
-        // Obtener todos los socios desde el archivo JSON
-        $sociosJson = json_decode(file_get_contents(__DIR__ . '/../data/socios.json'), true);
         
-        // Pasar los socios a la vista
-        include '../view/socios/verSocio.php'; 
-    }
-    
-    
-}
+            // Ruta absoluta al archivo de vista principal
+            $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
+            // Verificar si la vista principal existe
 
+            if (file_exists($file)) {
+                include $file;
+            } else {
+                echo "El archivo no se encuentra en la ruta: $file";
+                return; // Salir si el archivo no existe
+            }
+
+            // Ruta al archivo JSON
+            $rutaJson = __DIR__ . '/../data/socios.json';
+        
+            // Leer y decodificar los datos del archivo JSON
+            $sociosJson = json_decode(file_get_contents($rutaJson), true);
+        
+            // Validar que los datos sean correctos
+            if (!$sociosJson) {
+                echo "<p>No se pudieron cargar los datos de los socios o el archivo JSON está vacío.</p>";
+                return;
+            }
+        
+            // Incluir la vista y pasarle los datos de los socios
+            include __DIR__ . '/../view/socios/todosSocios.php';
+        }
+        
+    }
     
 ?>

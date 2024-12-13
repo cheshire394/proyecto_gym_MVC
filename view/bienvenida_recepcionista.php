@@ -27,7 +27,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio recepción</title>
 </head>
 <body>
 <h1>Bienvenido <?php echo $nombre ?></h1>
@@ -39,21 +39,21 @@
     <fieldset>
         <legend>Añadir y Modificar</legend>
         <ul>
-            <li><a href="/MVC2/view/clases/addClase.php">Añadir clase</a></li>
-            <li><a href="/MVC2/view/clases/sustituirMonitor.php">Sustituir monitor</a></li>
+            <li><a href="/proyecto_gym_MVC/view/clases/addClase.php">Añadir clase</a></li>
+            <li><a href="/proyecto_gym_MVC/view/clases/sustituirMonitor.php">Sustituir monitor</a></li>
         </ul>
     </fieldset>
     <fieldset>
         <legend>Ver Clases</legend>
         <ul>
-            <li><a href="/MVC2/view/clases/verClases.php">Mostrar todas las clases</a></li>
-            <li><a href="/MVC2/view/clases/clasesFiltro.php">Mostrar clases con filtro</a></li>
+            <li><a href="/proyecto_gym_MVC/view/clases/verClases.php">Mostrar todas las clases</a></li>
+            <li><a href="/proyecto_gym_MVC/view/clases/clasesFiltro.php">Mostrar clases con filtro</a></li>
         </ul>
     </fieldset>
     <fieldset>
         <legend>Eliminar</legend>
         <ul>
-            <li><a href="/MVC2/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
+            <li><a href="/proyecto_gym_MVC/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
         </ul>
     </fieldset>
 </fieldset>
@@ -64,21 +64,20 @@
     <fieldset>
         <legend>Añadir y Modificar</legend>
         <ul>
-            <li><a href="/MVC2/view/socios/addSocio.php">Registrar nuevo socio</a></li>
-            <li><a href="/MVC2/view/socios/modificarSocio.php">Modificar socio</a></li>
+            <li><a href="/proyecto_gym_MVC/view/socios/addSocio.php">Registrar nuevo socio</a></li>
+            <li><a href="/proyecto_gym_MVC/view/socios/modificarSocio.php">Modificar socio</a></li>
         </ul>
     </fieldset>
     <fieldset>
         <legend>Buscar socio</legend>
         <ul>
-            <li><a href="/MVC2/view/socios/verSocio.php">Mostrar socio</a></li>
-            <li><a href="/MVC2/view/socios/mostrarSocios.php">Mostrar todos los socios</a></li>
+            <li><a href="/proyecto_gym_MVC/view/socios/verSocio.php">Buscar socio / socios</a></li>
         </ul>
     </fieldset>
     <fieldset>
         <legend>Eliminar</legend>
         <ul>
-            <li><a href="/MVC2/view/socios/eliminarSocio.php">Eliminar disciplina</a></li>
+            <li><a href="/proyecto_gym_MVC/view/socios/eliminarSocio.php">Eliminar socio</a></li>
         </ul>
     </fieldset>
 </fieldset>

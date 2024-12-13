@@ -4,16 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Socio</title>
-    <style>
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #FFA500;
-        }
-    </style>
 </head>
 <body>
 
@@ -51,82 +41,14 @@
     </fieldset>
  <br>
     <form method="POST" action="index_socios.php?action=mostrarTodos">
-        <fieldset>
-            <input type="submit" value="Mostrar Todos los Socios">
-        </fieldset>
-    </form>
+    <fieldset>
+    <input type="submit" value="Mostrar Todos los Socios" style="margin: 0;">
+    </fieldset>
 
-    <!-- Aquí se muestran los resultados -->
-    <!-- Busqueda concreta -->
-    <?php 
-    include __DIR__ . '/../view/socios/verSocio.php';
-
-if (isset($sociosEncontrados) && !empty($sociosEncontrados)): ?>
-        <h2>Resultados de la búsqueda</h2>
-        <table>
-            <tr>
-                <th>DNI</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Tarifa</th>
-                <th>Fecha de Alta</th>
-                <th>Fecha de Baja</th>
-                <th>Reservas de Clases</th>
-            </tr>
-            <?php foreach ($sociosEncontrados as $socio): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($socio['dni']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['nombre']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['apellidos']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['fecha_nac']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['telefono']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['email']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['tarifa']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['fecha_alta']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['fecha_baja']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['reservas_clases']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php endif; ?>
-
-    <!-- Mostrar todos -->
-    <?php if (isset($sociosJson) && !empty($sociosJson)): ?>
-        <h2>Listado de todos los socios</h2>
-        <table>
-            <tr>
-                <th>DNI</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Teléfono</th>
-                <th>Email</th>
-                <th>Tarifa</th>
-                <th>Fecha de Alta</th>
-                <th>Fecha de Baja</th>
-                <th>Reservas de Clases</th>
-            </tr>
-            <?php foreach ($sociosJson as $socio): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($socio['dni']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['nombre']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['apellidos']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['fecha_nac']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['telefono']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['email']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['tarifa']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['fecha_alta']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['fecha_baja']); ?></td>
-                    <td><?php echo htmlspecialchars($socio['reservas_clases']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php endif; ?>
-  
-
-
+    </form>   
+    <br>
+    <fieldset>
+        <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
+    </fieldset>
 </body>
 </html>

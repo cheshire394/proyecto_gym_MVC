@@ -58,7 +58,7 @@
         <input type="number" id="reservas_clases" name="reservas_clases" min="0" required><br><br>
 
         <label for="cuenta_bancaria">Cuenta Bancaria:</label>
-        <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" required><br><br>
+        <input type="text" id="cuenta_bancaria" name="cuenta_bancaria"><br><br>
         </fieldset>        
     </fieldset>
     <br>
