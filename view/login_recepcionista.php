@@ -3,31 +3,33 @@
 
 <!-- Código PHP -->
 <?php
-    // Inicio o reanudación de una sesión existente.
-    session_start(); 
+// Inicio o reanudación de una sesión existente.
+session_start();
 
-    // Verifica si existe un DNI almacenado en la sesión y lo asigna a una variable.
-    if (isset($_SESSION['dni'])) {
-        $dni_registrado = $_SESSION['dni']; 
-    }
+// Verifica si existe un DNI almacenado en la sesión y lo asigna a una variable.
+if (isset($_SESSION['dni'])) {
+    $dni_registrado = $_SESSION['dni'];
+}
 
-    // Comprueba si se pasó un error de credenciales incorrectas a través de la URL.
-    if (isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas') {
+// Comprueba si se pasó un error de credenciales incorrectas a través de la URL.
+if (isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas') {
     // Muestra un mensaje de error y redirige automáticamente al login después de 2 segundos.
     echo "<p style='color: red;'> Error, las credenciales no son correctas, redirigiendo al registro automáticamente</p>";
-    header('Refresh: 2 login_recepcionista.php'); 
-    }
+    header('Refresh: 2 login_recepcionista.php');
+}
 ?>
 
 
 <!-- HTML con el formulario -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
 </head>
+
 <body>
     <h1>Inicio de Sesión Recepcionista</h1>
 
@@ -58,4 +60,5 @@
         <a href="registro_recepcionista.php">Registrar Recepcionista</a>
     </fieldset>
 </body>
+
 </html>

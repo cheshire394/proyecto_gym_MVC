@@ -1,4 +1,6 @@
+<!-- Página Index Socio -->
 <?php
+//Mostrar errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -16,16 +18,20 @@ if (isset($_GET['action'])) {
             $controladorSocios->addSocio();
             break;
 
-        case 'modificarSocio': // Acción para modificar un socio
+        case 'modificarSocio':
             $controladorSocios->modificarSocio();
             break;
 
         case 'verSocio':
-            $controladorSocios->verSocio(); 
+            $controladorSocios->verSocio();
             break;
 
         case 'mostrarTodos':
-            $controladorSocios->mostrarTodos(); 
+            $controladorSocios->mostrarTodos();
+            break;
+
+        case 'eliminarSocio':
+            $controladorSocios->eliminarSocio();
             break;
 
         default:
@@ -35,4 +41,3 @@ if (isset($_GET['action'])) {
 } else {
     echo "No hay ninguna acción disponible";
 }
-?>

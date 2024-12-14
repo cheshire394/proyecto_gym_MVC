@@ -6,9 +6,11 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Trabajador.php';
 
-class ControladorRecepcionista {
+class ControladorRecepcionista
+{
 
-    public function registro() {
+    public function registro()
+    {
         // Verificar que se han enviado los datos por POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             include __DIR__ . '/../view/login_recepcionista.php';
@@ -42,21 +44,20 @@ class ControladorRecepcionista {
             header("Location: /MVC2/view/login_recepcionista.php?action=login");
             exit();
         } else {
-            
-            session_start(); 
-            $_SESSION['dni'] = $_POST['dni']; 
-            header("Location: /MVC2/view/registro_recepcionista.php?error=dni_existente");
-exit;
 
-            
+            session_start();
+            $_SESSION['dni'] = $_POST['dni'];
+            header("Location: /MVC2/view/registro_recepcionista.php?error=dni_existente");
+            exit;
+
+
             exit();
         }
-
-    
-}
+    }
 
 
-    public function login() {
+    public function login()
+    {
         // Incluir la vista si el método no es POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             include __DIR__ . '/../view/login_recepcionista.php';
@@ -81,7 +82,8 @@ exit;
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         // Destruir la sesión
         session_start();
         session_unset();
@@ -94,7 +96,7 @@ exit;
 
 
     //NO FUNCIONA
-   /* public function olvidado($dni){
+    /* public function olvidado($dni){
 
       Trabajador::olvidado($dni); 
       header("Location: /MVC2/view/registro_recepcionista.php?error=nuevo_dni"); 
@@ -102,5 +104,3 @@ exit;
 
     }*/
 }
-
-

@@ -121,17 +121,5 @@
         "fecha_baja": "",
         "edad": "31",
         "cuenta_bancaria": ""
-    },
-    {
-        "dni": "70418920G",
-        "nombre": "",
-        "apellidos": "Montojo",
-        "fecha_nac": "",
-        "telefono": "",
-        "email": "",
-        "tarifa": "",
-        "fecha_alta": "",
-        "fecha_baja": "2024-12-14",
-        "cuenta_bancaria": ""
     }
 ]

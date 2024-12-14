@@ -1,15 +1,17 @@
 <!-- Página Modificar Socio -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario Modificar Socio</title>
 </head>
+
 <body>
     <h1>Modificar Socio</h1>
     <p style="color:red"><b>*Modifique los campos necesarios</b></p>
-    
+
     <fieldset>
         <legend>Datos:</legend>
         <form method="POST" action="index_socios.php?action=modificarSocio">
@@ -45,7 +47,7 @@
                 </select><br><br>
 
                 <?php
-                // Obtener la fecha actual en formato YYYY-MM-DD
+                // Obtener la fecha actual para poner por defecto en el formulario
                 $fechaActual = date('Y-m-d');
                 ?>
 
@@ -60,7 +62,7 @@
             </fieldset>
             <br>
             <fieldset>
-            <button type="submit">Modificar Socio</button>
+                <button type="submit">Modificar Socio</button>
             </fieldset>
         </form>
     </fieldset>
@@ -70,4 +72,5 @@
         <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
     </fieldset>
 </body>
+
 </html>
