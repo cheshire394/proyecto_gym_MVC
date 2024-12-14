@@ -3,7 +3,8 @@ require_once('datosIncorrectos.php');
 
 class Trabajador extends Persona {
 
-    const  HORAS_EXTRA=15; 
+    
+    const EUROS_HORA=20;
     private $funcion; 
     private $sueldo; 
     private $jornada; 
@@ -47,6 +48,10 @@ class Trabajador extends Persona {
 
             $this->$name = $value; 
             if($name == 'horas_extra') $this->cobrarHorasExtra();
+            if($name == 'jornada'){
+                $actualizar_sueldo= $value * Trabajador::EUROS_HORA; 
+                $this->__set('sueldo', $actualizar_sueldo); 
+            }
         } else {
             throw new Exception('ERROR EN EL SETTER TRABAJADOR: LA PROPIEDAD QUE DESEAS MODIFICAR NO EXISTE'); 
         }
@@ -191,7 +196,7 @@ class Trabajador extends Persona {
     //Este metodo solo será llamado desde setter cuando se modifique las horas extra
     private function cobrarHorasExtra(){
         
-        $aumento = $this->__get('horas_extra') * self::HORAS_EXTRA + $this->__get('sueldo'); 
+        $aumento = $this->__get('horas_extra') * self::EUROS_HORA + $this->__get('sueldo'); 
         $this->__set('sueldo', $aumento);   
     }
 

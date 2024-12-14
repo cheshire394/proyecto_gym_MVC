@@ -25,9 +25,9 @@
                 if (file_exists($monitoresJson)) {
                     $jsonData = file_get_contents($monitoresJson);
                     $monitores = json_decode($jsonData, true); // Decodificamos el contenido JSON a un array asociativo
-                    foreach ($monitores as $monitor) {
-                        echo '<option value="' . $monitor['dni'] . '">'
-                            . $monitor['dni'] . ' - ' . $monitor['nombre']
+                    foreach ($monitores as $dni_monitor => $monitor) {
+                        echo '<option value="' . $dni_monitor . '">'
+                            . $dni_monitor . ' - ' . $monitor['nombre']
                             . '</option>';
                     }
                 } else {
@@ -70,7 +70,7 @@
     </fieldset>
     <br>
     <?php
-           if (isset($_GET['msg']) && $_GET['msg'] == 'erroraddClase') {
+           if (isset($_GET['msg']) && $_GET['msg'] == 'errorAddClase') {
            
             echo "<p style='color: red;'><b>Error, la clase no ha sido añadida</b></p>";
         }

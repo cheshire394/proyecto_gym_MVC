@@ -1,191 +1,167 @@
 {
-    "1": {
-        "id_clase": "lunes-12:00",
+    "lunes-12:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
         "dia_semana": "lunes",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "2": {
-        "id_clase": "lunes-16:00",
+    "lunes-16:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "boxeo",
         "dia_semana": "lunes",
         "hora_inicio": "16:00",
         "hora_fin": "18:00"
     },
-    "3": {
-        "id_clase": "lunes-18:00",
+    "lunes-18:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
         "dia_semana": "lunes",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "4": {
-        "id_clase": "martes-10:00",
+    "martes-10:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "judo",
         "dia_semana": "martes",
         "hora_inicio": "10:00",
         "hora_fin": "12:00"
     },
-    "5": {
-        "id_clase": "martes-12:00",
+    "martes-12:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "aikido",
         "dia_semana": "martes",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "6": {
-        "id_clase": "martes-16:00",
+    "martes-16:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "judo",
         "dia_semana": "martes",
         "hora_inicio": "16:00",
         "hora_fin": "18:00"
     },
-    "7": {
-        "id_clase": "martes-18:00",
+    "martes-18:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "aikido",
         "dia_semana": "martes",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "8": {
-        "id_clase": "miercoles-10:00",
+    "miercoles-10:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "boxeo",
         "dia_semana": "miercoles",
         "hora_inicio": "10:00",
         "hora_fin": "12:00"
     },
-    "9": {
-        "id_clase": "miercoles-12:00",
+    "miercoles-12:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
         "dia_semana": "miercoles",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "10": {
-        "id_clase": "miercoles-16:00",
+    "miercoles-16:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "boxeo",
         "dia_semana": "miercoles",
         "hora_inicio": "16:00",
         "hora_fin": "18:00"
     },
-    "11": {
-        "id_clase": "miercoles-18:00",
+    "miercoles-18:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
         "dia_semana": "miercoles",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "12": {
-        "id_clase": "jueves-10:00",
+    "jueves-10:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "judo",
         "dia_semana": "jueves",
         "hora_inicio": "10:00",
         "hora_fin": "12:00"
     },
-    "13": {
-        "id_clase": "jueves-12:00",
+    "jueves-12:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "aikido",
         "dia_semana": "jueves",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "14": {
-        "id_clase": "jueves-16:00",
+    "jueves-16:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "judo",
         "dia_semana": "jueves",
         "hora_inicio": "16:00",
         "hora_fin": "18:00"
     },
-    "15": {
-        "id_clase": "jueves-18:00",
+    "jueves-18:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "aikido",
         "dia_semana": "jueves",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "16": {
-        "id_clase": "viernes-10:00",
+    "viernes-10:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "taekwondo",
         "dia_semana": "viernes",
         "hora_inicio": "10:00",
         "hora_fin": "12:00"
     },
-    "17": {
-        "id_clase": "viernes-12:00",
+    "viernes-12:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "karate",
         "dia_semana": "viernes",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "18": {
-        "id_clase": "viernes-16:00",
+    "viernes-16:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "taekwondo",
         "dia_semana": "viernes",
         "hora_inicio": "16:00",
         "hora_fin": "18:00"
     },
-    "19": {
-        "id_clase": "viernes-18:00",
+    "viernes-18:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "karate",
         "dia_semana": "viernes",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "20": {
-        "id_clase": "sabado-10:00",
+    "sabado-10:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "boxeo",
         "dia_semana": "sabado",
         "hora_inicio": "10:00",
         "hora_fin": "12:00"
     },
-    "21": {
-        "id_clase": "sabado-12:00",
+    "sabado-12:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "karate",
         "dia_semana": "sabado",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "22": {
-        "id_clase": "sabado-16:00",
+    "sabado-16:00": {
         "dni_monitor": "55462206Y",
         "nombre_actividad": "judo",
         "dia_semana": "sabado",
         "hora_inicio": "16:00",
         "hora_fin": "18:00"
     },
-    "23": {
-        "id_clase": "sabado-18:00",
+    "sabado-18:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "taekwondo",
         "dia_semana": "sabado",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "29": {
-        "id_clase": "lunes-10:00",
-        "dni_monitor": "09626574Q",
+    "lunes-10:00": {
+        "dni_monitor": "50489319H",
         "nombre_actividad": "MMA",
         "dia_semana": "lunes",
         "hora_inicio": "10:00",

@@ -39,13 +39,13 @@ class ControladorRecepcionista {
 
         if ($resultado) {
             // Registro exitoso
-            header("Location: /MVC2/view/login_recepcionista.php?action=login");
+            header("Location: /proyecto_gym_MVC/view/login_recepcionista.php?action=login");
             exit();
         } else {
             
             session_start(); 
             $_SESSION['dni'] = $_POST['dni']; 
-            header("Location: /MVC2/view/registro_recepcionista.php?error=dni_existente");
+            header("Location: /proyecto_gym_MVC/view/registro_recepcionista.php?error=dni_existente");
 exit;
 
             
@@ -71,12 +71,12 @@ exit;
         if (Trabajador::login($dni, $password)) {
 
             // Credenciales correctas: redirigir a bienvenida
-            header('Location: /MVC2/view/bienvenida_recepcionista.php');
+            header('Location: /proyecto_gym_MVC/view/bienvenida_recepcionista.php');
             exit;
         } else {
 
             // Credenciales incorrectas: mostrar error
-            header('Location: /MVC2/view/login_recepcionista.php?error=credenciales_incorrectas');
+            header('Location: /proyecto_gym_MVC/view/login_recepcionista.php?error=credenciales_incorrectas');
             exit;
         }
     }
@@ -88,7 +88,7 @@ exit;
         session_destroy();
 
         // Redirigir al formulario de login
-        header('Location: /MVC2/view/login_recepcionista.php');
+        header('Location: /proyecto_gym_MVC/view/login_recepcionista.php');
         exit;
     }
 
@@ -97,7 +97,7 @@ exit;
    /* public function olvidado($dni){
 
       Trabajador::olvidado($dni); 
-      header("Location: /MVC2/view/registro_recepcionista.php?error=nuevo_dni"); 
+      header("Location: /proyecto_gym_MVC/view/registro_recepcionista.php?error=nuevo_dni"); 
       exit; 
 
     }*/

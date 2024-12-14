@@ -24,10 +24,10 @@ class ControladorClases {
         if($exitoso){
 
             // registro  correcto: redirigir a mostrar Clases
-            header('Location: /MVC2/view/clases/verClases.php?msg=addClase');
+            header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=addClase');
             exit;
         }else{
-            header('Location: /MVC2/view/clases/addClase.php?msg=errorAddClase');
+            header('Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=errorAddClase');
             exit;
         }
     
@@ -86,10 +86,10 @@ class ControladorClases {
             if($exitoso){
     
                 // registro  correcto: redirigir a mostrar Clases
-                header('Location: /MVC2/view/clases/verClases.php?msg=sustituido');
+                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=sustituido');
                 exit;
             }else{
-                header('Location: /MVC2/view/clases/sustituirMonitor.php?msg=errorSustituido');
+                header('Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=errorSustituido');
                 exit;
             }
 
