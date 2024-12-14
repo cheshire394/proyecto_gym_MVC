@@ -7,6 +7,7 @@ require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Clase.php';
 require_once __DIR__ . '/../models/Monitor.php';
+require_once __DIR__ . '/../models/Socio.php';
 
 
 class controladorSocios {
@@ -41,7 +42,7 @@ class controladorSocios {
 
         if ($exitoso) {
             // Registro correcto: redirigir a bienvenida
-            header('Location: /proyecto_gym_MVC//view/socios/bienvenida_recepcion.php?msg=addSocio');
+            header('Location: /../view/bienvenida_recepcionista.php?msg=addSocio');
             exit;
         } else {
             // Error al agregar socio
@@ -119,7 +120,7 @@ class controladorSocios {
     }
     public function verSocio() {
         // Ruta absoluta al archivo de vista principal
-        $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
+        $file = $_SERVER['DOCUMENT_ROOT'] . '/view/socios/verSocio.php';
     
         // Verificar si la vista principal existe
         if (file_exists($file)) {
