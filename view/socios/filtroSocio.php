@@ -16,7 +16,11 @@
         }
     </style>
 <body>
-<?php if (isset($sociosEncontrados)): ?>
+<?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+if (isset($sociosEncontrados)): ?>
     <?php if (!empty($sociosEncontrados)): ?>
         <h2>Resultados de la búsqueda</h2>
         <table>

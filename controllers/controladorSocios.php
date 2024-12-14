@@ -35,18 +35,18 @@ class controladorSocios {
             $apellidos,
             $fecha_nac,
             $telefono,
-            $telefono,
+            $email,
             $tarifa,
             $cuenta_bancaria,
         );
 
         if ($exitoso) {
             // Registro correcto: redirigir a bienvenida
-            header('Location: /../view/bienvenida_recepcionista.php?msg=addSocio');
+            header('Location: /view/bienvenida_recepcionista.php?msg=addSocio');
             exit;
         } else {
             // Error al agregar socio
-            header('Location:/proyecto_gym_MVC/view/socios/addSocio.php?msg=errorAddSocio');
+            header('Location:/../view/socios/addSocio.php?msg=errorAddSocio');
             exit;
         }
     }
@@ -69,7 +69,7 @@ class controladorSocios {
         // Validación de campos
         if (empty($dni) || empty($nombre) || empty($apellidos) || empty($fecha_nac) || empty($edad) || empty($telefono) || empty($email) || empty($tarifa) || empty($fecha_alta) || empty($reservas_clases) || empty($cuenta_bancaria)) {
             // Si faltan campos importantes, redirigir con mensaje de error
-            header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php?msg=errorCamposVacios');
+            header('Location: /../view/socios/modificarSocio.php?msg=errorCamposVacios');
             exit;
         }
     
@@ -105,11 +105,11 @@ class controladorSocios {
                 file_put_contents(__DIR__ . '/../data/socios.json', json_encode($sociosJson, JSON_PRETTY_PRINT));
     
                 // Modificación exitosa: redirigir a una página de éxito
-                header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php?msg=modSocio');
+                header('Location: /../view/socios/modificarSocio.php?msg=modSocio');
                 exit;
             } else {
                 // Si el socio no existe
-                header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php?msg=socioNoEncontrado');
+                header('Location: /../view/socios/modificarSocio.php?msg=socioNoEncontrado');
                 exit;
             }
         } else {
@@ -178,7 +178,7 @@ class controladorSocios {
     public function mostrarTodos() {
         
             // Ruta absoluta al archivo de vista principal
-            $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
+            $file = $_SERVER['DOCUMENT_ROOT'] . '/view/socios/verSocio.php';
             // Verificar si la vista principal existe
 
             if (file_exists($file)) {

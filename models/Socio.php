@@ -82,7 +82,7 @@ final class Socio extends Persona
             }
 
             // Crear nuevo objeto Socio
-            $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria, $reservas_clases);
+            $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria);
 
             // Guardar al JSON
             $nuevoSocio->guardarSocioEnJSON();
@@ -104,7 +104,6 @@ final class Socio extends Persona
         $tarifa = null,
         $fecha_alta = null,
         $fecha_baja = null,
-        $reservas_clases = null,
         $cuenta_bancaria = null
     ) {
         try {
@@ -135,7 +134,6 @@ final class Socio extends Persona
                     if ($tarifa !== null) $socio['tarifa'] = $tarifa;
                     if ($fecha_alta !== null) $socio['fecha_alta'] = $fecha_alta;
                     $socio['fecha_baja'] = $fecha_baja !== null ? $fecha_baja : "Desconocida";
-                    if ($reservas_clases !== null) $socio['reservas_clases'] = $reservas_clases;
                     if ($cuenta_bancaria !== null) $socio['cuenta_bancaria'] = $cuenta_bancaria;
     
                     break;
@@ -177,7 +175,7 @@ final class Socio extends Persona
                     'tarifa' => $this->tarifa,
                     'fecha_alta' => $this->fecha_alta,
                     'fecha_baja' => $this->fecha_baja,
-                    'reservas_clases' => $this->reservas_clases,
+                    
                 ];
                 $actualizado = true;
                 break;
@@ -196,7 +194,7 @@ final class Socio extends Persona
                 'tarifa' => $this->tarifa,
                 'fecha_alta' => $this->fecha_alta,
                 'fecha_baja' => $this->fecha_baja,
-                'reservas_clases' => $this->reservas_clases,
+            
             ];
         }
     
