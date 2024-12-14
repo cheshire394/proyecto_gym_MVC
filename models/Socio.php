@@ -10,7 +10,6 @@ final class Socio extends Persona
     private $tarifa; // Tipos de tarifas: 2 clases, 3 clases o indefinidas (a la semana)
     private $fecha_alta;
     private $fecha_baja;
-    //private $reservas_clases = [];
     private $cuenta_bancaria;
 
     private static $contador_socios = 0;
@@ -33,7 +32,6 @@ final class Socio extends Persona
         $this->fecha_baja = 'desconocida';
         $this->tarifa = $tarifa;
         $this->cuenta_bancaria = $cuenta_bancaria;
-        //$this->reservas_clases = $reservas_clases;
 
         parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email);
 
@@ -63,61 +61,81 @@ final class Socio extends Persona
             throw new Exception("ERROR: La propiedad '$name' no existe en la clase Socio.");
         }
     }
-
+    public static function filtrarSocios($campo, $valor) {
+        $socios = self::cargarSocios();
+        return array_filter($socios, function($socio) use ($campo, $valor) {
+            return isset($socio[$campo]) && stripos($socio[$campo], $valor) !== false;
+        });
+    }
+    
     // Agregar un nuevo socio
-    public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria)
-    {
-        try {
-            
-            $rutaJSON = __DIR__ . '/../data/socios.json';
-
-            // Leer el archivo JSON
-            $sociosJson = file_exists($rutaJSON) ? json_decode(file_get_contents($rutaJSON), true) : [];
-
-            // Verificar si el socio ya existe
-            foreach ($sociosJson as $socio) {
-                if ($socio['dni'] == $dni) {
-                    throw new datosIncorrectos("<b>ERROR: Ya existe un socio con el DNI $dni</b>");
+        private static $rutaJSON = __DIR__ . '/../data/socios.json';
+    
+        public static function addSocio(string $dni, string $nombre, string $apellidos, string $fecha_nac, string $telefono, string $email, string $tarifa, string $cuenta_bancaria)
+        {
+            try {
+                // Leer socios existentes
+                $sociosJson = self::cargarSocios();
+    
+                // Verificar si ya existe un socio con el mismo DNI
+                if (self::buscarSocio('dni', $dni)) {
+                    throw new Exception("ERROR: Ya existe un socio con el DNI $dni");
+                }
+    
+                // Crear el nuevo socio
+                $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria);
+    
+                // Guardar el socio en el archivo JSON
+                $sociosJson[] = $nuevoSocio->toArray();
+                self::guardarSocios($sociosJson);
+    
+                return true; // Éxito
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        }
+    
+        private static function cargarSocios(): array
+        {
+            if (!file_exists(self::$rutaJSON)) {
+                return []; // Si no existe el archivo, retorna un array vacío
+            }
+    
+            $sociosJson = file_get_contents(self::$rutaJSON);
+            return json_decode($sociosJson, true) ?? [];
+        }
+    
+        private static function guardarSocios(array $socios)
+        {
+            file_put_contents(self::$rutaJSON, json_encode($socios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        }
+    
+        public static function buscarSocio(string $campo, $valor): ?array
+        {
+            $socios = self::cargarSocios();
+    
+            foreach ($socios as $socio) {
+                if ($socio[$campo] === $valor) {
+                    return $socio; // Retorna el socio si lo encuentra
                 }
             }
-
-            // Crear nuevo objeto Socio
-            $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria);
-
-            // Guardar al JSON
-            $nuevoSocio->guardarSocioEnJSON();
-
-            return true;
-        } catch (Exception $e) {
-            return $e->getMessage();
+    
+            return null; // Retorna null si no lo encuentra
         }
-    }
-
-    public static function modificarSocio(
-        $dni_socio,
-        $nombre = null,
-        $apellidos = null,
-        $fecha_nac = null,
-        $edad = null,
-        $telefono = null,
-        $email = null,
-        $tarifa = null,
-        $fecha_alta = null,
-        $fecha_baja = null,
-        $cuenta_bancaria = null
-    ) {
-        try {
-            // Ruta del archivo JSON
-            $rutaJSON = __DIR__ . '/../data/socios.json';
     
-            // Leer el contenido actual del archivo JSON
-            if (!file_exists($rutaJSON)) {
-                throw new Exception("El archivo de socios no existe.");
-            }
-            $sociosJson = file_get_contents($rutaJSON);
-            $socios = json_decode($sociosJson, true);
-    
-            // Buscar el socio por DNI
+        public static function modificarSocio(
+            string $dni_socio,
+            ?string $nombre = null,
+            ?string $apellidos = null,
+            ?string $fecha_nac = null,
+            ?string $telefono = null,
+            ?string $email = null,
+            ?string $tarifa = null,
+            ?string $fecha_alta = null,
+            ?string $fecha_baja = null,
+            ?string $cuenta_bancaria = null
+        ): string {
+            $socios = self::cargarSocios();
             $socioEncontrado = false;
     
             foreach ($socios as &$socio) {
@@ -128,63 +146,28 @@ final class Socio extends Persona
                     if ($nombre !== null) $socio['nombre'] = $nombre;
                     if ($apellidos !== null) $socio['apellidos'] = $apellidos;
                     if ($fecha_nac !== null) $socio['fecha_nac'] = $fecha_nac;
-                    if ($edad !== null) $socio['edad'] = $edad;
                     if ($telefono !== null) $socio['telefono'] = $telefono;
                     if ($email !== null) $socio['email'] = $email;
                     if ($tarifa !== null) $socio['tarifa'] = $tarifa;
                     if ($fecha_alta !== null) $socio['fecha_alta'] = $fecha_alta;
-                    $socio['fecha_baja'] = $fecha_baja !== null ? $fecha_baja : "Desconocida";
+                    if ($fecha_baja !== null) $socio['fecha_baja'] = $fecha_baja;
                     if ($cuenta_bancaria !== null) $socio['cuenta_bancaria'] = $cuenta_bancaria;
     
                     break;
                 }
             }
     
-            // Si no se encontró el socio, lanzar excepción
             if (!$socioEncontrado) {
                 throw new Exception("No se encontró un socio con el DNI: $dni_socio");
             }
     
-            // Guardar los cambios en el archivo JSON
-            file_put_contents($rutaJSON, json_encode($socios, JSON_PRETTY_PRINT));
-    
+            self::guardarSocios($socios);
             return "El socio con DNI $dni_socio ha sido modificado correctamente.";
-    
-        } catch (Exception $e) {
-            return "<b>Error:</b> " . $e->getMessage();
-        }
-    }
-    
-    private function guardarSocioEnJSON() {
-        $rutaJSON = __DIR__ . '/../data/socios.json';
-    
-        // Leer el contenido actual del archivo JSON
-        $sociosJson = file_exists($rutaJSON) ? json_decode(file_get_contents($rutaJSON), true) : [];
-    
-        // Actualizar o agregar este socio al JSON
-        $actualizado = false;
-        foreach ($sociosJson as &$socioJson) {
-            if ($socioJson['dni'] === $this->dni) {
-                $socioJson = [
-                    'dni' => $this->dni,
-                    'nombre' => $this->nombre,
-                    'apellidos' => $this->apellidos,
-                    'fecha_nac' => $this->fecha_nac,
-                    'telefono' => $this->telefono,
-                    'email' => $this->email,
-                    'tarifa' => $this->tarifa,
-                    'fecha_alta' => $this->fecha_alta,
-                    'fecha_baja' => $this->fecha_baja,
-                    
-                ];
-                $actualizado = true;
-                break;
-            }
         }
     
-        // Si no se actualizó, agregar el socio como nuevo
-        if (!$actualizado) {
-            $sociosJson[] = [
+        private function toArray(): array
+        {
+            return [
                 'dni' => $this->dni,
                 'nombre' => $this->nombre,
                 'apellidos' => $this->apellidos,
@@ -192,15 +175,13 @@ final class Socio extends Persona
                 'telefono' => $this->telefono,
                 'email' => $this->email,
                 'tarifa' => $this->tarifa,
-                'fecha_alta' => $this->fecha_alta,
-                'fecha_baja' => $this->fecha_baja,
-            
+                'fecha_alta' => $this->fecha_alta ?? date('Y-m-d'),
+                'fecha_baja' => $this->fecha_baja ?? null,
+                'cuenta_bancaria' => $this->cuenta_bancaria,
             ];
         }
     
-        // Guardar en el archivo JSON
-        file_put_contents($rutaJSON, json_encode($sociosJson, JSON_PRETTY_PRINT));
-    }
+    
     
 
     public static function mostrarSocios()
@@ -230,28 +211,12 @@ final class Socio extends Persona
         }
     }
 
-    // IMPLEMENTAR CON CONTROLLERS Y VIEW
-    /**
-     * The `reservarClase` function in PHP includes the `Clase.php` file and retrieves the gym class
-     * schedule using the `getHorario_gym` method.
-     */
-    public function reservarClase()
-    {
-        require_once('Clase.php');
-        $clases = Clase::getHorario_gym();
-    }
-
-    // IMPLEMENTAR CON CONTROLLERS Y VIEW
-    public function desapuntarseClase()
-    {
-    }
-
     /**
      * The function "darBajaSocio" is used to mark a member as inactive by setting the "fecha_baja"
      * property, decreasing the total count of members, adding the member to a list of inactive
      * members, and removing the member from the active members list.
      */
-    public function darBajaSocio()
+    public function eliminarSocio()
     {
         // A MEDIAS DE IMPLEMENTAR:
         $this->__set('fecha_baja', date('d-m-Y'));

@@ -2,7 +2,7 @@
     {
         "dni": "66974164G",
         "nombre": "Ana",
-        "apellidos": "Mart\u00ednez Garc\u00eda",
+        "apellidos": "Martínez García",
         "fecha_nac": "1992-05-18",
         "telefono": "622345678",
         "email": "ana.martinez@gym.com",
@@ -13,7 +13,7 @@
     {
         "dni": "82709958A",
         "nombre": "Luis",
-        "apellidos": "P\u00e9rez S\u00e1nchez",
+        "apellidos": "Pérez Sánchez",
         "fecha_nac": "1988-10-12",
         "telefono": "611987654",
         "email": "luis.perez@gym.com",
@@ -24,7 +24,7 @@
     {
         "dni": "93330782W",
         "nombre": "Luis",
-        "apellidos": "L\u00f3pez Jim\u00e9nez",
+        "apellidos": "López Jiménez",
         "fecha_nac": "1995-01-25",
         "telefono": "612345987",
         "email": "sofia.lopez@gym.com",
@@ -35,7 +35,7 @@
     {
         "dni": "55534150Y",
         "nombre": "Javier",
-        "apellidos": "Rodr\u00edguez Fern\u00e1ndez",
+        "apellidos": "Rodríguez Fernández",
         "fecha_nac": "1990-07-04",
         "telefono": "613456123",
         "email": "javier.rod@gym.com",
@@ -46,7 +46,7 @@
     {
         "dni": "28539505R",
         "nombre": "Laura",
-        "apellidos": "Hern\u00e1ndez Ruiz",
+        "apellidos": "Hernández Ruiz",
         "fecha_nac": "1986-11-30",
         "telefono": "614567890",
         "email": "laura.hernandez@gym.com",
@@ -57,7 +57,7 @@
     {
         "dni": "17304391L",
         "nombre": "Miguel",
-        "apellidos": "G\u00f3mez Mart\u00edn",
+        "apellidos": "Gómez Martín",
         "fecha_nac": "1993-06-15",
         "telefono": "615678234",
         "email": "miguel.gomez@gym.com",
@@ -68,7 +68,7 @@
     {
         "dni": "10129216Q",
         "nombre": "Carmen",
-        "apellidos": "S\u00e1nchez Dom\u00ednguez",
+        "apellidos": "Sánchez Domínguez",
         "fecha_nac": "1987-03-28",
         "telefono": "616789567",
         "email": "carmen.sanchez@gym.com",
@@ -79,7 +79,7 @@
     {
         "dni": "38735211Z",
         "nombre": "Antonio",
-        "apellidos": "Ruiz P\u00e9rez",
+        "apellidos": "Ruiz Pérez",
         "fecha_nac": "1991-12-20",
         "telefono": "617890345",
         "email": "antonio.ruiz@gym.com",
@@ -90,7 +90,7 @@
     {
         "dni": "84084556Y",
         "nombre": "Elena",
-        "apellidos": "D\u00edaz L\u00f3pez",
+        "apellidos": "Díaz López",
         "fecha_nac": "1996-08-09",
         "telefono": "618901234",
         "email": "elena.diaz@gym.com",
@@ -112,12 +112,26 @@
     {
         "dni": "70418919A",
         "nombre": "Raul",
-        "apellidos": "Senso",
-        "fecha_nac": "1990-01-01",
+        "apellidos": "",
+        "fecha_nac": "1993-01-15",
         "telefono": "611650423",
         "email": "rsenso@gmail.com",
-        "tarifa": "1",
-        "fecha_alta": "14-12-2024",
-        "fecha_baja": "desconocida"
+        "tarifa": "3",
+        "fecha_alta": "2024-12-14",
+        "fecha_baja": "",
+        "edad": "31",
+        "cuenta_bancaria": ""
+    },
+    {
+        "dni": "70418920G",
+        "nombre": "",
+        "apellidos": "Montojo",
+        "fecha_nac": "",
+        "telefono": "",
+        "email": "",
+        "tarifa": "",
+        "fecha_alta": "",
+        "fecha_baja": "2024-12-14",
+        "cuenta_bancaria": ""
     }
 ]
