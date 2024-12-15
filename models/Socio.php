@@ -13,12 +13,41 @@ final class Socio extends Persona
     private $fecha_alta;
     private $fecha_baja;
     private $cuenta_bancaria;
-
     private static $contador_socios = 0;
     private static $socios = [];
     private static $bajas_socios = [];
 
-    // Constructor de la clase
+   /**
+    * The function is a PHP constructor that validates input data for a new member, sets default
+    * values, and stores the member in a class array.
+    * 
+    * @param dni The `__construct` function you provided seems to be a constructor method for a class,
+    * where you are initializing properties of an object. The parameters passed to the constructor are
+    * ``, ``, ``, ``, ``, ``, ``, and
+    * @param nombre The `nombre` parameter in the `__construct` function represents the first name of a
+    * person. It is typically a string value that holds the first name of the individual.
+    * @param apellidos The parameter "apellidos" typically refers to the last name or surname of a
+    * person. It is a common practice to include both the first name and last name when referring to an
+    * individual. In the context of the provided code snippet, the "apellidos" parameter is likely used
+    * to store the last
+    * @param fecha_nac The parameter `fecha_nac` in the `__construct` function represents the date of
+    * birth of a person. It is used to store the date of birth of a member when creating a new instance
+    * of the class.
+    * @param telefono The `telefono` parameter in the `__construct` function likely represents the
+    * phone number of the person being registered as a member. It is a piece of contact information
+    * that can be used to reach out to the member if needed.
+    * @param email The email parameter in the constructor function is used to store the email address
+    * of the person being registered as a member. It is validated using the `filter_var` function with
+    * the `FILTER_VALIDATE_EMAIL` filter to ensure that the email provided is in a valid email format.
+    * If the email is not valid
+    * @param tarifa The `tarifa` parameter in the constructor function seems to represent the
+    * membership fee or subscription level for a member. In this case, it has a default value of "2".
+    * This parameter allows for specifying different membership tiers or fees for the members when
+    * creating an instance of the class.
+    * @param cuenta_bancaria The `cuenta_bancaria` parameter in the constructor function seems to
+    * represent the bank account number of the person being registered as a member. This parameter is
+    * used to store the bank account information of the member in the class instance.
+    */
     function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa = "2", $cuenta_bancaria)
     {
         // Validar entradas
@@ -41,6 +70,17 @@ final class Socio extends Persona
     }
 
     // Método mágico para establecer propiedades
+    /**
+     * The function __set in PHP is used to set the value of a property in a class, with specific
+     * restrictions and error handling.
+     * 
+     * @param name The `name` parameter in the `__set` magic method refers to the name of the property
+     * that is being set on the object. In this context, it is used to determine which property is
+     * being set and apply specific logic based on the property name.
+     * @param value The `` parameter in the `__set` magic method represents the value that is
+     * being assigned to a property of an object. In the provided code snippet, this parameter is used
+     * to set the value of a property in the class `Socio` when the property is not 'fecha_alta
+     */
     public function __set($name, $value)
     {
         if ($name == 'fecha_alta') {
@@ -55,6 +95,18 @@ final class Socio extends Persona
     }
 
     // Método mágico para obtener propiedades
+    /**
+     * The function __get in PHP is used to dynamically retrieve inaccessible properties of an object.
+     * 
+     * @param name The `__get` magic method in PHP is used to intercept attempts to access
+     * non-accessible or non-existing properties of an object. In this case, the method checks if the
+     * property with the name specified in the `` parameter exists in the current object instance.
+     * If it does, the method
+     * 
+     * @return If the property exists in the class, the value of that property will be returned.
+     * Otherwise, an Exception will be thrown with the message "ERROR: La propiedad '' no existe
+     * en la clase Socio."
+     */
     public function __get($name)
     {
         if (property_exists($this, $name)) {
