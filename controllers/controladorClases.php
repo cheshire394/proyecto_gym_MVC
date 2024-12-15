@@ -74,35 +74,45 @@ class ControladorClases {
    }
 
 
-        public static  function sustituirMonitor(){
+   public static function sustituirMonitor() {
+    $dni_monitor_sustituto = $_POST['dni_monitor'];
+    $dia_semana = $_POST['dia_semana'];
+    $hora_inicio = $_POST['hora_inicio'];
 
-            $dni_monitor_sustituto = $_POST['dni_monitor'];
-            $dia_semana = $_POST['dia_semana'];   
-            $hora_inicio = $_POST['hora_inicio']; 
-
-            $exitoso= clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
-
-        
-            if($exitoso){
-    
-                // registro  correcto: redirigir a mostrar Clases
-                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=sustituido');
-                exit;
-            }else{
-                header('Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=errorSustituido');
-                exit;
-            }
-
-
-
+    try {
+        $exitoso = Clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
+        if ($exitoso) {
+            header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=sustituido');
+            exit;
         }
+    } catch (Exception $e) {
+        // Redirigir con el mensaje de la excepción
+        $mensaje = urlencode($e->getMessage());
+        header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
+        exit;
+    }
+}
 
+public static function eliminarDisciplina() {
     
-    
+    $nombre_actividad = $_POST['nombre_actividad'];
 
-    
+    try {
+        $exitoso = Clase::eliminarDisciplina($nombre_actividad);
 
-  
+        if ($exitoso) {
+            // Redirigir a la página de clases con un mensaje de éxito
+            header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminadaDisciplina');
+            exit;
+        }
+    } catch (Exception $e) {
+        // Redirigir con el mensaje de la excepción
+        $mensaje = urlencode($e->getMessage());
+        header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
+        exit;
+    }
 }
 
 
+
+}

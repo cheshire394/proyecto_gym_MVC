@@ -153,10 +153,64 @@ final class Monitor extends Trabajador {
     }
 
 
-    public static function actualizarDatosMonitores($new_monitor, $old_monitor, $monitoresObj){
+    public static function actualizarDatosMonitores($dni_monitor, $monitor_clase_sustituida,$clase_creada){
 
-    }
+       // Obtener monitores
+       $monitoresObj = Monitor::monitoresJSON();
 
+       $id_clase = $clase_creada->__get('id_clase'); 
+       $nombre_actividad= $clase_creada->__get('nombre_actividad'); 
+       
+
+       if(!empty($monitor_clase_sustituida)){
+
+           if ($dni_monitor !== $monitor_clase_sustituida){ 
+               //actualizar jornada solo si no es el mismo monitor que ejercia la clase sustituida
+               $jornada_monitor= $monitoresObj[$monitor_clase_sustituida]->__get('jornada'); 
+               $actualizar_jornada= $jornada_monitor - Clase::DURACION_CLASE; 
+               $monitoresObj[$monitor_clase_sustituida]->__set('jornada', $actualizar_jornada); 
+           
+           }
+           // eliminar la clase del objeto  porque ya no la va impartir esa clase (ha sido eliminada en guardarClaseJSON())
+           $monitor_clases =$monitoresObj[$monitor_clase_sustituida]->__get('clases'); 
+           unset($monitor_clases[$id_clase]); 
+           // Actualizar las clases del monitor en el objeto
+           $monitoresObj[$monitor_clase_sustituida]->__set('clases', $monitor_clases);
+       }
+       
+   
+       
+       if ($dni_monitor !== $monitor_clase_sustituida) {
+         
+           // Actualizar jornada
+           $jornada_monitor = $monitoresObj[$dni_monitor]->__get('jornada');
+           $actualizar_jornada = $jornada_monitor + Clase::DURACION_CLASE;
+           $monitoresObj[$dni_monitor]->__set('jornada', $actualizar_jornada);
+          
+
+       }
+
+       // Actualizar clases del monitor
+       $clases_monitor = $monitoresObj[$dni_monitor]->__get('clases');
+       $clases_monitor[$id_clase] = $clase_creada;
+       $monitoresObj[$dni_monitor]->__set('clases', $clases_monitor);
+       
+
+        // Actualizar disciplinas
+        $disciplinas_monitor = $monitoresObj[$dni_monitor]->__get('disciplinas');
+        if (!in_array($nombre_actividad, $disciplinas_monitor)) {
+            $disciplinas_monitor[] = $nombre_actividad;
+            $monitoresObj[$dni_monitor]->__set('disciplinas', $disciplinas_monitor);
+           
+        }
+
+           // Intentar guardar y verificar
+           $guardado = Monitor::guardarMonitoresEnJSON($monitoresObj);
+
+   
+           return $guardado; 
+       }
+   
 
     
 

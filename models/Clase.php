@@ -33,7 +33,7 @@ final class Clase {
         //la empresa creciera y ampliara el número de salas, tendremos que buscar otro id para que puedan existir dos o más clases al mismo tiempo.
         $this->id_clase = $this->dia_semana . "-" . $this->hora_inicio;
 
-        self::$horario_gym[$this->id_clase] = $this;
+       
     }
 
 
@@ -44,6 +44,15 @@ final class Clase {
     }
 
 
+    public function setDni_monitor($dni_monitor)
+    {
+            $this->dni_monitor = $dni_monitor;
+
+            return $this;
+    }
+
+
+
     public static function addClase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio) {
         
         // Crear la clase
@@ -51,62 +60,14 @@ final class Clase {
     
         // Guardar clase en JSON
         $monitor_clase_sustituida = $clase_creada->guardarClaseEnJSON();
-       
-    
-        // Obtener monitores
-        $monitoresObj = Monitor::monitoresJSON();
-        $id_clase = $dia_semana."-".$hora_inicio;
 
+        //Actualiazar los datos de los monitores afectados con el cambio de horario
+        $actualizado= Monitor::actualizarDatosMonitores($dni_monitor, $monitor_clase_sustituida, $clase_creada);
 
-        if(!empty($monitor_clase_sustituida)){
-
-            if ($dni_monitor !== $monitor_clase_sustituida){ 
-                //actualizar jornada solo si no es el mismo monitor que ejercia la clase sustituida
-                $jornada_monitor= $monitoresObj[$monitor_clase_sustituida]->__get('jornada'); 
-                $actualizar_jornada= $jornada_monitor - self::DURACION_CLASE; 
-                $monitoresObj[$monitor_clase_sustituida]->__set('jornada', $actualizar_jornada); 
-            
-            }
-            // eliminar la clase del objeto  porque ya no la va impartir esa clase (ha sido eliminada en guardarClaseJSON())
-            $monitor_clases =$monitoresObj[$monitor_clase_sustituida]->__get('clases'); 
-            unset($monitor_clases[$id_clase]); 
-            // Actualizar las clases del monitor en el objeto
-            $monitoresObj[$monitor_clase_sustituida]->__set('clases', $monitor_clases);
-        }
         
+       return $actualizado; 
     
-        
-        if ($dni_monitor !== $monitor_clase_sustituida) {
-          
-            // Actualizar jornada
-            $jornada_monitor = $monitoresObj[$dni_monitor]->__get('jornada');
-            $actualizar_jornada = $jornada_monitor + self::DURACION_CLASE;
-            $monitoresObj[$dni_monitor]->__set('jornada', $actualizar_jornada);
-           
-
-        }
-
-        // Actualizar clases del monitor
-        $clases_monitor = $monitoresObj[$dni_monitor]->__get('clases');
-        $clases_monitor[$id_clase] = $clase_creada;
-        $monitoresObj[$dni_monitor]->__set('clases', $clases_monitor);
-        
-
-         // Actualizar disciplinas
-         $disciplinas_monitor = $monitoresObj[$dni_monitor]->__get('disciplinas');
-         if (!in_array($nombre_actividad, $disciplinas_monitor)) {
-             $disciplinas_monitor[] = $nombre_actividad;
-             $monitoresObj[$dni_monitor]->__set('disciplinas', $disciplinas_monitor);
-            
-         }
-
-            // Intentar guardar y verificar
-            $guardado = Monitor::guardarMonitoresEnJSON($monitoresObj);
-           
-    
-            return $guardado; 
-        }
-    
+    }
      
     
    
@@ -140,14 +101,30 @@ final class Clase {
     }
 
 
+    
 
-    public static function sustituirMonitor($dni_monitor_sustituto, $dia, $hora) {
-        
-
-        
-            return true; 
-        
+    public static function sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio) {
+        $clases = Clase::getHorario_gym();
+        $id_clase = $dia_semana . "-" . $hora_inicio;
+    
+        if (isset($clases[$id_clase])) {
+            $dni_monitor_sustituido = $clases[$id_clase]->__get('dni_monitor');
+    
+            if ($dni_monitor_sustituto === $dni_monitor_sustituido) {
+                throw new Exception("Excepción: El monitor seleccionado es el mismo que el actual.");
+            } else {
+                $clases[$id_clase]->setDni_monitor($dni_monitor_sustituto);
+                // Guardar clase en JSON
+                $clases[$id_clase]->guardarClaseEnJSON();
+                // Actualizar datos de los monitores afectados
+                Monitor::actualizarDatosMonitores($dni_monitor_sustituto, $dni_monitor_sustituido, $clases[$id_clase]);
+            }
+            return true; // Sustitución exitosa
+        } else {
+            throw new Exception("La clase indicada no está incluida en el horario.");
+        }
     }
+    
 
     private function horaFinalClase($hora_inicio) {
         $hora_inicio = substr($hora_inicio, 0, 2);
@@ -178,58 +155,74 @@ final class Clase {
 
  
 
+    //NO CONSIGO QUE FUNCIONE (SOSPECHO QUE EL FALLO VIENE DESDE GETHORARIO_GYM YA QUE HE DESCUBIERTO UNA ANIDACION EXTRAÑA)
+
     public static function eliminarDisciplina($nombre_actividad) {
-        $clases_filtradas = self::Clases_filtradas('nombre_actividad', $nombre_actividad);
-        $clases = self::$horario_gym;
-
-        //Obtenemos todos los monitores, para restar sus jornadas de la disciplina que impartían (si es necesario):
-        $monitores = Trabajador::getTrabajadoresMonitores();
-
-        foreach ($clases as $id_clase => $obj_clase) {
-            if (array_key_exists($id_clase, $clases_filtradas)) {
-                // Reducimos la jornada laboral del monitor que impartía esta disciplina para mantener los datos actualizados:
-                $dni_monitor_clase_eliminada = $obj_clase->__get('dni_monitor');
-
-                if (isset($monitores[$dni_monitor_clase_eliminada])) {
-                    $monitor = $monitores[$dni_monitor_clase_eliminada]; // Obtenemos el objeto monitor
-                    $jornada_monitor = $monitor->__get('jornada'); // Obtenemos su jornada
-                    $jornada_monitor -= self::DURACION_CLASE; // Restamos dos horas, de la clase que estamos eliminando
-                    $monitor->__set('jornada', $jornada_monitor); // Actualizamos los cambios
-                }
-
-                unset(self::$horario_gym[$id_clase]); // Eliminamos el objeto del array que almacena todas las clases
-                unset($obj_Clase); // Eliminamos el objeto en sí.
-            }
+        
+        $clases = self::getHorario_gym();
+    
+        if (empty($clases)) {
+            throw new Exception("No hay clases disponibles para eliminar.");
         }
+    
+       
+        $clases_actualizadas = array_filter($clases, function($clase) use ($nombre_actividad) {
+            return $clase->__get('nombre_actividad') !== $nombre_actividad;
+        });
+    
+       
+        if (count($clases_actualizadas) === count($clases)) {
+            throw new Exception("No se encontraron clases para la disciplina: $nombre_actividad.");
+        }
+    
+        // Guardar el nuevo horario en el JSON
+        $resultado = file_put_contents(self::RUTA_JSON_CLASE, json_encode($clases_actualizadas, JSON_PRETTY_PRINT));
+    
+        if ($resultado === false) {
+            throw new Exception("Error al guardar los cambios en el archivo JSON.");
+        }
+    
+        return true; // Éxito
     }
-
+    
     public static function getHorario_gym() {
         try {
-            
-
+            // Si ya existe un horario cargado, retornar directamente
+            if (!empty(self::$horario_gym)) {
+                return self::$horario_gym;
+            }
+    
             // Leer el contenido actual del archivo JSON
             $clasesJSON = file_get_contents(self::RUTA_JSON_CLASE);
-            $clasesJSON = json_decode($clasesJSON, true);
-
-            foreach ($clasesJSON as $i => $claseJSON) {
-                new Clase(
-                    //id_clase y hora_fin se crean en el costructor automáricamente
-                    $claseJSON['dni_monitor'],
-                    $claseJSON['nombre_actividad'],
-                    $claseJSON['dia_semana'],
-                    $claseJSON['hora_inicio']
+            $clasesData = json_decode($clasesJSON, true);
+    
+            // Inicializar el array horario_gym (evitar duplicados o reinicios incorrectos)
+            self::$horario_gym = [];
+    
+            foreach ($clasesData as $claseData) {
+                $clase = new Clase(
+                    $claseData['dni_monitor'],
+                    $claseData['nombre_actividad'],
+                    $claseData['dia_semana'],
+                    $claseData['hora_inicio']
                 );
+                self::$horario_gym[] = $clase;
             }
-
-            // Se crea el array con todas las clases cuando llamamos al constructor.
-            return self::$horario_gym; 
-
+    
+            return self::$horario_gym;
         } catch (datosIncorrectos $e) {
             return $e->datosIncorrectos();
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
+    
+        
+    
+        
+    
+        
+    
 
     public function toArray() {
         return [
@@ -241,5 +234,8 @@ final class Clase {
             'hora_fin' => $this->hora_fin
         ];
     }
+
+       
+      
 }
 ?>

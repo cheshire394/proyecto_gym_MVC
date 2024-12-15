@@ -1,4 +1,13 @@
 {
+    "lunes-10:00": {
+        
+        "dni_monitor": "50489319H",
+        "nombre_actividad": "capoeira",
+        "dia_semana": "lunes",
+        "hora_inicio": "10:00",
+        "hora_fin": "12:00"        
+            
+    },
     "lunes-12:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
@@ -159,12 +168,5 @@
         "dia_semana": "sabado",
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
-    },
-    "lunes-10:00": {
-        "dni_monitor": "50489319H",
-        "nombre_actividad": "MMA",
-        "dia_semana": "lunes",
-        "hora_inicio": "10:00",
-        "hora_fin": "12:00"
     }
 }

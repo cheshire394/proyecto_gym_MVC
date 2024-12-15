@@ -11,12 +11,12 @@
    
     <fieldset>
         <legend>Datos:</legend>
-        <form method="POST" action="index_clases.php?action=sustituirMonitor.php">
+        <form method="POST" action="index_clases.php?action=sustituirMonitor">
 
             <label for="dni_monitor">DNI del Monitor sustituto:</label>
             <select id="dni_monitor" name="dni_monitor" required>
 
-                <?php
+            <?php
                 /* This PHP code block is reading data from a JSON file that contains information about
                 monitors.
                 Es necesario para rescatar los dni, que tenemos en el json para que el usuario no pueda insertar cualquier DNI */
@@ -24,15 +24,16 @@
                 if (file_exists($monitoresJson)) {
                     $jsonData = file_get_contents($monitoresJson);
                     $monitores = json_decode($jsonData, true); // Decodificamos el contenido JSON a un array asociativo
-                    foreach ($monitores as $monitor) {
-                        echo '<option value="' . $monitor['dni'] . '">'
-                            . $monitor['dni'] . ' - ' . $monitor['nombre']
+                    foreach ($monitores as $dni_monitor => $monitor) {
+                        echo '<option value="' . $dni_monitor . '">'
+                            . $dni_monitor . ' - ' . $monitor['nombre']
                             . '</option>';
                     }
                 } else {
                     echo '<option value="" disabled>No se encontraron monitores disponibles</option>';
                 }
                 ?>
+
 
             </select>
             <br><br>
@@ -65,12 +66,14 @@
         <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
     </fieldset>
 
-    <?php
-           if (isset($_GET['msg']) && $_GET['msg'] == 'errorSustituido') {
-           
-            echo "<p style='color: red;'><b>Error, el monitor no ha sido sustituido</b></p>";
-        }
-
-    ?>
+    
+     <?php
+     if (isset($_GET['msg'])) {
+         $mensaje = htmlspecialchars($_GET['msg']);
+         echo "<p style='color: red;'><b>$mensaje</b></p>";
+     }
+     ?>
+     
+   
 </body>
 </html>

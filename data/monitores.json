@@ -7,9 +7,9 @@
         "email": "laura_boxing@gmail.com",
         "cuenta_bancaria": "ES9123456789012345678901",
         "funcion": "monitor",
-        "sueldo": 400,
+        "sueldo": 360,
         "horas_extra": 0,
-        "jornada": 20,
+        "jornada": 18,
         "disciplinas": [
             "boxeo",
             "kickboxing",
@@ -18,13 +18,6 @@
             "capoira"
         ],
         "clases": {
-            "lunes-10:00": {
-                "dni_monitor": "50489319H",
-                "nombre_actividad": "MMA",
-                "dia_semana": "lunes",
-                "hora_inicio": "10:00",
-                "hora_fin": "12:00"
-            },
             "lunes-12:00": {
                 "nombre_actividad": "kickboxing",
                 "dia_semana": "lunes",
@@ -70,6 +63,13 @@
             "sabado-10:00": {
                 "nombre_actividad": "boxeo",
                 "dia_semana": "sabado",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            },
+            "lunes-10:00": {
+                "dni_monitor": "55462206Y",
+                "nombre_actividad": "moay thai",
+                "dia_semana": "lunes",
                 "hora_inicio": "10:00",
                 "hora_fin": "12:00"
             }
@@ -139,13 +139,14 @@
         "email": "ana.judo@gmail.com",
         "cuenta_bancaria": "ES9345678901234567890123",
         "funcion": "monitor",
-        "sueldo": 320,
+        "sueldo": 360,
         "horas_extra": 0,
-        "jornada": 16,
+        "jornada": 18,
         "disciplinas": [
             "judo",
             "aikido",
-            "capoira"
+            "capoira",
+            "moay thai"
         ],
         "clases": {
             "martes-10:00": {

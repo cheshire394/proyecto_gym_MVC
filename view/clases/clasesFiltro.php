@@ -45,6 +45,7 @@
     </style>
 </head>
 <body>
+
     <h1>Horario del Gimnasio con clases Filtradas</h1>
     <fieldset>
         <legend style="font-size: large;">Filtro:</legend>
