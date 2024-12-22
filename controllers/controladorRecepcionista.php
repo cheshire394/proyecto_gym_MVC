@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 
 require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Trabajador.php';
@@ -11,11 +9,12 @@ class ControladorRecepcionista {
     public function registro() {
         // Verificar que se han enviado los datos por POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            
             include __DIR__ . '/../view/login_recepcionista.php';
             return;
         }
 
-        echo "PRUEBA: estoy en regitro de controllers.php";
+       
 
 
         // Recuperar datos del formulario
@@ -46,9 +45,7 @@ class ControladorRecepcionista {
             session_start(); 
             $_SESSION['dni'] = $_POST['dni']; 
             header("Location: /proyecto_gym_MVC/view/registro_recepcionista.php?error=dni_existente");
-exit;
 
-            
             exit();
         }
 
@@ -93,14 +90,6 @@ exit;
     }
 
 
-    //NO FUNCIONA
-   /* public function olvidado($dni){
-
-      Trabajador::olvidado($dni); 
-      header("Location: /proyecto_gym_MVC/view/registro_recepcionista.php?error=nuevo_dni"); 
-      exit; 
-
-    }*/
 }
 
 

@@ -11,11 +11,8 @@
 
         public function datosIncorrectos(){
 
-            $msg = "EXCEPCIÓN PERSONALIZADA ARCHIVO: ".$this->getFile(). 
-            "<br> LINEA DE CÓDIGO: ". $this->getLine(). 
-            "<br> MENSAJE DE ERROR DESDE DONDE SE HA CAPTURADO LA EXCEPCIÓN: ".$this->getMessage(); 
-            
-            return $msg; 
+        
+            return $this->getMessage(); 
             
         }
     }

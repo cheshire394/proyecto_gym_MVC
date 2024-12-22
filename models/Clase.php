@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 include_once('datosIncorrectos.php');
 require_once('Persona.php');
@@ -19,10 +16,10 @@ final class Clase {
     private $hora_inicio;
     private $hora_fin;
     private $id_clase;
-    private static $horario_gym = [];
     
 
     function __construct($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio) {
+
         $this->dni_monitor = $dni_monitor;
         $this->nombre_actividad = $nombre_actividad;
         $this->dia_semana = $dia_semana;
@@ -44,6 +41,8 @@ final class Clase {
     }
 
 
+    // La unica propiedad de la clase que modificable es el dni del monitor que la imparte, para mantener la congruencia de los datos, ya que 
+    // la hora_inicio y la semana constituye la clave primaria, (y representa un espacio de tiempo físico dentro del gimnasio).
     public function setDni_monitor($dni_monitor)
     {
             $this->dni_monitor = $dni_monitor;
@@ -53,6 +52,30 @@ final class Clase {
 
 
 
+
+   /**
+    * The function `addClase` creates a new class, saves it in JSON format, updates monitor data
+    * affected by schedule changes, and throws an exception if the monitor data update fails.
+    * 
+    * @param dni_monitor The `dni_monitor` parameter in the `addClase` function represents the ID
+    * number of the monitor who will be assigned to teach the class. It is a unique identifier for each
+    * monitor in the system.
+    * @param nombre_actividad The `nombre_actividad` parameter in the `addClase` function represents
+    * the name of the activity or class that is being added. It could be something like "Yoga",
+    * "Pilates", "Zumba", etc. This parameter is used to create a new instance of the `
+    * @param dia_semana The parameter `dia_semana` represents the day of the week for the class. It
+    * could be a string indicating the day such as "Monday", "Tuesday", etc., or it could be
+    * represented by a numerical value where 1 represents Monday, 2 represents Tuesday, and so on.
+    * @param hora_inicio The parameter `hora_inicio` in the `addClase` function represents the start
+    * time of the class. It is the time at which the class will begin. This parameter is used to
+    * specify the exact time when the class will start, typically in a 24-hour format (e.g.,
+    * 
+    * @return The `addClase` function is returning the result of the
+    * `Monitor::actualizarDatosMonitores` method, which is stored in the variable ``. If
+    * the data is updated successfully, it will return `true`. If there is an error during the update
+    * process, it will throw an exception with the message 'ha surgido un error al actualizar los datos
+    * de los monit
+    */
     public static function addClase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio) {
         
         // Crear la clase
@@ -61,8 +84,13 @@ final class Clase {
         // Guardar clase en JSON
         $monitor_clase_sustituida = $clase_creada->guardarClaseEnJSON();
 
+
         //Actualiazar los datos de los monitores afectados con el cambio de horario
         $actualizado= Monitor::actualizarDatosMonitores($dni_monitor, $monitor_clase_sustituida, $clase_creada);
+
+
+        //si los datos actualizados no se han guardao bien lanzamos excepcition
+        if(!$actualizado) throw new Exception('ha surgido un error al actualizar los datos de los monitores'); 
 
         
        return $actualizado; 
@@ -74,6 +102,14 @@ final class Clase {
    
 
 
+    /**
+     * The function `guardarClaseEnJSON` reads, updates, and saves class data in a JSON file, replacing
+     * any existing class with the same ID and returning the previous monitor's ID.
+     * 
+     * @return The function `guardarClaseEnJSON()` is returning the variable
+     * ``, which contains the DNI of the monitor of the class that was
+     * replaced or removed during the process of updating the JSON data with a new class.
+     */
     private function guardarClaseEnJSON() {
       
         // Leer el contenido actual del archivo JSON
@@ -83,10 +119,12 @@ final class Clase {
         //Si existe otra clase con otro id_clase igual al que estamos insertando, eliminamos:
         $monitor_clase_sustituida=null; 
         foreach ($clasesJSON as $id_clase => $claseJSON) {
+
             if ($id_clase == $this->id_clase) {
-                $monitor_clase_sustituida = $claseJSON['dni_monitor']; // Obtener el DNI del monitor de la clase existente
-                unset($clasesJSON[$id_clase]); // Eliminar la clase existente
-                break;
+
+                // Obtener el DNI del monitor de la clase antes de eliminarla, ya que habrá que modificar sus condicones:
+                $monitor_clase_sustituida = $claseJSON['dni_monitor']; 
+                unset($clasesJSON[$id_clase]); // Eliminar la clase que ocupaba ese lugar en el horario
             }
         }
 
@@ -101,31 +139,75 @@ final class Clase {
     }
 
 
+
+
     
 
+    /**
+     * The PHP function `sustituirMonitor` replaces a monitor in a gym class schedule with a substitute
+     * monitor, updating the necessary data and saving the changes.
+     * 
+     * @param dni_monitor_sustituto The parameter `dni_monitor_sustituto` in the `sustituirMonitor`
+     * function represents the ID or identifier of the substitute monitor who will be replacing another
+     * monitor in a specific class at a particular day and time. This function is responsible for
+     * substituting a monitor in a class schedule with
+     * @param dia_semana The parameter `dia_semana` in the `sustituirMonitor` function represents the
+     * day of the week for which you want to substitute a monitor in a gym class. It is used to
+     * identify the specific class based on the day of the week and the start time.
+     * @param hora_inicio The parameter `` in the `sustituirMonitor` function represents
+     * the start time of the class for which you want to substitute the monitor. It is used to identify
+     * a specific class within the schedule. For example, if a class starts at 10:00 AM, the `$
+     * 
+     * @return a boolean value `true` if the monitor substitution is successful.
+     */
     public static function sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio) {
-        $clases = Clase::getHorario_gym();
-        $id_clase = $dia_semana . "-" . $hora_inicio;
-    
-        if (isset($clases[$id_clase])) {
-            $dni_monitor_sustituido = $clases[$id_clase]->__get('dni_monitor');
-    
-            if ($dni_monitor_sustituto === $dni_monitor_sustituido) {
-                throw new Exception("Excepción: El monitor seleccionado es el mismo que el actual.");
+
+            $clases = Clase::getHorario_gym();
+            $id_clase = $dia_semana . "-" . $hora_inicio;
+        
+            if (isset($clases[$id_clase])) {
+
+
+                $dni_monitor_sustituido = $clases[$id_clase]->dni_monitor;
+        
+                if ($dni_monitor_sustituto === $dni_monitor_sustituido) {
+
+                    throw new datosIncorrectos("Excepción personalizada: El monitor seleccionado es el mismo que el actual.");
+
+                } 
+
+                    //cambiamos el monitor en el json clases: 
+                    $clases[$id_clase]->setDni_monitor($dni_monitor_sustituto);
+
+                    // Guardar clase en JSON
+                    $clases[$id_clase]->guardarClaseEnJSON();
+
+                    // Actualizar datos de los monitores afectados
+                    Monitor::actualizarDatosMonitores($dni_monitor_sustituto, $dni_monitor_sustituido, $clases[$id_clase]);
+                
+
+                    return true; // Sustitución exitosa
+
             } else {
-                $clases[$id_clase]->setDni_monitor($dni_monitor_sustituto);
-                // Guardar clase en JSON
-                $clases[$id_clase]->guardarClaseEnJSON();
-                // Actualizar datos de los monitores afectados
-                Monitor::actualizarDatosMonitores($dni_monitor_sustituto, $dni_monitor_sustituido, $clases[$id_clase]);
+
+                throw new datosIncorrectos("La clase indicada no está incluida en el horario, por favor selecciona una clase que se este impartiendo");
+
             }
-            return true; // Sustitución exitosa
-        } else {
-            throw new Exception("La clase indicada no está incluida en el horario.");
-        }
     }
     
 
+    /**
+     * The function calculates the end time of a class based on the given start time, with each class
+     * lasting for two hours.
+     * 
+     * @param hora_inicio The `hora_inicio` parameter in the `horaFinalClase` function represents the
+     * starting time of a class. It is expected to be a string in the format "HH:MM" where HH is the
+     * hour in 24-hour format. The function extracts the hour part from this parameter and calculates
+     * 
+     * @return The function `horaFinalClase` takes a starting time as input, extracts the hour part,
+     * adds a constant duration of two hours to it, and returns the calculated end time in the format
+     * "HH:00".
+     */
     private function horaFinalClase($hora_inicio) {
         $hora_inicio = substr($hora_inicio, 0, 2);
         $hora_fin = strval(intval($hora_inicio) + self::DURACION_CLASE);  //Cada clase durará dos horas
@@ -133,30 +215,81 @@ final class Clase {
         return "$hora_fin:00";
     }
 
+
+    
+  /**
+   * The function `Clases_filtradas` filters classes based on a specified property and value, returning
+   * an ordered schedule if any classes match the filter criteria.
+   * 
+   * @param propiedad_filtrada La variable `` en la función `Clases_filtradas` se
+   * refiere a la propiedad por la cual se desea filtrar las clases. Por ejemplo, si se quiere filtrar
+   * las clases por el tipo de clase (como "Yoga", "Pilates
+   * @param valor_filtrado The `valor_filtrado` parameter is the value that the user wants to filter
+   * the classes by. It is used to filter the classes based on a specific property value. For example,
+   * if the user wants to filter classes by the instructor's name, the `valor_filtrado` would be
+   * 
+   * @return The `Clases_filtradas` function returns either an ordered schedule array based on the
+   * filtered classes or an empty array if no classes match the filtering criteria set by the user.
+   */
     public static function Clases_filtradas($propiedad_filtrada, $valor_filtrado) {
-        try {
-            
-            //Recoge todos los monitores guardados en el Json , crea los objetos, y los en un array.
+      
+
+            //Recoge todos los monitores guardados en el Json , crea los objetos, y los devuelve en un array.
             $clases = self::getHorario_gym(); 
+
+            //La excepción salta solamente si no hay clases en el horario, no cuando los filtros no son coincidentes en ninguna clase
+            if(empty($clases)) throw new datosIncorrectos('No hay ninguna clase en el horario'); 
             
-            //el primer parametro retorna rescata los valores del json, crea las clases y las retorna
+            //Filtramos las clases que según la propiedad y el valor que ha decidido el usuario:
             $clases_filtradas = array_filter($clases, function($clase) use ($propiedad_filtrada, $valor_filtrado) {
                 return $clase->$propiedad_filtrada === $valor_filtrado;
             });
 
-            return $clases_filtradas;
+           
+             //organizamos el horario antes de retornarlo si hay alguna clase filtrada:
+            if(!empty($clases_filtradas))  return $horario_ordenado = self::ordenarHorario($clases_filtradas);
+
+
+            else return []; //Si ningún filtro coincidia con las insercciones del usuario, enviamos el horario vacio...(las casillas saldrán en rojo todas)
+
             
-        } catch (datosIncorrectos $e) {
-            return $e->datosIncorrectos();
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
     }
+
+
+
+
+       /**
+        * The function ordenarHorario organizes a given schedule array by day of the week and start
+        * time before returning it.
+        * 
+        * @param horario The `ordenarHorario` function takes an array `` as input, where each
+        * element represents a class schedule object. The function then organizes this schedule by day
+        * of the week and start time before returning the sorted schedule in the form of a
+        * multidimensional array `
+        * 
+        * @return The function `ordenarHorario` is returning an organized schedule array
+        * `` where the classes are grouped by day of the week and sorted by start
+        * time.
+        */
+        public static function ordenarHorario($horario){
+
+             //organizamos el horario antes de retornarlo
+             $horario_ordenado = [];
+            foreach ($horario as $id_clase => $obj_Clase) {
+                $claseArray = $obj_Clase->toArray();
+                $horario_ordenado[$claseArray['dia_semana']][$claseArray['hora_inicio']] = $claseArray;
+            }
+
+            return $horario_ordenado; 
+
+        }
+
+
+      
 
  
 
-    //NO CONSIGO QUE FUNCIONE (SOSPECHO QUE EL FALLO VIENE DESDE GETHORARIO_GYM YA QUE HE DESCUBIERTO UNA ANIDACION EXTRAÑA)
-
+        //NO CONSIGO QUE FUNCIONE
     public static function eliminarDisciplina($nombre_actividad) {
         
         $clases = self::getHorario_gym();
@@ -165,64 +298,70 @@ final class Clase {
             throw new Exception("No hay clases disponibles para eliminar.");
         }
     
-       
-        $clases_actualizadas = array_filter($clases, function($clase) use ($nombre_actividad) {
-            return $clase->__get('nombre_actividad') !== $nombre_actividad;
-        });
     
-       
-        if (count($clases_actualizadas) === count($clases)) {
-            throw new Exception("No se encontraron clases para la disciplina: $nombre_actividad.");
+        //Eliminamos las clases que tienen es nombre de actividad: 
+
+        foreach($clases as $id_clase =>  $clase){
+
+            $propiedades = get_object_vars($clase); 
+            
+            foreach($propiedades as  $valor){
+
+                if($valor == $nombre_actividad) unset($clases[$id_clase]); 
+
+            }
         }
-    
+
         // Guardar el nuevo horario en el JSON
-        $resultado = file_put_contents(self::RUTA_JSON_CLASE, json_encode($clases_actualizadas, JSON_PRETTY_PRINT));
+        $resultado = file_put_contents(self::RUTA_JSON_CLASE, json_encode($clases, JSON_PRETTY_PRINT));
+
     
-        if ($resultado === false) {
-            throw new Exception("Error al guardar los cambios en el archivo JSON.");
-        }
-    
-        return true; // Éxito
+        return true; 
     }
+
     
+   
+   
+     
+   
+   /**
+    * This PHP function reads the content of a JSON file containing gym class information and returns
+    * an array of class objects.
+    * 
+    * @return Array array of Clase objects representing the gym schedule is being returned. Each Clase
+    * object contains information about a specific class, including the monitor's ID, activity name,
+    * day of the week, and start time.
+    */
     public static function getHorario_gym() {
-        try {
-            // Si ya existe un horario cargado, retornar directamente
-            if (!empty(self::$horario_gym)) {
-                return self::$horario_gym;
-            }
+
     
-            // Leer el contenido actual del archivo JSON
-            $clasesJSON = file_get_contents(self::RUTA_JSON_CLASE);
-            $clasesData = json_decode($clasesJSON, true);
-    
-            // Inicializar el array horario_gym (evitar duplicados o reinicios incorrectos)
-            self::$horario_gym = [];
-    
-            foreach ($clasesData as $claseData) {
-                $clase = new Clase(
-                    $claseData['dni_monitor'],
-                    $claseData['nombre_actividad'],
-                    $claseData['dia_semana'],
-                    $claseData['hora_inicio']
-                );
-                self::$horario_gym[] = $clase;
-            }
-    
-            return self::$horario_gym;
-        } catch (datosIncorrectos $e) {
-            return $e->datosIncorrectos();
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
+                // Leer el contenido actual del archivo JSON
+                $clasesJSON = file_get_contents(self::RUTA_JSON_CLASE);
+                $clasesJSON= json_decode($clasesJSON, true);
+
+                
+                $horario_gym = [];
+                foreach ($clasesJSON as $id_clase => $claseJson) {
+                    $clase = new Clase(
+                        $claseJson['dni_monitor'],
+                        $claseJson['nombre_actividad'],
+                        $claseJson['dia_semana'],
+                        $claseJson['hora_inicio']
+                    );
+                    $horario_gym[$id_clase] = $clase;
+                }
+
+                
+
+                return $horario_gym;
+
     }
     
-        
+
+
     
-        
-    
-        
-    
+    //Esta función permite escribir en el JSON los datos de los objetos, y además nos permite acceder a las propiedades de los objetos fuera del
+    // script de la clase que lo ejecuta,(a diferencia de get_objects_value()).
 
     public function toArray() {
         return [

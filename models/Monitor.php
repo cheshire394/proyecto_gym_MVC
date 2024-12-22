@@ -1,10 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
 final class Monitor extends Trabajador {
 
     const RUTA_JSON_MONITORES= __DIR__ . '/../data/monitores.json';  
@@ -57,11 +52,11 @@ final class Monitor extends Trabajador {
         $monitoresObjetos = []; // Inicializar array para almacenar objetos Monitor
 
         foreach ($monitores as $dni_monitor => $monitor) {
-            // Calcular la jornada en función del número de clases
+            // Calculamos la jornada en función del número de clases
             $jornada = count($monitor['clases']) * Clase::DURACION_CLASE; // Cada clase dura 2 horas
 
-            // Calcular el sueldo dinámicamente
-            $sueldo = $jornada * self::EUROS_HORA; // 20 euros por hora
+            // Calculamos el sueldo 
+            $sueldo = $jornada * self::EUROS_HORA; // 30 euros por hora
 
             // Crear el objeto Monitor
             $monitorObj = new Monitor(
@@ -113,55 +108,49 @@ final class Monitor extends Trabajador {
     }
 
     public static function guardarMonitoresEnJSON($monitoresObj) {
-        try {
+        
             $monitoresArray = [];
         
             foreach ($monitoresObj as $dni_monitor => $monitorObj) {
-                // Convertir cada objeto a array, con depuración
+
+                // Convertir cada objeto a array
                 $monitorArray = $monitorObj->to_array();
                 
-                // Verificar que las clases sean arrays 
+                // como los monitores, tienen asociadas clases (objetos), debemos covertirlos también a array.
                 if (isset($monitorArray['clases']) && is_array($monitorArray['clases'])) {
+
                     $monitorArray['clases'] = array_map(function($clase) {
-                        return is_object($clase) ? $clase->toArray() : $clase;
+
+                        return is_object($clase) ? $clase->toArray() : $clase;  //llama a toArray de clase "clases"
+
                     }, $monitorArray['clases']);
+
                 }
                 
+                //añadimos el monitor al array común con todos los monitores
                 $monitoresArray[$dni_monitor] = $monitorArray;
             }
         
-            // Guardar con más opciones de JSON
-            $json = json_encode($monitoresArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            //guardamos los monitores...en formato JSON
+            $guardado = file_put_contents(self::RUTA_JSON_MONITORES, json_encode($monitoresArray, JSON_PRETTY_PRINT));
             
-            // Verificaciones adicionales
-            if ($json === false) {
-                error_log("Error en la codificación JSON");
-                return false;
-            }
-            
-            $resultado = file_put_contents(self::RUTA_JSON_MONITORES, $json);
-            
-            if ($resultado === false) {
-                error_log("Error al escribir en el archivo JSON de monitores");
-            }
-            
-            return $resultado !== false;
-        } catch (Exception $e) {
-            error_log("Excepción al guardar monitores: " . $e->getMessage());
-            return false;
-        }
-    }
+           
+            return $guardado; 
+        } 
+    
 
 
     public static function actualizarDatosMonitores($dni_monitor, $monitor_clase_sustituida,$clase_creada){
 
-       // Obtener monitores
+       // Obtenemos monitores desde json
        $monitoresObj = Monitor::monitoresJSON();
 
        $id_clase = $clase_creada->__get('id_clase'); 
        $nombre_actividad= $clase_creada->__get('nombre_actividad'); 
        
 
+       //Solamente es necesario ejecutarlo, si existia previamente un monitor con esa clase previamente. 
+       //(puede ser string dni_monitor o puede ser null, depende del retorno de guardarClaseJSON).
        if(!empty($monitor_clase_sustituida)){
 
            if ($dni_monitor !== $monitor_clase_sustituida){ 
@@ -171,18 +160,20 @@ final class Monitor extends Trabajador {
                $monitoresObj[$monitor_clase_sustituida]->__set('jornada', $actualizar_jornada); 
            
            }
-           // eliminar la clase del objeto  porque ya no la va impartir esa clase (ha sido eliminada en guardarClaseJSON())
+
+           // eliminams la clase del objeto  porque ya no la va impartir esa clase (ha sido eliminada en guardarClaseJSON())
            $monitor_clases =$monitoresObj[$monitor_clase_sustituida]->__get('clases'); 
            unset($monitor_clases[$id_clase]); 
-           // Actualizar las clases del monitor en el objeto
+
+           // Actualizamos las clases del monitor en el objeto
            $monitoresObj[$monitor_clase_sustituida]->__set('clases', $monitor_clases);
        }
        
-   
+   //Actualizamos los datos del monitor que impartirá la nueva clase: 
        
        if ($dni_monitor !== $monitor_clase_sustituida) {
          
-           // Actualizar jornada
+           // Actualizamos la jornada
            $jornada_monitor = $monitoresObj[$dni_monitor]->__get('jornada');
            $actualizar_jornada = $jornada_monitor + Clase::DURACION_CLASE;
            $monitoresObj[$dni_monitor]->__set('jornada', $actualizar_jornada);
@@ -190,13 +181,13 @@ final class Monitor extends Trabajador {
 
        }
 
-       // Actualizar clases del monitor
+       // Actualizamos clases del monitor
        $clases_monitor = $monitoresObj[$dni_monitor]->__get('clases');
        $clases_monitor[$id_clase] = $clase_creada;
        $monitoresObj[$dni_monitor]->__set('clases', $clases_monitor);
        
-
-        // Actualizar disciplinas
+ 
+        // Actualizamos las disciplinas del monitor (solamente, si no la tenia asignada antes)
         $disciplinas_monitor = $monitoresObj[$dni_monitor]->__get('disciplinas');
         if (!in_array($nombre_actividad, $disciplinas_monitor)) {
             $disciplinas_monitor[] = $nombre_actividad;
@@ -204,7 +195,7 @@ final class Monitor extends Trabajador {
            
         }
 
-           // Intentar guardar y verificar
+           // guardar y verificar que se ha guardado
            $guardado = Monitor::guardarMonitoresEnJSON($monitoresObj);
 
    

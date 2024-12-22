@@ -103,11 +103,14 @@ $horario = ControladorClases::mostrar_todas_Clases();
             
             }
 
-            if (isset($_GET['msg']) && $_GET['msg'] == 'eliminadaDisciplina') {
+            
+        if (isset($_GET['msg']) && $_GET['msg'] == 'eliminadaDisciplina') {
            
-                echo "<p style='color: green;'><b>La disciplina ha sido eliminada correctamente</b></p>";
+            echo "<p style='color: green;'><b>La disciplina ha sido eliminada correctamente</b></p>";
                 
-                }
+            }
+
+        
 
             
 

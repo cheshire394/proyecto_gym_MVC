@@ -70,9 +70,12 @@
     </fieldset>
     <br>
     <?php
-           if (isset($_GET['msg']) && $_GET['msg'] == 'errorAddClase') {
+
+        //Imprime el mensaje de error si se ha capturado una excepción.
+
+           if (isset($_GET['msg'])) {
            
-            echo "<p style='color: red;'><b>Error, la clase no ha sido añadida</b></p>";
+            echo "<p style='color: red;'><b>".$_GET['msg']."</b></p>";
         }
 
     ?>

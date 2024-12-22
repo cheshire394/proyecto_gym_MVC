@@ -1,14 +1,5 @@
-<!-- Clase Persona -->
 
 <?php
-/* The code `ini_set('display_errors', 1); ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);` is used in PHP to configure the error reporting settings. */
-//Visualizar errores
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-//Clase
 abstract class Persona {
 
     /* Creamos las propiedades como 'protected' porque esta clase es abstracta y no va a crear objetos directamente. 
@@ -74,7 +65,7 @@ abstract class Persona {
     */
     private function validarDni($dni){
 
-        require_once('datosIncorrectos.php'); 
+       
         $check_dni  = false; 
         $dni_numeros = substr($dni, 0, 8); 
         $letraIntroducida = substr($dni, -1, 1); 
@@ -111,6 +102,8 @@ abstract class Persona {
         return $diferencia->y;
     }
     
+
+
     // Método mágico abstracto para obtener el valor de $name
     abstract public function __get($name);
     

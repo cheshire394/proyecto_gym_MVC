@@ -1,21 +1,19 @@
 <?php
-require_once('datosIncorrectos.php'); 
+
 
 class Trabajador extends Persona {
 
-    
-    const EUROS_HORA=20;
+    const RUTA_JSON_RECEPCIONISTAS = __DIR__ . '/../data/recepcionistas.json';
+    const EUROS_HORA=30;
+
     private $funcion; 
     private $sueldo; 
     private $jornada; 
     private $horas_extra; 
     private $cuenta_bancaria;
-    protected static $file = __DIR__ . '/../data/recepcionistas.json';
+    
 
-    private static $trabajadores = [
-        'recepcionistas' => [],
-        'monitores'=> [],
-    ]; 
+  
 
     
       
@@ -30,53 +28,57 @@ class Trabajador extends Persona {
     $this->horas_extra = $horas_extra;
     $this->jornada = $jornada;
 
-    
-
     //propiedades heredadas:
     parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email);
     
-    //los objetos son copiados en el array por referencia implicitamente, esto hace que el array que almacena los objetos
-    // actualice sus datos cuando ejecutamos un setter sobre cualquier objeto. 
-    if($funcion == 'recepcionista')self::$trabajadores['recepcionistas'][$this->dni]=$this; 
-    else self::$trabajadores['monitores'][$this->dni]=$this; 
+
 }
 
         
 
     public function __set($name, $value) {
+
         if (property_exists($this, $name)) {
 
             $this->$name = $value; 
+
             if($name == 'horas_extra') $this->cobrarHorasExtra();
+
             if($name == 'jornada'){
+
                 $actualizar_sueldo= $value * Trabajador::EUROS_HORA; 
                 $this->__set('sueldo', $actualizar_sueldo); 
             }
+
         } else {
             throw new Exception('ERROR EN EL SETTER TRABAJADOR: LA PROPIEDAD QUE DESEAS MODIFICAR NO EXISTE'); 
         }
     }
 
     public function __get($name) {
+
         if (property_exists($this, $name)) {
             return $this->$name; 
+
         } else {
             throw new Exception('ERROR EN EL GETTER TRABAJADOR: LA PROPIEDAD QUE DESEAS OBTENER NO EXISTE');
         }
     }
 
    
-    //METODOS PARA MANEJAR EN CONTROLADOR: 
+    //METODOS PARA MANEJAR EL LOGEO DE LA TRABAJADORA RECEPCIONISTA:
 
     public static function getAllRecepcionistas() {
-        // Verificar si el archivo JSON existe
-        if (!file_exists(self::$file)) {
-            // Crear un archivo JSON vacío si no existe
-            file_put_contents(self::$file, json_encode([]));
+
+        // si el archivo JSON existe
+        if (!file_exists(self::RUTA_JSON_RECEPCIONISTAS)) {
+
+            // Creamos un archivo JSON vacío si no existe, si es el primer logeo
+            file_put_contents(self::RUTA_JSON_RECEPCIONISTAS, json_encode([]));
         }
 
         // Leer el contenido del archivo JSON
-        $jsonContent = file_get_contents(self::$file);
+        $jsonContent = file_get_contents(self::RUTA_JSON_RECEPCIONISTAS);
         
         // Decodificar el JSON en un array
         $recepcionistas = json_decode($jsonContent, true);
@@ -85,39 +87,46 @@ class Trabajador extends Persona {
         return $recepcionistas ?: [];
     }
 
-    //METODOS PARA MANEJAR EN CONTROLADOR: 
+   
     
+
+
     public static function registrar($datos) {
-        // Obtener recepcionistas existentes
+         
+        //Array con las recepcionistas del JSON
         $recepcionistas = self::getAllRecepcionistas();
 
-        // Verificar si ya existe un recepcionista con ese DNI
+        // Verificamos si ya existe un recepcionista con ese DNI
         foreach ($recepcionistas as $recepcionista) {
             if ($recepcionista['dni'] === $datos['dni']) {
-                return false; // Ya existe
+                return false; // Ya existe, salimos del registro con mensaje informátivo
             }
         }
 
-        // Hashear la contraseña
+        // encriptar las contraseña, en el json.
         $datos['password'] = password_hash($datos['password'], PASSWORD_BCRYPT);
 
-        // Añadir nuevo recepcionista
+        // Añadimos nueva recepcionista
         $recepcionistas[] = $datos;
 
         // Guardar en el JSON
-        file_put_contents(self::$file, json_encode($recepcionistas, JSON_PRETTY_PRINT));
+        file_put_contents(self::RUTA_JSON_RECEPCIONISTAS, json_encode($recepcionistas, JSON_PRETTY_PRINT));
 
-        return true;
+        return true; //registro exitoso
     }
 
+
+
     public static function login($dni, $password) {
-        // Obtener recepcionistas del JSON
+
+        //Array con las recepcionistas del JSON
         $recepcionistas = self::getAllRecepcionistas();
 
-        // Buscar si el DNI coincide
+        // Buscamos si el DNI  y contraseña conincide con las guardadas en el fichero: 
         foreach ($recepcionistas as $recepcionista) {
             if ($recepcionista['dni'] === $dni && password_verify($password, $recepcionista['password'])) {
-                // Guardar información del usuario en la sesión
+
+                // Iniciamos session: 
                 session_start();
                 $_SESSION['dni'] = $dni;
                 $_SESSION['nombre'] = $recepcionista['nombre'];
@@ -129,35 +138,7 @@ class Trabajador extends Persona {
         return false;
     }
 
-    
-    //NO FUNCIONA
-   /* public static function olvidado($dni) {
-        $recepcionistas = self::getAllRecepcionistas(); 
-
-        // Si encontramos la recepcionista con ese DNI, la eliminamos
-        foreach ($recepcionistas as $index => $recepcionista) {
-            if ($recepcionista['dni'] == $dni) {
-                // Eliminar la recepcionista del array
-                unset($recepcionistas[$index]);
-
-                // Guardar el array actualizado en el archivo JSON
-                file_put_contents(self::$file, json_encode(array_values($recepcionistas), JSON_PRETTY_PRINT));
-
-    
-            }
-        }
-
-    }*/
-
-
-
-    //será necesario trabajar con ellos en la clase --> "Clases.php", para asignarles clases y mas funciones. 
-    public static function getTrabajadoresMonitores()
-    {
-        return SELF::$trabajadores['monitores'];
-    }
-
-
+ 
 
     public function validarCuentaBancaria($cuenta) {
         
@@ -174,24 +155,7 @@ class Trabajador extends Persona {
         throw new datosIncorrectos('ERROR: LA CUENTA BANCARIA INTRODUCIDA NO ES VÁLIDA');
     }
 
-    public static function mostrarTrabajadores() {
-        foreach (self::$trabajadores as $key => $Arr_obj) {
-            
-            echo "<h3>Trabajadores con función <b>$key:</b></h3><br>";
     
-            foreach ($Arr_obj as $objeto) {
-                
-                $propiedades = get_object_vars($objeto); //obtenemos las propiedades del objeto
-    
-                foreach ($propiedades as $propiedad => $valor) {
-                    echo "<b>$propiedad</b>: $valor<br>";
-                }
-    
-                echo "<br>"; 
-            }
-        }
-    }
-
 
     //Este metodo solo será llamado desde setter cuando se modifique las horas extra
     private function cobrarHorasExtra(){

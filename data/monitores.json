@@ -7,7 +7,7 @@
         "email": "laura_boxing@gmail.com",
         "cuenta_bancaria": "ES9123456789012345678901",
         "funcion": "monitor",
-        "sueldo": 360,
+        "sueldo": 540,
         "horas_extra": 0,
         "jornada": 18,
         "disciplinas": [
@@ -67,7 +67,7 @@
                 "hora_fin": "12:00"
             },
             "lunes-10:00": {
-                "dni_monitor": "55462206Y",
+                "dni_monitor": "50489319H",
                 "nombre_actividad": "moay thai",
                 "dia_semana": "lunes",
                 "hora_inicio": "10:00",
@@ -77,20 +77,21 @@
     },
     "09626574Q": {
         "nombre": "Carlos",
-        "apellidos": "Gómez Pérez",
+        "apellidos": "Gomez Perez",
         "fecha_nac": "1990-03-12",
         "telefono": "691234567",
         "email": "carlos@gmail.com",
         "cuenta_bancaria": "ES9234567890123456789012",
         "funcion": "monitor",
-        "sueldo": 240,
+        "sueldo": 360,
         "horas_extra": 0,
         "jornada": 12,
         "disciplinas": [
             "taekwondo",
             "karate",
             "boxeo",
-            "MMA"
+            "MMA",
+            "moay thai"
         ],
         "clases": {
             "viernes-10:00": {
@@ -133,20 +134,22 @@
     },
     "55462206Y": {
         "nombre": "Ana",
-        "apellidos": "Martínez López",
+        "apellidos": "Martinez Lopez",
         "fecha_nac": "1988-09-23",
         "telefono": "677123456",
         "email": "ana.judo@gmail.com",
         "cuenta_bancaria": "ES9345678901234567890123",
         "funcion": "monitor",
-        "sueldo": 360,
+        "sueldo": 540,
         "horas_extra": 0,
         "jornada": 18,
         "disciplinas": [
             "judo",
             "aikido",
             "capoira",
-            "moay thai"
+            "moay thai",
+            "capoeira",
+            "MMA"
         ],
         "clases": {
             "martes-10:00": {

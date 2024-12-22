@@ -1,8 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
+require_once __DIR__ . '/../models/datosIncorrectos.php'; //excepción personalizada
 require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Monitor.php';
@@ -10,109 +8,180 @@ require_once __DIR__ . '/../models/Clase.php';
 
 class ControladorClases {
 
-  
+    
+    /**
+     * The function `addClase` in PHP processes form data to add a new class, redirects to a success
+     * message or error message page based on the outcome, and handles exceptions.
+     */
     public static function addClase() {
-        
-        // Obtener los datos del formulario
+
+        //recogemos los valores del formulario (son required, no es necesario comprobar que existan):
         $dni_monitor = $_POST['dni_monitor'];
         $nombre_actividad = $_POST['nombre_actividad'];
         $dia_semana = $_POST['dia_semana'];
         $hora_inicio = $_POST['hora_inicio'];
-    
-        $exitoso = Clase::addClase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio); 
-    
-        if($exitoso){
 
-            // registro  correcto: redirigir a mostrar Clases
-            header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=addClase');
+        try {
+
+            
+                $exitoso = Clase::addClase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio);
+
+
+                //Mensaje de exito, redirige al horario para ver la nueva clase añadida: 
+                if ($exitoso) {
+                    header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=addClase');
+                    exit;
+                } 
+
+                //este método puede capturar excepciones en la manipulacion de getter y setter, y tambíen captura Excepción si los datos de los monitores no se han actualizado correctamente,
+                //enviamos la información de error al usuario a tráves del url.
+            } catch (Exception $e) {
+            $mensaje = urlencode($e->getMessage());
+            header("Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=$mensaje");
             exit;
-        }else{
-            header('Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=errorAddClase');
-            exit;
+
         }
-    
-        
     }
 
+
+
+
+  /**
+   * The function `mostrar_todas_Clases` retrieves all gym classes, sorts them by schedule, and returns
+   * the sorted list.
+   * 
+   * @return The `mostrar_todas_Clases` function is returning the result of the `ordenarHorario` method
+   * called on the `` array after retrieving the classes' schedule using the `getHorario_gym`
+   * method.
+   */
     public static function mostrar_todas_Clases() {
-        $clases = Clase::getHorario_gym();
-        $horario = [];
-    
-        // Organizar las clases por día y hora
-        foreach ($clases as $id_clase => $obj_Clase) {
-            $claseArray = $obj_Clase->toArray(); // Conversión a array para trabajar con los datos
-            $horario[$claseArray['dia_semana']][$claseArray['hora_inicio']] = $claseArray;
-        }
-    
-        // Devolver los datos organizados
-        return $horario;
+            try {
+                
+                $clases = Clase::getHorario_gym();
+
+                $ordenar_horario = Clase::ordenarHorario($clases); 
+            
+                return $ordenar_horario; 
+
+
+            } catch (datosIncorrectos $e) {
+                $mensaje = urlencode($e->datosIncorrectos());
+                header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$mensaje");
+                exit;
+            } catch (Exception $e) {
+                $mensaje = urlencode($e->getMessage());
+                header("Location: /proyecto_gym_MVC/view/clases//verClases.php?msg=$mensaje");
+                exit;
+            }
     }
-    
-    public static function mostrar_clases_filtradas(){
-
-        $propiedad_filtrada = $_POST['propiedad_filtrada']; 
-
-        if($propiedad_filtrada == 'dni_monitor') $valor_filtrado = htmlentities(strtoupper(trim($_POST['valor_filtrado']))); 
-        else $valor_filtrado = htmlentities(strtolower(trim($_POST['valor_filtrado'])));
-        
-        
-        //recuperramos el array con las clases filtradas
-        $clases_filtradas=Clase::Clases_filtradas($propiedad_filtrada, $valor_filtrado);
-
-        if(empty($clases_filtradas)) return []; 
-
-        $horario = [];
-        // Organizar las clases por día y hora
-        foreach ($clases_filtradas as $id_clase => $obj_Clase) {
-            $claseArray = $obj_Clase->toArray(); // Conversión a array para trabajar con los datos
-            $horario[$claseArray['dia_semana']][$claseArray['hora_inicio']] = $claseArray;
-        }
-        // Devolver los datos organizados
-        return $horario;
 
 
-   }
 
 
-   public static function sustituirMonitor() {
-    $dni_monitor_sustituto = $_POST['dni_monitor'];
-    $dia_semana = $_POST['dia_semana'];
-    $hora_inicio = $_POST['hora_inicio'];
+   /**
+    * The function `mostrar_clases_filtradas` in PHP processes user input to filter classes based on a
+    * specified property, handling exceptions and redirecting with error messages if needed.
+    * 
+    * @return The `mostrar_clases_filtradas` function is returning the variable ``,
+    * which contains the result of calling the `Clase::Clases_filtradas` method with the filtered
+    * property and value as parameters.
+    */
+    public static function mostrar_clases_filtradas() {
 
-    try {
-        $exitoso = Clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
-        if ($exitoso) {
-            header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=sustituido');
+            //recogermos el valor del formulario (required): 
+            $propiedad_filtrada = $_POST['propiedad_filtrada'];
+
+
+            //Ajustamos la entrada al método, dependiendo del parametro recibido, ya que dni, necesita pasarse a mayusculas: 
+            if ($propiedad_filtrada == 'dni_monitor') {
+                $valor_filtrado = htmlentities(strtoupper(trim($_POST['valor_filtrado'])));
+            } else {
+                $valor_filtrado = htmlentities(strtolower(trim($_POST['valor_filtrado'])));
+            }
+
+            try {
+
+
+                $clases_filtradas = Clase::Clases_filtradas($propiedad_filtrada, $valor_filtrado);
+
+                return $clases_filtradas; 
+
+            //Datos incorrectos, envia los mensajes de error por parte de usuario y exception son mensaje de error provocados por nuestro código
+            } catch (datosIncorrectos $e) {
+                $mensaje = urlencode($e->datosIncorrectos());
+                header("Location: /proyecto_gym_MVC/view/clases/clasesFiltro.php?msg=$mensaje");
+                exit;
+            } catch (Exception $e) {
+                $mensaje = urlencode($e->getMessage());
+                header("Location: /proyecto_gym_MVC/view/clases//clasesFiltro.php?msg=$mensaje");
+                exit;
+            }
+    }
+
+
+
+
+
+  /**
+   * The function `sustituirMonitor` in PHP handles the substitution of a monitor for a class based on
+   * user input, redirecting to different pages based on success or error.
+   */
+    public static function sustituirMonitor() {
+
+        //recogemos los valores del formulario: 
+        $dni_monitor_sustituto = $_POST['dni_monitor'];
+        $dia_semana = $_POST['dia_semana'];
+        $hora_inicio = $_POST['hora_inicio'];
+
+        try {
+
+            $exitoso = Clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
+
+            if ($exitoso) {
+                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=sustituido');
+                exit;
+            }
+
+
+            //Datos incorrectos, envia los mensajes de error por parte de usuario, exception son mensaje de error provocados por nuestro código
+        } catch (datosIncorrectos $e) {
+            $mensaje = urlencode($e->datosIncorrectos());
+            header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
+            exit;
+        } catch (Exception $e) {
+            $mensaje = urlencode($e->getMessage());
+            header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
             exit;
         }
-    } catch (Exception $e) {
-        // Redirigir con el mensaje de la excepción
-        $mensaje = urlencode($e->getMessage());
-        header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
-        exit;
     }
-}
 
-public static function eliminarDisciplina() {
-    
-    $nombre_actividad = $_POST['nombre_actividad'];
 
-    try {
-        $exitoso = Clase::eliminarDisciplina($nombre_actividad);
 
-        if ($exitoso) {
-            // Redirigir a la página de clases con un mensaje de éxito
-            header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminadaDisciplina');
+
+
+
+
+    public static function eliminarDisciplina() {
+
+        
+        $nombre_actividad = $_POST['nombre_actividad'];
+
+        try {
+            $exitoso = Clase::eliminarDisciplina($nombre_actividad);
+
+            if ($exitoso) {
+                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminadaDisciplina');
+                exit;
+            }
+
+        } catch (datosIncorrectos $e) {
+            $mensaje = urlencode($e->datosIncorrectos());
+            header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
+            exit;
+        } catch (Exception $e) {
+            $mensaje = urlencode($e->getMessage());
+            header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
             exit;
         }
-    } catch (Exception $e) {
-        // Redirigir con el mensaje de la excepción
-        $mensaje = urlencode($e->getMessage());
-        header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
-        exit;
     }
-}
-
-
-
 }

@@ -117,6 +117,15 @@
     <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
     </fieldset>
 
+    <br>
+    
+    <?php
+     if (isset($_GET['msg'])) {
+         $mensaje = htmlspecialchars($_GET['msg']);
+         echo "<p style='color: red;'><b>$mensaje</b></p>";
+     }
+     ?>
+
     <script>
         //Este código ha sido desarrollado por la IA para hacer más atractiva la tabla y el formulario (no evaluable en esta práctica el aspecto estético): 
         document.getElementById("propiedad_filtrada").addEventListener("change", function() {
