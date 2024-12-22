@@ -31,5 +31,13 @@
     <p style="color:red"><b>importante* Esta página no está diseñada para eliminar una clase del horario, su fin es eliminar todas las clases que forman parte de la disciplina elegida</b></p>
     <br>
     <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
+    <br>
+    <?php
+    //mensaje de error si la disciplina no se elimina correctamente lanzado desde la excepción
+     if (isset($_GET['msg'])) {
+         $mensaje = htmlspecialchars($_GET['msg']);
+         echo "<p style='color: red;'><b>$mensaje</b></p>";
+     }
+     ?>
 </body>
 </html>

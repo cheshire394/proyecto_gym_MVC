@@ -54,6 +54,7 @@
         <legend>Eliminar</legend>
         <ul>
             <li><a href="/proyecto_gym_MVC/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
+            <li><a href="/proyecto_gym_MVC/view/clases/eliminarClase.php">Eliminar una clase del horario</a></li>
         </ul>
     </fieldset>
 </fieldset>

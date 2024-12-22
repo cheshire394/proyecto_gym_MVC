@@ -289,35 +289,109 @@ final class Clase {
 
  
 
-        //NO CONSIGO QUE FUNCIONE
+       
+  /**
+   * The function `eliminarDisciplina` in PHP reads and updates a JSON file containing class
+   * information, removes a specific class based on the activity name, and updates monitor data
+   * accordingly.
+   * 
+   * @param nombre_actividad The `eliminarDisciplina` function is designed to remove a discipline from
+   * a JSON file containing class information. The function takes the parameter ``,
+   * which represents the name of the activity/discipline that needs to be removed.
+   * 
+   * @return The `eliminarDisciplina` function is returning a boolean value `true` after completing the
+   * process of removing a discipline from the JSON file and updating the necessary data related to
+   * monitors.
+   */
     public static function eliminarDisciplina($nombre_actividad) {
         
-        $clases = self::getHorario_gym();
-    
-        if (empty($clases)) {
-            throw new Exception("No hay clases disponibles para eliminar.");
+          // Leer el contenido actual del archivo JSON
+          $clasesJSON = file_get_contents(self::RUTA_JSON_CLASE);
+          $clasesJSON = json_decode($clasesJSON, true);
+  
+
+          if(!empty($clasesJSON)){
+        
+                foreach ($clasesJSON as $id_clase => $claseJSON) {
+                    
+                        if($clasesJSON[$id_clase]['nombre_actividad'] == $nombre_actividad){
+
+                            
+                            //Es necesario crear el objeto clase, para poder utilizar el metodo actualizarMonitores: 
+                            $monitor_clase_eliminada = $clasesJSON[$id_clase]['dni_monitor'];
+                            $dia_semana = $clasesJSON[$id_clase]['dia_semana'];
+                            $hora_inicio= $clasesJSON[$id_clase]['hora_inicio'];
+
+                            $clase_eliminada = new Clase($monitor_clase_eliminada, $nombre_actividad, $dia_semana, $hora_inicio); 
+
+                            Monitor::actualizarDatosMonitores(null, $monitor_clase_eliminada, $clase_eliminada); 
+
+                            //Eliminamos la clase del json clases: 
+                            unset($clasesJSON[$id_clase]); 
+
+                        } 
+                    
+                }
+        
+        }else{
+            throw new datosIncorrectos('No existe ninguna clase en el horario'); 
         }
-    
-    
-        //Eliminamos las clases que tienen es nombre de actividad: 
+  
+          // Guardar los datos actualizados en el archivo JSON
+          file_put_contents(self::RUTA_JSON_CLASE, json_encode($clasesJSON, JSON_PRETTY_PRINT));
 
-        foreach($clases as $id_clase =>  $clase){
-
-            $propiedades = get_object_vars($clase); 
-            
-            foreach($propiedades as  $valor){
-
-                if($valor == $nombre_actividad) unset($clases[$id_clase]); 
-
-            }
-        }
-
-        // Guardar el nuevo horario en el JSON
-        $resultado = file_put_contents(self::RUTA_JSON_CLASE, json_encode($clases, JSON_PRETTY_PRINT));
-
-    
-        return true; 
+          //Actualizamos la jornada de los monitores afectados: 
+        
+          return true; 
+  
+          
     }
+
+
+
+
+    public static function eliminarClase($id_clase) {
+        
+        // Leer el contenido actual del archivo JSON
+        $clasesJSON = file_get_contents(self::RUTA_JSON_CLASE);
+        $clasesJSON = json_decode($clasesJSON, true);
+
+
+        if(!empty($clasesJSON)){
+      
+
+               if(isset($clasesJSON[$id_clase])){
+
+                      
+                          //Es necesario crear el objeto clase, para poder utilizar el metodo actualizarMonitores: 
+                          $monitor_clase_eliminada = $clasesJSON[$id_clase]['dni_monitor'];
+                          $dia_semana = $clasesJSON[$id_clase]['dia_semana'];
+                          $hora_inicio= $clasesJSON[$id_clase]['hora_inicio'];
+                          $nombre_actividad=$clasesJSON[$id_clase]['nombre_actividad']; 
+
+                          $clase_eliminada = new Clase($monitor_clase_eliminada, $nombre_actividad, $dia_semana, $hora_inicio); 
+                        
+                           //Actualizamos la jornada de los monitor afectado: 
+                          Monitor::actualizarDatosMonitores(null, $monitor_clase_eliminada, $clase_eliminada); 
+
+
+                            //Eliminamos la clase del json clases: 
+                            unset($clasesJSON[$id_clase]); 
+
+            }else{
+                    throw new datosIncorrectos('No existe ninguna clase con ese dia de la semana y hora selecionado en el horario del gimnasio'); 
+        }
+
+        // Guardar los datos actualizados en el archivo JSON
+        file_put_contents(self::RUTA_JSON_CLASE, json_encode($clasesJSON, JSON_PRETTY_PRINT));
+
+       
+      
+        return true; 
+
+  }else throw new datosIncorrectos('No existe ninguna clase en el horario'); 
+
+}
 
     
    

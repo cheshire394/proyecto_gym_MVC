@@ -158,13 +158,12 @@ class ControladorClases {
 
 
 
-
-
-
     public static function eliminarDisciplina() {
 
         
         $nombre_actividad = $_POST['nombre_actividad'];
+
+
 
         try {
             $exitoso = Clase::eliminarDisciplina($nombre_actividad);
@@ -174,13 +173,40 @@ class ControladorClases {
                 exit;
             }
 
+
+            //La excepción saltará si no existe ninguna clase guardada el json
         } catch (datosIncorrectos $e) {
             $mensaje = urlencode($e->datosIncorrectos());
             header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
             exit;
-        } catch (Exception $e) {
-            $mensaje = urlencode($e->getMessage());
-            header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
+        }
+    }
+
+
+    public static function eliminarClase() {
+
+        //recogemos los valores del formulario
+        $dia = $_POST['dia_semana'];
+        $hora = $_POST['hora_inicio']; 
+
+        //construimod el id_clase a eliminar: 
+        $id_clase=$dia."-".$hora; 
+
+        try {
+
+
+            $exitoso = Clase::eliminarClase($id_clase);
+
+            if ($exitoso) {
+                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminarClase');
+                exit;
+            }
+
+
+            //La excepción saltará si no existe ninguna clase guardada el json, o bien no hay ninguna clase con ese id
+        } catch (datosIncorrectos $e) {
+            $mensaje = urlencode($e->datosIncorrectos());
+            header("Location: /proyecto_gym_MVC/view/clases/eliminarClase.php?msg=$mensaje");
             exit;
         }
     }

@@ -25,13 +25,17 @@ if (isset($_GET['action'])) {
                 require 'clasesFiltro.php'; // Cargamos la vista con los datos procesados
                 break;
 
-             case 'eliminarDisciplina': // Acción para cerrar sesión
+             case 'eliminarDisciplina': 
                 ControladorClases::eliminarDisciplina();
                 break;
 
             case 'sustituirMonitor': 
                 ControladorClases::sustituirMonitor();
                 break;
+
+            case 'eliminarClase':
+                ControladorClases::eliminarClase(); 
+                break; 
 
         
             default:

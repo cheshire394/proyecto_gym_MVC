@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 require_once '../../controllers/controladorClases.php';
 // Obtener el horario organizado desde el controlador
@@ -91,6 +88,7 @@ $horario = ControladorClases::mostrar_todas_Clases();
     <br>
     <?php
 
+            //Mensaje de exito de las acciones ejecutadas desde otras páginas: 
         if (isset($_GET['msg']) && $_GET['msg'] == 'addClase') {
            
             echo "<p style='color: green;'><b>La clase ha sido añadida correctamente, el horario  está actualizado</b></p>";
@@ -106,13 +104,15 @@ $horario = ControladorClases::mostrar_todas_Clases();
             
         if (isset($_GET['msg']) && $_GET['msg'] == 'eliminadaDisciplina') {
            
-            echo "<p style='color: green;'><b>La disciplina ha sido eliminada correctamente</b></p>";
+            echo "<p style='color: green;'><b>La disciplina ha sido eliminada correctamente, el horario está actualizado</b></p>";
                 
             }
 
-        
-
-            
+        if (isset($_GET['msg']) && $_GET['msg'] == 'eliminarClase') {
+           
+            echo "<p style='color: green;'><b>La clase ha sido eliminada correctamente, el horario está actualizado</b></p>";
+                    
+        }         
 
     ?>
 </body>
