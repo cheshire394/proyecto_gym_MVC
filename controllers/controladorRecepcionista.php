@@ -4,9 +4,11 @@
 require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Trabajador.php';
 
-class ControladorRecepcionista {
+class ControladorRecepcionista
+{
 
-    public function registro() {
+    public function registro()
+    {
         // Verificar que se han enviado los datos por POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             
@@ -48,12 +50,11 @@ class ControladorRecepcionista {
 
             exit();
         }
-
-    
-}
+    }
 
 
-    public function login() {
+    public function login()
+    {
         // Incluir la vista si el método no es POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             include __DIR__ . '/../view/login_recepcionista.php';
@@ -78,7 +79,8 @@ class ControladorRecepcionista {
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         // Destruir la sesión
         session_start();
         session_unset();
@@ -91,5 +93,3 @@ class ControladorRecepcionista {
 
 
 }
-
-

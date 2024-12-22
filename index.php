@@ -17,7 +17,7 @@ application. Here's a breakdown of what the code does: */
 require_once 'controllers/controladorRecepcionista.php';
 
 // Mensaje de depuración para confirmar que se cargó este archivo
-echo "PRUEBA: estoy en index.php"; 
+echo "PRUEBA: estoy en index.php";
 
 // Verifica si se ha pasado una acción mediante el método GET
 if (isset($_GET['action'])) {
@@ -34,7 +34,7 @@ if (isset($_GET['action'])) {
             $controlador->registro();
             break;
 
-        case 'logout': 
+        case 'logout':
             $controlador->logout();
             break;
 

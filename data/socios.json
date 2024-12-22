@@ -108,5 +108,18 @@
         "tarifa": "1",
         "fecha_alta": "10-12-2024",
         "fecha_baja": "desconocida"
+    },
+    {
+        "dni": "70418919A",
+        "nombre": "Raul",
+        "apellidos": "",
+        "fecha_nac": "1993-01-15",
+        "telefono": "611650423",
+        "email": "rsenso@gmail.com",
+        "tarifa": "3",
+        "fecha_alta": "2024-12-14",
+        "fecha_baja": "",
+        "edad": "31",
+        "cuenta_bancaria": ""
     }
 ]

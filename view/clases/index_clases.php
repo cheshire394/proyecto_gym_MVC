@@ -5,9 +5,6 @@ error_reporting(E_ALL);
 
 require_once '../../controllers/controladorClases.php';
 
-
-
-
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 
