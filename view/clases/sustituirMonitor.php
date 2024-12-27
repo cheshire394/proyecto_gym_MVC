@@ -7,10 +7,10 @@
     <title>Formulario Añadir Clase</title>
 </head>
 <body>
-    <h1>sustituir Monitor en una clase: </h1>
+    <h1 style='color:rgb(75, 125, 218); font-size:43px; text-align:center';>sustituir monitor de una clase</h1>
    
     <fieldset>
-        <legend>Datos:</legend>
+        <legend style='color:rgb(75, 125, 218); font-size:33px;'>Datos monitor:</legend>
         <form method="POST" action="index_clases.php?action=sustituirMonitor">
 
             <label for="dni_monitor">DNI del Monitor sustituto:</label>

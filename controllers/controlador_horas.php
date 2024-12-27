@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 require_once __DIR__ . '/../models/datosIncorrectos.php'; //excepción personalizada
 require_once __DIR__ . '/../models/Persona.php';
@@ -10,6 +7,8 @@ require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Monitor.php';
 require_once __DIR__ . '/../models/Clase.php';
 
+/* This block of code is handling a form submission using the POST method. Here's a breakdown of what
+it does: */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_horas'])) {
 
     $monitores = Monitor::monitoresJSON() ?? []; 

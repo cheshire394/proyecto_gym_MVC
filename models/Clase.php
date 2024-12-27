@@ -1,10 +1,5 @@
 <?php
 
-include_once('datosIncorrectos.php');
-require_once('Persona.php');
-require_once('Trabajador.php');
-require_once('Monitor.php');
-
 final class Clase {
 
     public const DURACION_CLASE = 2;
@@ -98,8 +93,6 @@ final class Clase {
     }
      
     
-   
-   
 
 
     /**
@@ -249,8 +242,8 @@ final class Clase {
              //organizamos el horario antes de retornarlo si hay alguna clase filtrada:
             if(!empty($clases_filtradas))  return $horario_ordenado = self::ordenarHorario($clases_filtradas);
 
-
-            else return []; //Si ningún filtro coincidia con las insercciones del usuario, enviamos el horario vacio...(las casillas saldrán en rojo todas)
+            //Si ningún filtro coincidia con las insercciones del usuario
+            else throw new datosIncorrectos('Excepción personalizada: Ninguna clase del horario coincide con el filtro establecido'); 
 
             
     }
@@ -356,6 +349,17 @@ final class Clase {
 
 
 
+   /**
+    * The `eliminarClase` function in PHP reads a JSON file, removes a specific class based on its ID,
+    * updates monitor data, and saves the changes back to the JSON file.
+    * 
+    * @param id_clase The `id_clase` parameter in the `eliminarClase` function represents the unique
+    * identifier of the class that you want to delete from the JSON data. This identifier is used to
+    * locate and remove the specific class entry from the JSON object that stores information about all
+    * classes.
+    * 
+    * @return a boolean value `true` if the class deletion process is successful.
+    */
     public static function eliminarClase($id_clase) {
         
         // Leer el contenido actual del archivo JSON
@@ -392,7 +396,6 @@ final class Clase {
         file_put_contents(self::RUTA_JSON_CLASE, json_encode($clasesJSON, JSON_PRETTY_PRINT));
 
        
-      
         return true; 
 
   }else throw new datosIncorrectos('Excepción personalizada: No existe ninguna clase en el horario'); 

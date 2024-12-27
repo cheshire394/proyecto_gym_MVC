@@ -1,14 +1,6 @@
 
 <?php
-/* The code snippet `ini_set('display_errors', 1);`, `ini_set('display_startup_errors', 1);`, and
-`error_reporting(E_ALL);` is used to configure the error reporting settings in PHP. Here's what each
-line does: */
 
-//Visualización de errores para facilitar la depuración
-ini_set('display_errors', 1); // Activa la visualización de errores
-ini_set('display_startup_errors', 1); // Activa los errores de inicio de PHP
-error_reporting(E_ALL); // Muestra todos los errores (notices, warnings, fatal errors)
-//----------------------------------------------------------------------------------------------------
 
 /* The code snippet you provided is a PHP script that serves as the main entry point for a web
 application. Here's a breakdown of what the code does: */
@@ -16,8 +8,6 @@ application. Here's a breakdown of what the code does: */
 // Incluye el archivo del controlador de Recepcionista
 require_once 'controllers/controladorRecepcionista.php';
 
-// Mensaje de depuración para confirmar que se cargó este archivo
-echo "PRUEBA: estoy en index.php";
 
 // Verifica si se ha pasado una acción mediante el método GET
 if (isset($_GET['action'])) {

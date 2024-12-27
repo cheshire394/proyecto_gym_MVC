@@ -92,7 +92,7 @@ class ControladorClases {
             $propiedad_filtrada = $_POST['propiedad_filtrada'];
 
 
-            //Ajustamos la entrada al método, dependiendo del parametro recibido, ya que dni, necesita pasarse a mayusculas: 
+            //Ajustamos la entrada al método, dependiendo del parametro recibido, ya que dni, necesita converir a mayusculas: 
             if ($propiedad_filtrada == 'dni_monitor') {
                 $valor_filtrado = htmlentities(strtoupper(trim($_POST['valor_filtrado'])));
             } else {
@@ -158,12 +158,13 @@ class ControladorClases {
 
 
 
+   /**
+    * The function `eliminarDisciplina` in PHP is used to delete a discipline from a gym project,
+    * handling exceptions and redirecting based on success or failure.
+    */
     public static function eliminarDisciplina() {
 
-        
         $nombre_actividad = $_POST['nombre_actividad'];
-
-
 
         try {
             $exitoso = Clase::eliminarDisciplina($nombre_actividad);
@@ -174,7 +175,7 @@ class ControladorClases {
             }
 
 
-            //La excepción saltará si no existe ninguna clase guardada el json
+            //La excepción saltará si no existe ninguna clase guardada el json, o no hay ninguna clase con el nombre de actividad seleccionado
         } catch (datosIncorrectos $e) {
             $mensaje = urlencode($e->datosIncorrectos());
             header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
@@ -183,6 +184,10 @@ class ControladorClases {
     }
 
 
+    /**
+     * The function `eliminarClase` in PHP collects form values, constructs an `id_clase` to delete,
+     * attempts to delete the class using the `Clase` class, and redirects based on success or failure.
+     */
     public static function eliminarClase() {
 
         //recogemos los valores del formulario
@@ -194,14 +199,12 @@ class ControladorClases {
 
         try {
 
-
             $exitoso = Clase::eliminarClase($id_clase);
 
             if ($exitoso) {
                 header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminarClase');
                 exit;
             }
-
 
             //La excepción saltará si no existe ninguna clase guardada el json, o bien no hay ninguna clase con ese id
         } catch (datosIncorrectos $e) {

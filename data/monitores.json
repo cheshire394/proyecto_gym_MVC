@@ -7,55 +7,198 @@
         "email": "laura_boxing@gmail.com",
         "cuenta_bancaria": "ES9123456789012345678901",
         "funcion": "monitor",
-        "sueldo": 0,
+        "sueldo": 1100,
         "horas_extra": 0,
-        "jornada": 0,
+        "jornada": 16,
         "disciplinas": [
             "boxeo",
             "kickboxing",
-            "MMA",
-            "moay thai",
-            "capoira"
+            "MMA"
         ],
-        "clases": []
+        "clases": {
+            "lunes-10:00": {
+                "nombre_actividad": "MMA",
+                "dia_semana": "lunes",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            },
+
+            "lunes-12:00": {
+                "nombre_actividad": "kickboxing",
+                "dia_semana": "lunes",
+                "hora_inicio": "12:00",
+                "hora_fin": "14:00"
+            },
+            "lunes-16:00": {
+                "nombre_actividad": "boxeo",
+                "dia_semana": "lunes",
+                "hora_inicio": "16:00",
+                "hora_fin": "18:00"
+            },
+            "lunes-18:00": {
+                "nombre_actividad": "kickboxing",
+                "dia_semana": "lunes",
+                "hora_inicio": "18:00",
+                "hora_fin": "20:00"
+            },
+            "miercoles-10:00": {
+                "nombre_actividad": "boxeo",
+                "dia_semana": "miercoles",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            },
+            "miercoles-12:00": {
+                "nombre_actividad": "kickboxing",
+                "dia_semana": "miercoles",
+                "hora_inicio": "12:00",
+                "hora_fin": "14:00"
+            },
+            "miercoles-16:00": {
+                "nombre_actividad": "boxeo",
+                "dia_semana": "miercoles",
+                "hora_inicio": "16:00",
+                "hora_fin": "18:00"
+            },
+            "miercoles-18:00": {
+                "nombre_actividad": "kickboxing",
+                "dia_semana": "miercoles",
+                "hora_inicio": "18:00",
+                "hora_fin": "20:00"
+            },
+            "sabado-10:00": {
+                "nombre_actividad": "boxeo",
+                "dia_semana": "sabado",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            }
+        }
     },
     "09626574Q": {
         "nombre": "Carlos",
-        "apellidos": "G\u00f3mez P\u00e9rez",
+        "apellidos": "Gómez Pérez",
         "fecha_nac": "1990-03-12",
         "telefono": "691234567",
         "email": "carlos@gmail.com",
         "cuenta_bancaria": "ES9234567890123456789012",
         "funcion": "monitor",
-        "sueldo": 0,
+        "sueldo": 1200,
         "horas_extra": 0,
-        "jornada": 0,
+        "jornada": 8,
         "disciplinas": [
             "taekwondo",
-            "karate",
-            "boxeo",
-            "MMA",
-            "moay thai"
+            "karate"
         ],
-        "clases": []
+        "clases": {
+            "viernes-10:00": {
+                "nombre_actividad": "taekwondo",
+                "dia_semana": "viernes",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            },
+            "viernes-12:00": {
+                "nombre_actividad": "karate",
+                "dia_semana": "viernes",
+                "hora_inicio": "12:00",
+                "hora_fin": "14:00"
+            },
+            "viernes-16:00": {
+                "nombre_actividad": "taekwondo",
+                "dia_semana": "viernes",
+                "hora_inicio": "16:00",
+                "hora_fin": "18:00"
+            },
+            "viernes-18:00": {
+                "nombre_actividad": "karate",
+                "dia_semana": "viernes",
+                "hora_inicio": "18:00",
+                "hora_fin": "20:00"
+            },
+            "sabado-12:00": {
+                "nombre_actividad": "karate",
+                "dia_semana": "sabado",
+                "hora_inicio": "12:00",
+                "hora_fin": "14:00"
+            },
+            "sabado-18:00": {
+                "nombre_actividad": "taekwondo",
+                "dia_semana": "sabado",
+                "hora_inicio": "18:00",
+                "hora_fin": "20:00"
+            }
+        }
     },
     "55462206Y": {
         "nombre": "Ana",
-        "apellidos": "Mart\u00ednez L\u00f3pez",
+        "apellidos": "Martínez López",
         "fecha_nac": "1988-09-23",
         "telefono": "677123456",
         "email": "ana.judo@gmail.com",
         "cuenta_bancaria": "ES9345678901234567890123",
         "funcion": "monitor",
-        "sueldo": 0,
+        "sueldo": 1150,
         "horas_extra": 0,
-        "jornada": 0,
+        "jornada": 310,
         "disciplinas": [
             "judo",
-            "aikido",
-            "capoira",
-            "moay thai"
+            "aikido"
         ],
-        "clases": []
+        "clases": {
+            
+            
+            "martes-10:00": {
+                "nombre_actividad": "judo",
+                "dia_semana": "martes",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            },
+            "martes-12:00": {
+                "nombre_actividad": "aikido",
+                "dia_semana": "martes",
+                "hora_inicio": "12:00",
+                "hora_fin": "14:00"
+            },
+            "martes-16:00": {
+                "nombre_actividad": "judo",
+                "dia_semana": "martes",
+                "hora_inicio": "16:00",
+                "hora_fin": "18:00"
+            },
+            "martes-18:00": {
+                "nombre_actividad": "aikido",
+                "dia_semana": "martes",
+                "hora_inicio": "18:00",
+                "hora_fin": "20:00"
+            },
+            "jueves-10:00": {
+                "nombre_actividad": "judo",
+                "dia_semana": "jueves",
+                "hora_inicio": "10:00",
+                "hora_fin": "12:00"
+            },
+            "jueves-12:00": {
+                "nombre_actividad": "aikido",
+                "dia_semana": "jueves",
+                "hora_inicio": "12:00",
+                "hora_fin": "14:00"
+            },
+            "jueves-16:00": {
+                "nombre_actividad": "judo",
+                "dia_semana": "jueves",
+                "hora_inicio": "16:00",
+                "hora_fin": "18:00"
+            },
+            "jueves-18:00": {
+                "nombre_actividad": "aikido",
+                "dia_semana": "jueves",
+                "hora_inicio": "18:00",
+                "hora_fin": "20:00"
+            },
+            "sabado-16:00": {
+                "nombre_actividad": "judo",
+                "dia_semana": "sabado",
+                "hora_inicio": "16:00",
+                "hora_fin": "18:00"
+            }
+        }
     }
 }

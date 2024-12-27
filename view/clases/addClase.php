@@ -7,9 +7,9 @@
     <title>Formulario Añadir Clase</title>
 </head>
 <body>
-    <h1>Añadir Clase</h1>
-    <p style="color: blue"><b>*IMPORTANTE*</b></p>
-    <p style="color:blue; font-size:21px"><b>Si existe otra clase que tenga asignado el mismo día de semana y hora, será reemplazada</b></p>
+    <h1 style='color:rgb(75, 125, 218); font-size:43px; text-align:center';>Añadir Clase</h1>
+    <p style='color:rgb(75, 125, 218); font-size:23px';><b>*IMPORTANTE*</b></p>
+    <p style='color:rgb(75, 125, 218); font-size:23px';><b>Si existe otra clase que tenga asignado el mismo día de semana y hora, será reemplazada</b></p>
     <fieldset>
         <legend>Datos:</legend>
         <form method="POST" action="index_clases.php?action=addClase">

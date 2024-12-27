@@ -47,7 +47,7 @@ receptionist. Here's a breakdown of what each part of the code is doing: -->
 </head>
 <body>
     <h1>Registro Recepcionista: </h1>
-    <p style="color:orangered">*Datos de solo lectura para facilitar la prueba de la aplicación. Únicamente es necesario añadir la contraseña.</p>
+    <p style='color:rgb(75, 125, 218); font-size:23px';>*Datos de solo lectura para facilitar la prueba de la aplicación. Únicamente es necesario añadir la contraseña.</p>
     
     <!--Enviará los datos mediante el método POST al archivo index.php con un parámetro action=registro.-->
     <fieldset>

@@ -9,7 +9,7 @@
 
 
     <fieldset>
-        <legend style="font-size: xx-large;">Selecciona la disciplina que deseas eliminar: </legend>
+        <legend style='color:rgb(75, 125, 218); font-size:23px';>Selecciona la disciplina que deseas eliminar: </legend>
         <form method="POST" action="index_clases.php?action=eliminarDisciplina">
             <label for="disciplina">Disciplina:</label>
             <select id="disciplina" name="nombre_actividad" required>
@@ -18,7 +18,7 @@
                 <option value="boxeo">Boxeo</option>
                 <option value="MMA">MMA</option>
                 <option value="kickboxing">Kickboxing</option>
-                <option value="moay thai">Muay Thai</option>
+                <option value="moay thai">Moay Thai</option>
                 <option value="capoeira">Capoeira</option>
                 <option value="judo">Judo</option>
                 <option value="aikido">Aikido</option>
@@ -28,7 +28,7 @@
         </form>
     </fieldset>
     <br>
-    <p style="color:green; font-size:23px"><b>importante* Esta página no está diseñada para eliminar una clase del horario, su fin es eliminar todas las clases que forman parte de la disciplina elegida</b></p>
+    <p style='color:rgb(75, 125, 218); font-size:23px';><b>importante* Esta página no está diseñada para eliminar una clase del horario, su fin es eliminar todas las clases que forman parte de la disciplina elegida</b></p>
     <br>
     <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
     <br>
@@ -36,7 +36,7 @@
     //mensaje de error si la disciplina no se elimina correctamente lanzado desde la excepción
      if (isset($_GET['msg'])) {
          $mensaje = htmlspecialchars($_GET['msg']);
-         echo "<p style='color: red;'><b>$mensaje</b></p>";
+         echo "<p style='color:red; font-size:23px';'><b>$mensaje</b></p>";
      }
      ?>
 </body>

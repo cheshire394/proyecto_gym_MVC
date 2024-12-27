@@ -46,11 +46,12 @@
 </head>
 <body>
 
-    <h1>Horario del Gimnasio con clases Filtradas</h1>
+    <h1 style='color:rgb(75, 125, 218); font-size:33px; text-align:center';>Horario del Gimnasio con clases Filtradas</h1>
     <fieldset>
-        <legend style="font-size: large;">Filtro:</legend>
+        <legend style='color:rgb(75, 125, 218); font-size:33px;'>Establecer filtro</legend>
+
         <form method="POST" action="index_clases.php?action=verClasesFiltradas">
-            <label for="propiedad_filtrada" style="margin-left: 10px; display: inline-block; vertical-align: middle;"></label>Tipo filtro:</label>
+            <label for="propiedad_filtrada" style="margin-left: 10px; display: inline-block; vertical-align: middle;">Tipo filtro:</label>
             <select id="propiedad_filtrada" name="propiedad_filtrada" required>
                 <option value="dni_monitor">DNI del Monitor</option>
                 <option value="nombre_actividad" selected>Nombre de la Actividad</option>
@@ -120,9 +121,10 @@
     <br>
     
     <?php
+    //Si la clases no se filtran correctamente, mostramos el mensaje de error capturado en la excepcion: 
      if (isset($_GET['msg'])) {
          $mensaje = htmlspecialchars($_GET['msg']);
-         echo "<p style='color: red;'><b>$mensaje</b></p>";
+         echo "<p style='color:red; font-size: 23px;'><b>$mensaje</b></p>";
      }
      ?>
 

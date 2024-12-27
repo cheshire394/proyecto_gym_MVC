@@ -8,7 +8,7 @@
 <body>
 
     <fieldset>
-        <legend style="font-size: xx-large;">Selecciona la clase a eliminar: </legend>
+        <legend style='color:rgb(75, 125, 218); font-size:33px';>Selecciona la clase a eliminar: </legend>
         <form method="post" action="index_clases.php?action=eliminarClase">
         <label for="dia_semana">Dia de la Semana: </label>
         <select name='dia_semana' id='día_semana' require>

@@ -50,7 +50,7 @@ $horario = ControladorClases::mostrar_todas_Clases();
     </style>
 </head>
 <body>
-    <h2 style="text-align: center;">Horario del Gimnasio</h2>
+    <h2 style='color:rgb(75, 125, 218); font-size:43px; text-align:center';>Horario del Gimnasio</h2>
     <table>
         <thead>
             <tr>

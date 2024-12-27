@@ -19,10 +19,6 @@ Let's break down each property: */
     private $cuenta_bancaria;
     
 
-  
-
-    
-      
     /**
      * The function is a constructor for a class that initializes properties including account number,
      * role, salary, extra hours, and work hours.
@@ -260,6 +256,11 @@ Let's break down each property: */
     }
 
 
+    /**
+     * The function creates objects for receptionists based on data retrieved from a JSON file.
+     * 
+     * @return An array of Trabajador objects representing receptionists is being returned.
+     */
     public static function crearObjetosRecepcionista(){
 
     $recepcionistas = self::recepcionistasJSON(); 

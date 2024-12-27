@@ -3,7 +3,7 @@
         "dni": "16280029P",
         "nombre": "Iago",
         "apellidos": "Fernandez Pereira",
-        "fecha_nac": "1987-08-23",
+        "fecha_nac": "1988-08-23",
         "telefono": "677123456",
         "email": "Iago@gmail.com",
         "cuenta_bancaria": "ES9345678921244368890123",
@@ -11,6 +11,6 @@
         "sueldo": "1150",
         "horas_extra": "0",
         "jornada": "40",
-        "password": "$2y$10$JON47lhxl1XYcPdS02qPf.eoZ5gbG08CbAQkW7uelnmxy2B3cF0vy"
+        "password": "$2y$10$Eu55kkmWMI5g13YbG4XNoehZUa5jYcRNd0EA4qVrAhwgPRMOgUgOa"
     }
 ]
