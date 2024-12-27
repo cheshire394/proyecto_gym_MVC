@@ -190,7 +190,7 @@ final class Clase {
 
             } else {
 
-                throw new datosIncorrectos("La clase indicada no está incluida en el horario, por favor selecciona una clase que se este impartiendo");
+                throw new datosIncorrectos("Excepción personalizada: el día y hora seleccionado no tiene ninguna actividad asignada, no hay ningun monitor para sustituir");
 
             }
     }
@@ -311,6 +311,8 @@ final class Clase {
   
 
           if(!empty($clasesJSON)){
+
+            $contador_clases_disciplina=0; 
         
                 foreach ($clasesJSON as $id_clase => $claseJSON) {
                     
@@ -329,12 +331,16 @@ final class Clase {
                             //Eliminamos la clase del json clases: 
                             unset($clasesJSON[$id_clase]); 
 
+                            $contador_clases_disciplina++; 
+
                         } 
                     
                 }
+
+                if($contador_clases_disciplina == 0)throw new datosIncorrectos("Excepción personalizada: No existe ninguna clase de $nombre_actividad en el horario actualemnte, no se ha eliminado ninguna clase"); 
         
         }else{
-            throw new datosIncorrectos('No existe ninguna clase en el horario'); 
+            throw new datosIncorrectos('Excepción personalizada: No existe ninguna clase en el horario'); 
         }
   
           // Guardar los datos actualizados en el archivo JSON
@@ -379,7 +385,7 @@ final class Clase {
                             unset($clasesJSON[$id_clase]); 
 
             }else{
-                    throw new datosIncorrectos('No existe ninguna clase con ese dia de la semana y hora selecionado en el horario del gimnasio'); 
+                    throw new datosIncorrectos('Excepción personalizada: No existe ninguna clase con ese dia de la semana y hora selecionado en el horario del gimnasio'); 
         }
 
         // Guardar los datos actualizados en el archivo JSON
@@ -389,7 +395,7 @@ final class Clase {
       
         return true; 
 
-  }else throw new datosIncorrectos('No existe ninguna clase en el horario'); 
+  }else throw new datosIncorrectos('Excepción personalizada: No existe ninguna clase en el horario'); 
 
 }
 

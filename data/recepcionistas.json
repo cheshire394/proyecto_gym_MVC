@@ -1,11 +1,11 @@
 [
     {
         "dni": "16280029P",
-        "nombre": "Nuria",
-        "apellidos": "Gonzalez Lopez",
-        "fecha_nac": "1975-08-23",
+        "nombre": "Iago",
+        "apellidos": "Fernandez Pereira",
+        "fecha_nac": "1987-08-23",
         "telefono": "677123456",
-        "email": "nuria_lopez@gmail.com",
+        "email": "Iago@gmail.com",
         "cuenta_bancaria": "ES9345678921244368890123",
         "funcion": "recepcionista",
         "sueldo": "1150",

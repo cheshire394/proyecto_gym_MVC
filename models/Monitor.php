@@ -127,16 +127,16 @@ final class Monitor extends Trabajador {
 
         $monitoresObjetos = []; // Inicializar array para almacenar objetos Monitor
 
-        foreach ($monitores as $monitor_clase_add => $monitor) {
+        foreach ($monitores as $dni => $monitor) {
             // Calculamos la jornada en función del número de clases
             $jornada = count($monitor['clases']) * Clase::DURACION_CLASE; // Cada clase dura 2 horas
 
             // Calculamos el sueldo 
-            $sueldo = $jornada * self::EUROS_HORA; // 30 euros por hora
+            $sueldo = ($jornada +  $monitor['horas_extra']) * self::EUROS_HORA; // 30 euros por hora
 
             // Crear el objeto Monitor
             $monitorObj = new Monitor(
-                $monitor_clase_add,
+                $dni,
                 $monitor['nombre'],
                 $monitor['apellidos'],
                 $monitor['fecha_nac'],
@@ -145,7 +145,7 @@ final class Monitor extends Trabajador {
                 $monitor['cuenta_bancaria'],
                 'monitor',
                 $sueldo,
-                isset($monitor['horas_extra']) ? $monitor['horas_extra'] : 0,
+                $monitor['horas_extra'],
                 $jornada
             );
 
@@ -154,12 +154,14 @@ final class Monitor extends Trabajador {
             $monitorObj->clases = isset($monitor['clases']) ? $monitor['clases'] : [];
 
             // Almacenar el objeto Monitor en el array
-            $monitoresObjetos[$monitor_clase_add] = $monitorObj;
+            $monitoresObjetos[$dni] = $monitorObj;
         }
 
         return $monitoresObjetos;
     }
 
+
+    
    
 
    /**
@@ -336,6 +338,7 @@ final class Monitor extends Trabajador {
        }
    
 
+       
     
 
     

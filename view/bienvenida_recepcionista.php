@@ -42,21 +42,21 @@ if (isset($_SESSION['nombre'])) {
         <fieldset>
             <legend>Añadir y Modificar</legend>
             <ul>
-                <li><a href="/../view/clases/addClase.php">Añadir clase</a></li>
-                <li><a href="/../view/clases/sustituirMonitor.php">Sustituir monitor</a></li>
+                <li><a href="/proyecto_gym_MVC/view/clases/addClase.php">Añadir clase</a></li>
+                <li><a href="/proyecto_gym_MVC/view/clases/sustituirMonitor.php">Sustituir monitor</a></li>
             </ul>
         </fieldset>
         <fieldset>
             <legend>Ver Clases</legend>
             <ul>
-                <li><a href="/../view/clases/verClases.php">Mostrar todas las clases</a></li>
+                <li><a href="/proyecto_gym_MVC/view/clases/verClases.php">Mostrar todas las clases</a></li>
                 <li><a href="/proyecto_gym_MVC/view/clases/clasesFiltro.php">Mostrar clases con filtro</a></li>
             </ul>
         </fieldset>
         <fieldset>
             <legend>Eliminar</legend>
             <ul>
-                <li><a href="/../view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
+                <li><a href="/proyecto_gym_MVC/view/clases/eliminarDisciplina.php">Eliminar disciplina</a></li>
                 <li><a href="/proyecto_gym_MVC/view/clases/eliminarClase.php">Eliminar una clase del horario</a></li>
             </ul>
         </fieldset>
@@ -68,24 +68,34 @@ if (isset($_SESSION['nombre'])) {
         <fieldset>
             <legend>Añadir y Modificar</legend>
             <ul>
-                <li><a href="/../view/socios/addSocio.php">Registrar nuevo socio</a></li>
-                <li><a href="/../view/socios/modificarSocio.php">Modificar socio</a></li>
+                <li><a href="/proyecto_gym_MVC/view/socios/addSocio.php">Registrar nuevo socio</a></li>
+                <li><a href="/proyecto_gym_MVC/view/socios/modificarSocio.php">Modificar socio</a></li>
             </ul>
         </fieldset>
         <fieldset>
             <legend>Buscar socio</legend>
             <ul>
-                <li><a href="/../view/socios/verSocio.php">Buscar socio / socios</a></li>
+                <li><a href="/proyecto_gym_MVC/view/socios/verSocio.php">Buscar socio / socios</a></li>
             </ul>
         </fieldset>
         <fieldset>
             <legend>Eliminar</legend>
             <ul>
-                <li><a href="/../view/socios/eliminarSocio.php">Eliminar socio</a></li>
+                <li><a href="/proyecto_gym_MVC/view/socios/eliminarSocio.php">Eliminar socio</a></li>
             </ul>
         </fieldset>
     </fieldset>
     <br>
+    <fieldset>
+        <!-- Gestión Monitores-->
+
+            <legend><b>Ver las condiciones de los monitores:</b></legend>
+            <ul>
+                <li><a href="/proyecto_gym_MVC/view/trabajadores/verTrabajadores.php">Ver los datos de los trabajadores</a></li>
+                
+            </ul>
+       
+    </fieldset>
     <!-- Botón para cerrar sesión -->
     <fieldset>
 

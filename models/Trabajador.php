@@ -89,7 +89,6 @@ Let's break down each property: */
 
             $this->$name = $value; 
 
-            if($name == 'horas_extra') $this->cobrarHorasExtra();
 
             if($name == 'jornada'){
 
@@ -119,15 +118,15 @@ Let's break down each property: */
 
 
   /**
-   * The function `getAllRecepcionistas` reads a JSON file containing receptionists' data and returns
+   * The function `recepcionistasJSON` reads a JSON file containing receptionists' data and returns
    * an array of receptionists, initializing the file if it doesn't exist.
    * 
-   * @return The `getAllRecepcionistas` function returns an array of receptionists. If the JSON file
+   * @return The `recepcionistasJSON` function returns an array of receptionists. If the JSON file
    * containing receptionists exists, it reads the content, decodes it into an array, and returns the
    * array of receptionists. If the JSON file does not exist, it creates an empty JSON file and returns
    * an empty array.
    */
-    public static function getAllRecepcionistas() {
+    public static function recepcionistasJSON() {
 
         // si el archivo JSON existe
         if (!file_exists(self::RUTA_JSON_RECEPCIONISTAS)) {
@@ -136,13 +135,12 @@ Let's break down each property: */
             file_put_contents(self::RUTA_JSON_RECEPCIONISTAS, json_encode([]));
         }
 
-        // Leer el contenido del archivo JSON
-        $jsonContent = file_get_contents(self::RUTA_JSON_RECEPCIONISTAS);
+        // obtenemos las recepcionstas registradas
+        $recepcionistas = file_get_contents(self::RUTA_JSON_RECEPCIONISTAS);
         
-        // Decodificar el JSON en un array
-        $recepcionistas = json_decode($jsonContent, true);
+        $recepcionistas = json_decode($recepcionistas, true);
 
-        // Devolver el array de recepcionistas (vacío si no hay ninguno)
+        // Devolvemos el array de recepcionistas (vacío si no hay ninguna)
         return $recepcionistas ?: [];
     }
 
@@ -167,7 +165,7 @@ Let's break down each property: */
     public static function registrar($datos) {
          
         //Array con las recepcionistas del JSON
-        $recepcionistas = self::getAllRecepcionistas();
+        $recepcionistas = self::recepcionistasJSON();
 
         // Verificamos si ya existe un recepcionista con ese DNI
         foreach ($recepcionistas as $recepcionista) {
@@ -214,7 +212,7 @@ Let's break down each property: */
     public static function login($dni, $password) {
 
         //Array con las recepcionistas del JSON
-        $recepcionistas = self::getAllRecepcionistas();
+        $recepcionistas = self::recepcionistasJSON();
 
         // Buscamos si el DNI  y contraseña conincide con las guardadas en el fichero: 
         foreach ($recepcionistas as $recepcionista) {
@@ -233,11 +231,6 @@ Let's break down each property: */
     }
 
  
-
-
-
-
-
 
  /**
   * The function "validarCuentaBancaria" in PHP validates a bank account number starting with 'ES' and
@@ -266,25 +259,34 @@ Let's break down each property: */
         throw new datosIncorrectos('ERROR: LA CUENTA BANCARIA INTRODUCIDA NO ES VÁLIDA');
     }
 
-    
+
+    public static function crearObjetosRecepcionista(){
+
+    $recepcionistas = self::recepcionistasJSON(); 
+     foreach($recepcionistas as $dni => $recepcionista){
+
+        $recepcionistaObj= new Trabajador(
+            $recepcionista['dni'],
+            $recepcionista['nombre'],
+            $recepcionista['apellidos'],
+            $recepcionista['fecha_nac'],
+            $recepcionista['telefono'],
+            $recepcionista['email'],
+            $recepcionista['cuenta_bancaria'],
+            'recepcionista',
+            $recepcionista['sueldo'],
+            $recepcionista['horas_extra'],
+            $recepcionista['jornada'] 
+        );
+
+          $recepcionistasObj[] = $recepcionistaObj;
+
+     }
+
+     return $recepcionistasObj; 
 
 
-
-
-
-   /**
-    * The function "cobrarHorasExtra" calculates and adds the extra pay for overtime hours to the
-    * current salary.
-    */
-    //Este metodo solo será llamado desde setter cuando se modifique las horas extra
-    private function cobrarHorasExtra(){
-        
-        $aumento = $this->__get('horas_extra') * self::EUROS_HORA + $this->__get('sueldo'); 
-        $this->__set('sueldo', $aumento);   
-    }
-
-
-    
+}
 
 }
 

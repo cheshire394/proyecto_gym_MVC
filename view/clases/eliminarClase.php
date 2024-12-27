@@ -40,7 +40,7 @@
     //si la clase no se elimina correctamente mensaje de error lanzado desde la excepción:
      if (isset($_GET['msg'])) {
          $mensaje = htmlspecialchars($_GET['msg']);
-         echo "<p style='color: red;'><b>$mensaje</b></p>";
+         echo "<p style='color: red; font: size 23px;'><b>$mensaje</b></p>";
      }
      ?>
     

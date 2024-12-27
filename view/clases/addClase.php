@@ -8,8 +8,8 @@
 </head>
 <body>
     <h1>Añadir Clase</h1>
-    <p style="color:red"><b>*IMPORTANTE*</b></p>
-    <p style="color:red"><b>Si existe otra clase que tenga asignado el mismo día de semana y hora, será reemplazada</b></p>
+    <p style="color: blue"><b>*IMPORTANTE*</b></p>
+    <p style="color:blue; font-size:21px"><b>Si existe otra clase que tenga asignado el mismo día de semana y hora, será reemplazada</b></p>
     <fieldset>
         <legend>Datos:</legend>
         <form method="POST" action="index_clases.php?action=addClase">

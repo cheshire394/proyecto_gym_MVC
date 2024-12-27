@@ -28,7 +28,7 @@
         </form>
     </fieldset>
     <br>
-    <p style="color:red"><b>importante* Esta página no está diseñada para eliminar una clase del horario, su fin es eliminar todas las clases que forman parte de la disciplina elegida</b></p>
+    <p style="color:green; font-size:23px"><b>importante* Esta página no está diseñada para eliminar una clase del horario, su fin es eliminar todas las clases que forman parte de la disciplina elegida</b></p>
     <br>
     <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
     <br>

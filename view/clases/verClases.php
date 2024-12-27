@@ -34,6 +34,7 @@ $horario = ControladorClases::mostrar_todas_Clases();
         }
         tr:hover {
             background-color: #ddd;
+            
         }
         .hora {
             font-weight: bold;
@@ -41,7 +42,10 @@ $horario = ControladorClases::mostrar_todas_Clases();
             color:#f2f2f2; 
         }
         .libre {
-            background-color: #eaeaea;
+            background-color:hsl(0, 85.30%, 86.70%);
+        }
+        .ocupada{
+            background-color: #d2f5b9;
         }
     </style>
 </head>
@@ -72,7 +76,7 @@ $horario = ControladorClases::mostrar_todas_Clases();
                 foreach ($dias as $dia) {
                     if (isset($horario[$dia][$hora])) {
                         $clase = $horario[$dia][$hora];
-                        echo "<td>{$clase['nombre_actividad']}<br><small>Monitor: {$clase['dni_monitor']}</small></td>";
+                        echo "<td class='ocupada'>{$clase['nombre_actividad']}<br><small>Monitor: {$clase['dni_monitor']}</small></td>";
                     } else {
                         echo "<td class='libre'>Libre</td>";
                     }
@@ -91,26 +95,26 @@ $horario = ControladorClases::mostrar_todas_Clases();
             //Mensaje de exito de las acciones ejecutadas desde otras páginas: 
         if (isset($_GET['msg']) && $_GET['msg'] == 'addClase') {
            
-            echo "<p style='color: green;'><b>La clase ha sido añadida correctamente, el horario  está actualizado</b></p>";
+            echo "<p style='color: green; font: size 23px;'><b>La clase ha sido añadida correctamente, el horario  está actualizado</b></p>";
         }
 
 
         if (isset($_GET['msg']) && $_GET['msg'] == 'sustituido') {
            
-            echo "<p style='color: green;'><b>El monitor de la clase ha sido sustituido correctamente, el horario está actualizado</b></p>";
+            echo "<p style='color: green; font: size 23px;'><b>El monitor de la clase ha sido sustituido correctamente, el horario está actualizado</b></p>";
             
             }
 
             
         if (isset($_GET['msg']) && $_GET['msg'] == 'eliminadaDisciplina') {
            
-            echo "<p style='color: green;'><b>La disciplina ha sido eliminada correctamente, el horario está actualizado</b></p>";
+            echo "<p style='color: green; font: size 23px;'><b>La disciplina ha sido eliminada correctamente, el horario está actualizado</b></p>";
                 
             }
 
         if (isset($_GET['msg']) && $_GET['msg'] == 'eliminarClase') {
            
-            echo "<p style='color: green;'><b>La clase ha sido eliminada correctamente, el horario está actualizado</b></p>";
+            echo "<p style='color: green; font: size 23px;'><b>La clase ha sido eliminada correctamente, el horario está actualizado</b></p>";
                     
         }         
 

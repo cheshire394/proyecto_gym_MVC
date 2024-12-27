@@ -12,7 +12,7 @@ class ControladorRecepcionista
         // Verificar que se han enviado los datos por POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             
-            include __DIR__ . '/../view/login_recepcionista.php';
+            include __DIR__ . '/proyecto_gym_MVC/view/login_recepcionista.php';
             return;
         }
 
@@ -57,7 +57,7 @@ class ControladorRecepcionista
     {
         // Incluir la vista si el método no es POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            include __DIR__ . '/../view/login_recepcionista.php';
+            include __DIR__ . '/proyecto_gym_MVC/view/login_recepcionista.php';
             return;
         }
 
@@ -90,6 +90,10 @@ class ControladorRecepcionista
         header('Location: /proyecto_gym_MVC/view/login_recepcionista.php');
         exit;
     }
+
+
+
+    
 
 
 }
