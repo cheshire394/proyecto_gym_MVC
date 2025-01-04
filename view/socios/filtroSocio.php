@@ -1,4 +1,5 @@
 <!-- Página que muestra el socio/socios de la busqueda, debajo de la página de verSocio  -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,8 +28,8 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    /* This PHP code block is responsible for displaying search results for "socios" (partners or
-    members) on a webpage. Let's break down what each part of the code is doing: */
+    /* Este bloque de código en PHP muestra los resultados de la búsqueda de socios. Si se encuentran socios, 
+   se muestra una tabla con sus datos; si no se encuentran, se muestra un mensaje indicando que no hubo resultados. */
     if (isset($sociosEncontrados)): ?>
         <?php if (!empty($sociosEncontrados)): ?>
             <h2>Resultados de la búsqueda</h2>
@@ -59,7 +60,7 @@
                 <?php endforeach; ?>
             </table>
         <?php else: ?>
-            <p>No se encontraron socios con los criterios especificados.</p>
+            <p style="color:red">No se encontraron socios con los datos proporcionados.</p>
         <?php endif; ?>
     <?php endif; ?>
 

@@ -14,7 +14,8 @@ if (isset($_SESSION['nombre'])) {
     $nombre = $_SESSION['nombre'] ?? "";
 } else {
     // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-    // header('location: login_recepcionista.php'); 
+    header('location: login_recepcionista.php');
+    exit(); 
 }
 ?>
 

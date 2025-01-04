@@ -1,4 +1,21 @@
 <!-- Página Añadir Socio -->
+
+<!-- Si no está registrado en la sesión el recepcionista-->
+<?php
+// Inicia una nueva sesión o reanuda la sesión existente
+session_start();
+// Verifica si existe una variable de sesión 'nombre'
+if (isset($_SESSION['nombre'])) {
+    // Si existe, asigna su valor a la variable $nombre (usando el operador de coalescencia nula por seguridad)
+    $nombre = $_SESSION['nombre'] ?? "";
+} else {
+    // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
+    //******************************************************************* RUTAS ***************************************************************************
+    header('Location: ../login_recepcionista.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,10 +23,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario Añadir Socio</title>
-</head>
+    <style>
+        .error {
+            color: red;
+        }
+
+        .exito {
+            color: green;
+        }
+    </style>
 
 <body>
     <h1>Añadir Socio</h1>
+
+    <?php
+    // Mostrar mensaje de error si existe
+    if (isset($_GET['error'])) {
+        echo '<div class="error">' . htmlspecialchars($_GET['error']) . '</div>';
+    }
+    // Mostrar mensaje de éxito si existe
+    if (isset($_GET['exito'])) {
+        echo '<div class="exito">' . htmlspecialchars($_GET['exito']) . '</div>';
+    }
+    ?>
 
     <fieldset>
         <legend>Datos:</legend>
@@ -27,9 +63,6 @@
 
                 <label for="fecha_nac">Fecha de Nacimiento:</label>
                 <input type="date" id="fecha_nac" name="fecha_nac" required><br><br>
-
-                <label for="edad">Edad:</label>
-                <input type="number" id="edad" name="edad" value="" required><br><br>
 
                 <label for="telefono">Teléfono:</label>
                 <input type="tel" id="telefono" name="telefono" required><br><br>
@@ -69,6 +102,7 @@
     </fieldset>
     <br>
     <fieldset>
+        <!--******************************************************************* RUTAS *************************************************************************** -->
         <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
     </fieldset>
 </body>

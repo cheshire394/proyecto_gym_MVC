@@ -1,7 +1,6 @@
-<!--The class `Socio` represents a member with properties such as personal information, membership
-details, and methods for managing and interacting with member data. -->
-<?php
+<!-- La clase `Socio` representa a un miembro con información personal, detalles de membresía y métodos para gestionar los datos del socio. -->
 
+<?php
 // Visualizar errores para depuración
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,7 +8,7 @@ error_reporting(E_ALL);
 
 final class Socio extends Persona
 {
-    private $tarifa; // Tipos de tarifas: 2 clases, 3 clases o indefinidas (a la semana)
+    private $tarifa;
     private $fecha_alta;
     private $fecha_baja;
     private $cuenta_bancaria;
@@ -17,115 +16,140 @@ final class Socio extends Persona
     private static $socios = [];
     private static $bajas_socios = [];
 
-   /**
-    * The function is a PHP constructor that validates input data for a new member, sets default
-    * values, and stores the member in a class array.
-    * 
-    * @param dni The `__construct` function you provided seems to be a constructor method for a class,
-    * where you are initializing properties of an object. The parameters passed to the constructor are
-    * ``, ``, ``, ``, ``, ``, ``, and
-    * @param nombre The `nombre` parameter in the `__construct` function represents the first name of a
-    * person. It is typically a string value that holds the first name of the individual.
-    * @param apellidos The parameter "apellidos" typically refers to the last name or surname of a
-    * person. It is a common practice to include both the first name and last name when referring to an
-    * individual. In the context of the provided code snippet, the "apellidos" parameter is likely used
-    * to store the last
-    * @param fecha_nac The parameter `fecha_nac` in the `__construct` function represents the date of
-    * birth of a person. It is used to store the date of birth of a member when creating a new instance
-    * of the class.
-    * @param telefono The `telefono` parameter in the `__construct` function likely represents the
-    * phone number of the person being registered as a member. It is a piece of contact information
-    * that can be used to reach out to the member if needed.
-    * @param email The email parameter in the constructor function is used to store the email address
-    * of the person being registered as a member. It is validated using the `filter_var` function with
-    * the `FILTER_VALIDATE_EMAIL` filter to ensure that the email provided is in a valid email format.
-    * If the email is not valid
-    * @param tarifa The `tarifa` parameter in the constructor function seems to represent the
-    * membership fee or subscription level for a member. In this case, it has a default value of "2".
-    * This parameter allows for specifying different membership tiers or fees for the members when
-    * creating an instance of the class.
-    * @param cuenta_bancaria The `cuenta_bancaria` parameter in the constructor function seems to
-    * represent the bank account number of the person being registered as a member. This parameter is
-    * used to store the bank account information of the member in the class instance.
-    */
-    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa = "2", $cuenta_bancaria)
+    //******************************************************************* RUTAS ***************************************************************************
+    private static $rutaJSON = __DIR__ . '/../data/socios.json';
+
+    /**
+     * Constructor para la clase Socio que valida los datos de entrada, establece valores predeterminados
+     * y almacena el miembro en un array de la clase.
+     * 
+     * @param string $dni El DNI del socio, que debe cumplir con el formato de 8 dígitos seguidos de una letra mayúscula.
+     * @param string $nombre El nombre del socio.
+     * @param string $apellidos Los apellidos del socio.
+     * @param string $fecha_nac La fecha de nacimiento del socio.
+     * @param string $telefono El número de teléfono del socio.
+     * @param string $email El correo electrónico del socio. Se valida para asegurar que tiene el formato adecuado.
+     * @param string $tarifa La tarifa de suscripción del socio, con un valor predeterminado de "1".
+     * @param string $cuenta_bancaria El número de cuenta bancaria del socio.
+     * 
+     * @throws datosIncorrectos Si el email no tiene un formato válido o el DNI no es válido.
+     */
+    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa = "1", $cuenta_bancaria)
     {
-        // Validar entradas
+        // Validar el email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new datosIncorrectos("ERROR: El email proporcionado no es válido.");
         }
+
+        // Comprobación del formato del DNI
         if (!preg_match('/^\d{8}[A-Z]$/', $dni)) {
             throw new datosIncorrectos("ERROR: El DNI proporcionado no es válido.");
         }
 
+        // Incrementar contador de socios
         self::$contador_socios++;
+
+        // Establecer fecha de alta y baja
         $this->fecha_alta = date('d-m-Y');
-        $this->fecha_baja = 'desconocida';
+        $this->fecha_baja = 'Sin efectuar';
+
+        // Asignar valores predeterminados o proporcionados
         $this->tarifa = $tarifa;
         $this->cuenta_bancaria = $cuenta_bancaria;
 
+        // Llamada al constructor de la clase base (si es necesario)
         parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email);
 
+        // Almacenar el objeto socio en el array estático de socios
         self::$socios[$this->dni] = $this;
     }
 
+
     // Método mágico para establecer propiedades
     /**
-     * The function __set in PHP is used to set the value of a property in a class, with specific
-     * restrictions and error handling.
+     * El método mágico __set en PHP se utiliza para asignar un valor a una propiedad en una clase,
+     * aplicando restricciones específicas y manejo de errores.
      * 
-     * @param name The `name` parameter in the `__set` magic method refers to the name of the property
-     * that is being set on the object. In this context, it is used to determine which property is
-     * being set and apply specific logic based on the property name.
-     * @param value The `` parameter in the `__set` magic method represents the value that is
-     * being assigned to a property of an object. In the provided code snippet, this parameter is used
-     * to set the value of a property in the class `Socio` when the property is not 'fecha_alta
+     * @param string $name El nombre de la propiedad a la que se le asignará un valor.
+     * @param mixed $value El valor que se asignará a la propiedad especificada.
+     * 
+     * @throws Exception Lanza una excepción si la propiedad no existe en la clase.
+     * @throws datosIncorrectos Lanza una excepción si se intenta modificar la propiedad 'fecha_alta'.
      */
     public function __set($name, $value)
     {
+        // Evita modificar la propiedad 'fecha_alta'
         if ($name == 'fecha_alta') {
             throw new datosIncorrectos("ERROR: No es posible modificar la fecha de alta de un socio.");
         }
 
+        // Verifica si la propiedad existe y asigna el valor
         if (property_exists($this, $name)) {
             $this->$name = $value;
         } else {
+            // Lanza una excepción si la propiedad no existe
             throw new Exception("ERROR: La propiedad '$name' no existe en la clase Socio.");
         }
     }
 
+
     // Método mágico para obtener propiedades
     /**
-     * The function __get in PHP is used to dynamically retrieve inaccessible properties of an object.
+     * El método mágico __get en PHP se utiliza para recuperar dinámicamente las propiedades inaccesibles
+     * de un objeto.
      * 
-     * @param name The `__get` magic method in PHP is used to intercept attempts to access
-     * non-accessible or non-existing properties of an object. In this case, the method checks if the
-     * property with the name specified in the `` parameter exists in the current object instance.
-     * If it does, the method
+     * @param string $name El nombre de la propiedad a obtener.
      * 
-     * @return If the property exists in the class, the value of that property will be returned.
-     * Otherwise, an Exception will be thrown with the message "ERROR: La propiedad '' no existe
-     * en la clase Socio."
+     * @return mixed Retorna el valor de la propiedad si existe. Si la propiedad no existe, lanza una excepción con un mensaje de error.
+     * 
+     * @throws Exception Si la propiedad no existe en la clase, se lanzará una excepción con el mensaje "ERROR: La propiedad '$name' no existe en la clase Socio."
      */
     public function __get($name)
     {
+        // Verifica si la propiedad existe en el objeto actual
         if (property_exists($this, $name)) {
-            return $this->$name;
+            return $this->$name; // Retorna el valor de la propiedad
         } else {
+            // Lanza una excepción si la propiedad no existe
             throw new Exception("ERROR: La propiedad '$name' no existe en la clase Socio.");
         }
     }
+
+    /**
+     * Filtra los socios según un campo y un valor específico.
+     * 
+     * @param string $campo El campo del socio por el cual se desea filtrar (por ejemplo, 'nombre', 'dni', etc.).
+     * @param string $valor El valor que se buscará en el campo especificado.
+     * 
+     * @return array Un array de socios que coinciden con el filtro, o un array vacío si no hay coincidencias.
+     */
     public static function filtrarSocios($campo, $valor)
     {
+        // Cargar la lista de socios
         $socios = self::cargarSocios();
+
+        // Filtrar los socios que coincidan con el valor en el campo especificado
         return array_filter($socios, function ($socio) use ($campo, $valor) {
+            // Comprobar si el campo existe y si contiene el valor (ignorando mayúsculas/minúsculas)
             return isset($socio[$campo]) && stripos($socio[$campo], $valor) !== false;
         });
     }
 
-    // Agregar un nuevo socio
-    private static $rutaJSON = __DIR__ . '/../data/socios.json';
 
+    /**
+     * Añade un nuevo socio a la lista de socios, verificando que no exista un socio con el mismo DNI.
+     * 
+     * @param string $dni El DNI del socio.
+     * @param string $nombre El nombre del socio.
+     * @param string $apellidos Los apellidos del socio.
+     * @param string $fecha_nac La fecha de nacimiento del socio.
+     * @param string $telefono El teléfono del socio.
+     * @param string $email El correo electrónico del socio.
+     * @param string $tarifa La tarifa del socio.
+     * @param string $cuenta_bancaria La cuenta bancaria del socio.
+     * 
+     * @return bool|string Retorna true si el socio se añade correctamente, o un mensaje de error si ocurre un problema.
+     */
     public static function addSocio(string $dni, string $nombre, string $apellidos, string $fecha_nac, string $telefono, string $email, string $tarifa, string $cuenta_bancaria)
     {
         try {
@@ -133,71 +157,133 @@ final class Socio extends Persona
             $sociosJson = self::cargarSocios();
 
             // Verificar si ya existe un socio con el mismo DNI
-            if (self::buscarSocio('dni', $dni)) {
-                throw new Exception("ERROR: Ya existe un socio con el DNI $dni");
+            foreach ($sociosJson as $socio) {
+                if ($socio['dni'] === $dni) {
+                    return "Ya existe un socio con el DNI $dni";
+                }
             }
 
-            // Crear el nuevo socio
+            // Si no existe, crear el nuevo socio
             $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria);
 
             // Guardar el socio en el archivo JSON
             $sociosJson[] = $nuevoSocio->toArray();
             self::guardarSocios($sociosJson);
 
-            return true; // Éxito
+            return true;
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
+    /**
+     * Carga la lista de socios desde el archivo JSON.
+     * 
+     * @return array Retorna un array con la lista de socios. Si el archivo no existe o está vacío, retorna un array vacío.
+     */
     private static function cargarSocios(): array
     {
+        // Verifica si el archivo JSON existe
         if (!file_exists(self::$rutaJSON)) {
-            return []; // Si no existe el archivo, retorna un array vacío
+            return []; // Retorna un array vacío si el archivo no existe
         }
 
+        // Lee el contenido del archivo JSON
         $sociosJson = file_get_contents(self::$rutaJSON);
+
+        // Decodifica el JSON en un array asociativo y retorna, o un array vacío si falla
         return json_decode($sociosJson, true) ?? [];
     }
 
+    /**
+     * Guarda la lista de socios en el archivo JSON.
+     * 
+     * @param array $socios Array con la lista de socios a guardar.
+     * 
+     * @return void
+     */
     private static function guardarSocios(array $socios)
     {
-        file_put_contents(self::$rutaJSON, json_encode($socios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        // Convierte el array de socios a JSON y lo guarda en el archivo
+        file_put_contents(
+            self::$rutaJSON,
+            json_encode($socios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        );
     }
 
+    /**
+     * Busca un socio por un campo específico y su valor.
+     * 
+     * @param string $campo El campo por el cual buscar (por ejemplo, 'dni', 'email', etc.).
+     * @param mixed $valor El valor del campo a buscar.
+     * 
+     * @return array|null Retorna un array con los datos del socio si se encuentra, o null si no existe.
+     */
     public static function buscarSocio(string $campo, $valor): ?array
     {
+        // Cargar la lista de socios
         $socios = self::cargarSocios();
 
+        // Recorrer los socios y buscar coincidencias
         foreach ($socios as $socio) {
             if ($socio[$campo] === $valor) {
-                return $socio; // Retorna el socio si lo encuentra
+                // Retorna el socio si coincide con el valor buscado
+                return $socio;
             }
         }
 
-        return null; // Retorna null si no lo encuentra
+        // Retorna null si no se encuentra ningún socio
+        return null;
     }
 
+    /**
+     * Modifica los datos de un socio identificado por su DNI.
+     * 
+     * Actualiza solo los campos proporcionados y guarda los cambios en el archivo JSON.
+     * 
+     * @param string $dni DNI del socio a modificar.
+     * @param string|null $nombre Nuevo nombre (opcional).
+     * @param string|null $apellidos Nuevos apellidos (opcional).
+     * @param string|null $fecha_nac Nueva fecha de nacimiento (opcional).
+     * @param string|null $telefono Nuevo teléfono (opcional).
+     * @param string|null $email Nuevo email (opcional).
+     * @param string|null $tarifa Nueva tarifa (opcional).
+     * @param string|null $fecha_alta Nueva fecha de alta (opcional).
+     * @param string|null $fecha_baja Nueva fecha de baja (opcional).
+     * @param string|null $cuenta_bancaria Nueva cuenta bancaria (opcional).
+     * 
+     * @return string Mensaje de éxito si el socio fue modificado.
+     * 
+     * @throws Exception Si no se encuentra el socio o si ocurren problemas al cargar los datos.
+     */
     public static function modificarSocio(
-        string $dni_socio,
-        ?string $nombre = null,
-        ?string $apellidos = null,
-        ?string $fecha_nac = null,
-        ?string $telefono = null,
-        ?string $email = null,
-        ?string $tarifa = null,
-        ?string $fecha_alta = null,
-        ?string $fecha_baja = null,
-        ?string $cuenta_bancaria = null
-    ): string {
-        $socios = self::cargarSocios();
-        $socioEncontrado = false;
+        $dni,
+        $nombre = null,
+        $apellidos = null,
+        $fecha_nac = null,
+        $telefono = null,
+        $email = null,
+        $tarifa = null,
+        $fecha_alta = null,
+        $fecha_baja = null,
+        $cuenta_bancaria = null
+    ) {
+        // Ruta al archivo JSON donde se almacenan los socios
+        //******************************************************************* RUTAS ***************************************************************************
+        $rutaJson = __DIR__ . '/data/socios.json';
 
-        foreach ($socios as &$socio) {
-            if ($socio['dni'] === $dni_socio) {
-                $socioEncontrado = true;
+        // Leer el archivo JSON y decodificarlo
+        $sociosJson = json_decode(file_get_contents($rutaJson), true);
 
-                // Actualizar solo los campos proporcionados
+        // Validar si se pudieron cargar los datos
+        if (!$sociosJson) {
+            throw new Exception("No se pudieron cargar los datos de los socios.");
+        }
+
+        // Buscar el socio por DNI
+        foreach ($sociosJson as &$socio) {
+            if ($socio['dni'] === $dni) {
+                // Actualizar los campos proporcionados
                 if ($nombre !== null) $socio['nombre'] = $nombre;
                 if ($apellidos !== null) $socio['apellidos'] = $apellidos;
                 if ($fecha_nac !== null) $socio['fecha_nac'] = $fecha_nac;
@@ -208,20 +294,25 @@ final class Socio extends Persona
                 if ($fecha_baja !== null) $socio['fecha_baja'] = $fecha_baja;
                 if ($cuenta_bancaria !== null) $socio['cuenta_bancaria'] = $cuenta_bancaria;
 
-                break;
+                // Guardar los cambios en el archivo JSON
+                file_put_contents($rutaJson, json_encode($sociosJson, JSON_PRETTY_PRINT));
+                return "Socio con DNI $dni modificado correctamente.";
             }
         }
 
-        if (!$socioEncontrado) {
-            throw new Exception("No se encontró un socio con el DNI: $dni_socio");
-        }
-
-        self::guardarSocios($socios);
-        return "El socio con DNI $dni_socio ha sido modificado correctamente.";
+        // Lanza una excepción si no se encuentra el socio
+        throw new Exception("No se encontró un socio con el DNI $dni.");
     }
 
+
+    /**
+     * Convierte las propiedades del objeto en un array asociativo.
+     * 
+     * @return array Array con las propiedades del objeto.
+     */
     private function toArray(): array
     {
+        // Retorna un array con las propiedades del objeto
         return [
             'dni' => $this->dni,
             'nombre' => $this->nombre,
@@ -230,46 +321,71 @@ final class Socio extends Persona
             'telefono' => $this->telefono,
             'email' => $this->email,
             'tarifa' => $this->tarifa,
+            // Usa la fecha actual si no existe fecha de alta
             'fecha_alta' => $this->fecha_alta ?? date('Y-m-d'),
+            // Si no hay fecha de baja, retorna null
             'fecha_baja' => $this->fecha_baja ?? null,
             'cuenta_bancaria' => $this->cuenta_bancaria,
         ];
     }
 
 
-
+    /**
+     * Muestra los datos de todos los socios registrados.
+     * 
+     * @return void
+     */
     public static function mostrarSocios()
     {
+        // Recorre todos los socios almacenados en la propiedad estática $socios
         foreach (self::$socios as $dni => $obj_socio) {
+            // Obtiene las propiedades del objeto socio
             $propiedades = get_object_vars($obj_socio);
 
+            // Muestra el encabezado con el DNI del socio
             echo "<b>DATOS DEL SOCIO $dni:</b><br>";
+
+            // Recorre las propiedades del socio
             foreach ($propiedades as $propiedad => $value) {
+                // Omite las propiedades que son arrays
                 if (is_array($value)) continue;
+
+                // Muestra la propiedad y su valor
                 echo $propiedad . " => " . $value . "<br>";
             }
 
+            // Espaciado entre socios
             echo "<br>";
         }
     }
 
 
+    /**
+     * Muestra las propiedades del objeto que no sean arrays.
+     * 
+     * @return void
+     */
     public function verSocio()
     {
+        // Obtiene todas las propiedades del objeto
         $propiedades = get_object_vars($this);
 
+        // Recorre las propiedades del objeto
         foreach ($propiedades as $propiedad => $value) {
+            // Omite las propiedades que son arrays
             if (is_array($value)) continue;
 
+            // Muestra el nombre de la propiedad y su valor
             echo $propiedad . " => " . $value . "<br>";
         }
     }
 
+
     /**
      * The function "darBajaSocio" is used to mark a member as inactive by setting the "fecha_baja"
      * property, decreasing the total count of members, adding the member to a list of inactive
-     * members, and removing the member from the active members list.
-     */ public static function eliminarSocio($campo, $valor)
+     * members, and removing the member from the active members list.*/
+    public static function eliminarSocio($campo, $valor)
     {
         try {
             // Cargar los socios desde el archivo JSON
