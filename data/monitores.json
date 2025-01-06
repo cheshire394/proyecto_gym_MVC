@@ -7,8 +7,8 @@
         "email": "laura_boxing@gmail.com",
         "cuenta_bancaria": "ES9123456789012345678901",
         "funcion": "monitor",
-        "sueldo": 1100,
-        "horas_extra": 0,
+        "sueldo": 540,
+        "horas_extra": 5,
         "jornada": 16,
         "disciplinas": [
             "boxeo",
@@ -16,13 +16,6 @@
             "MMA"
         ],
         "clases": {
-            "lunes-10:00": {
-                "nombre_actividad": "MMA",
-                "dia_semana": "lunes",
-                "hora_inicio": "10:00",
-                "hora_fin": "12:00"
-            },
-
             "lunes-12:00": {
                 "nombre_actividad": "kickboxing",
                 "dia_semana": "lunes",
@@ -75,15 +68,15 @@
     },
     "09626574Q": {
         "nombre": "Carlos",
-        "apellidos": "Gómez Pérez",
+        "apellidos": "G\u00f3mez P\u00e9rez",
         "fecha_nac": "1990-03-12",
         "telefono": "691234567",
         "email": "carlos@gmail.com",
         "cuenta_bancaria": "ES9234567890123456789012",
         "funcion": "monitor",
-        "sueldo": 1200,
+        "sueldo": 360,
         "horas_extra": 0,
-        "jornada": 8,
+        "jornada": 12,
         "disciplinas": [
             "taekwondo",
             "karate"
@@ -129,22 +122,20 @@
     },
     "55462206Y": {
         "nombre": "Ana",
-        "apellidos": "Martínez López",
+        "apellidos": "Mart\u00ednez L\u00f3pez",
         "fecha_nac": "1988-09-23",
         "telefono": "677123456",
         "email": "ana.judo@gmail.com",
         "cuenta_bancaria": "ES9345678901234567890123",
         "funcion": "monitor",
-        "sueldo": 1150,
+        "sueldo": 540,
         "horas_extra": 0,
-        "jornada": 310,
+        "jornada": 18,
         "disciplinas": [
             "judo",
             "aikido"
         ],
         "clases": {
-            
-            
             "martes-10:00": {
                 "nombre_actividad": "judo",
                 "dia_semana": "martes",

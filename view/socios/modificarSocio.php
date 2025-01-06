@@ -1,21 +1,5 @@
 <!-- Página Modificar Socio -->
 
-<!-- Si no está registrado en la sesión el recepcionista-->
-<?php
-// Inicia una nueva sesión o reanuda la sesión existente
-session_start();
-// Verifica si existe una variable de sesión 'nombre'
-if (isset($_SESSION['nombre'])) {
-    // Si existe, asigna su valor a la variable $nombre (usando el operador de coalescencia nula por seguridad)
-    $nombre = $_SESSION['nombre'] ?? "";
-} else {
-    // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-    //******************************************************************* RUTAS ***************************************************************************
-    header('Location: ../login_recepcionista.php');
-    exit();
-}
-?>
-
 <?php
 $socio = null;
 

@@ -1,19 +1,18 @@
 <!-- Página Añadir Socio -->
 
-<!-- Si no está registrado en la sesión el recepcionista-->
 <?php
+/* This PHP code block is responsible for managing the user session. Here's a breakdown of what it
+    does: */
 // Inicia una nueva sesión o reanuda la sesión existente
 session_start();
+
 // Verifica si existe una variable de sesión 'nombre'
-if (isset($_SESSION['nombre'])) {
-    // Si existe, asigna su valor a la variable $nombre (usando el operador de coalescencia nula por seguridad)
-    $nombre = $_SESSION['nombre'] ?? "";
-} else {
-    // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-    //******************************************************************* RUTAS ***************************************************************************
-    header('Location: ../login_recepcionista.php');
-    exit();
-}
+if (!isset($_SESSION['nombre'])) {
+       // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
+       header('location: ../login_recepcionista.php');
+       exit(); 
+   }
+ 
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +52,9 @@ if (isset($_SESSION['nombre'])) {
 
             <fieldset>
                 <label for="dni">DNI:</label>
+                <p style='color:grey'>Ejemplos de dni válidos para probar el programa: 47432031M    //   38539428F  //   77391101B</p>
                 <input type="text" id="dni" name="dni" required><br><br>
+               
 
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required><br><br>

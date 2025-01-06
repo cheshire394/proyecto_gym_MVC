@@ -1,7 +1,20 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+/* This PHP code block is responsible for managing the user session. Here's a breakdown of what it
+    does: */
+// Inicia una nueva sesión o reanuda la sesión existente
+session_start();
+
+// Verifica si existe una variable de sesión 'nombre'
+if (!isset($_SESSION['nombre'])) {
+       // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
+       header('location: ../login_recepcionista.php');
+       exit(); 
+   }
+ 
+?>
+
+<?php
+
 require_once '../../controllers/controladorTrabajadores.php';
 // Obtener todos los monitores o un array vacio si no hay:
 $monitores = ControladorTrabajadores::verMonitores(); 

@@ -1,21 +1,19 @@
 <!-- Página para buscar/ver Socios-->
 
-<!-- Si no está registrado en la sesión el recepcionista-->
 <?php
+/* This PHP code block is responsible for managing the user session. Here's a breakdown of what it
+    does: */
 // Inicia una nueva sesión o reanuda la sesión existente
 session_start();
-// Verifica si existe una variable de sesión 'nombre'
-if (isset($_SESSION['nombre'])) {
-    // Si existe, asigna su valor a la variable $nombre (usando el operador de coalescencia nula por seguridad)
-    $nombre = $_SESSION['nombre'] ?? "";
-} else {
-    // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-    //******************************************************************* RUTAS ***************************************************************************
-    header('Location: ../login_recepcionista.php');
-    exit();
-}
-?>
 
+// Verifica si existe una variable de sesión 'nombre'
+if (!isset($_SESSION['nombre'])) {
+       // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
+       header('location: ../login_recepcionista.php');
+       exit(); 
+   }
+ 
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -42,7 +40,6 @@ if (isset($_SESSION['nombre'])) {
                 <option value="tarifa">Tarifa</option>
                 <option value="fecha_alta">Fecha de Alta</option>
                 <option value="fecha_baja">Fecha de Baja</option>
-                <option value="reservas_clases">Reservas de Clases</option>
             </select>
             <br><br>
 

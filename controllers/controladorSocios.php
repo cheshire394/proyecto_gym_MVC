@@ -7,6 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Incluir las clases necesarias para gestionar personas, trabajadores, clases, monitores y socios.
+require_once __DIR__ . '/../models/datosIncorrectos.php'; //excepción personalizada
 require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Clase.php';
@@ -60,7 +61,11 @@ class controladorSocios
             // Si todo fue correcto
             header('Location: ../socios/addSocio.php?exito=Socio añadido correctamente');
             exit;
-        } catch (Exception $e) {
+        }catch(datosIncorrectos $e){
+
+            header('Location: ../socios/addSocio.php?error=' . urlencode($e->datosIncorrectos()));
+
+        }catch (Exception $e) {
             // Capturar cualquier otra excepción y redirigir con el mensaje de error
             //******************************************************************* RUTAS ***************************************************************************
             header('Location: ../socios/addSocio.php?error=' . urlencode($e->getMessage()));
@@ -153,7 +158,7 @@ class controladorSocios
     {
         // Ruta absoluta al archivo de vista principal
         //******************************************************************* RUTAS ***************************************************************************
-        $file = $_SERVER['DOCUMENT_ROOT'] . '/view/socios/verSocio.php';
+        $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
 
         // Verificar si la vista principal existe
         if (!file_exists($file)) {
@@ -227,11 +232,11 @@ class controladorSocios
 
             // Incluir primero la vista verSocio.php
             //******************************************************************* RUTAS ***************************************************************************
-            include $_SERVER['DOCUMENT_ROOT'] . '/view/socios/verSocio.php';
+            include $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
 
             // Luego incluir la vista que muestra la tabla con todos los socios
             //******************************************************************* RUTAS ***************************************************************************
-            include $_SERVER['DOCUMENT_ROOT'] . '/view/socios/todosSocios.php';
+            include $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/todosSocios.php';
         } catch (Exception $e) {
             echo "<p style='color:red'>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
         }
