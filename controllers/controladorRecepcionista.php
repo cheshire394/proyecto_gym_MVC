@@ -85,12 +85,12 @@ class ControladorRecepcionista
         if (Trabajador::login($dni, $password)) {
 
             // Credenciales correctas: redirigir a bienvenida
-            header('Location: /proyecto_gym_MVC/view/bienvenida_recepcionista.php');
+            header("Location: /proyecto_gym_MVC/view/bienvenida_recepcionista.php");
             exit;
         } else {
 
             // Credenciales incorrectas: mostrar error
-            header('Location: /proyecto_gym_MVC/view/login_recepcionista.php?error=credenciales_incorrectas');
+            header("Location: /proyecto_gym_MVC/view/login_recepcionista.php?error=credenciales_incorrectas");
             exit;
         }
     }

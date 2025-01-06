@@ -1,16 +1,5 @@
 [
     {
-        "dni": "66974164G",
-        "nombre": "Ana",
-        "apellidos": "Martínez García",
-        "fecha_nac": "1992-05-18",
-        "telefono": "622345678",
-        "email": "ana.martinez@gym.com",
-        "tarifa": "1",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
-    },
-    {
         "dni": "82709958A",
         "nombre": "Luis",
         "apellidos": "Pérez Sánchez",

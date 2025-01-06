@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buscar_dni'])) {
                 <input type="date" id="fecha_nac" name="fecha_nac" value="<?php echo htmlspecialchars($socio['fecha_nac']); ?>"><br><br>
 
                 <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" value="<?php echo htmlspecialchars($socio['telefono']); ?>"><br><br>
+                <input type="number" id="telefono" name="telefono" value="<?php echo htmlspecialchars($socio['telefono']); ?>"><br><br>
 
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($socio['email']); ?>"><br><br>

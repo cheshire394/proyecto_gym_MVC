@@ -273,7 +273,7 @@ class controladorSocios
         } catch (Exception $e) {
             //******************************************************************* RUTAS ***************************************************************************
             // Redirigir de vuelta al formulario con el mensaje de error
-            header('Location: ../socios/eliminarSocio.php?error=No se puedo eliminar, hubo un error');
+            header('Location: ../socios/eliminarSocio.php?error=Excepción personalizada: no existe ningún socio registrado con ese DNI');
             exit;
         }
     }

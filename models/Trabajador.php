@@ -137,6 +137,7 @@ Let's break down each property: */
         $recepcionistas = json_decode($recepcionistas, true);
 
         // Devolvemos el array de recepcionistas (vacío si no hay ninguna)
+      
         return $recepcionistas ?: [];
     }
 
@@ -164,12 +165,14 @@ Let's break down each property: */
         $recepcionistas = self::recepcionistasJSON();
 
         // Verificamos si ya existe un recepcionista con ese DNI
+        
         foreach ($recepcionistas as $recepcionista) {
             if ($recepcionista['dni'] === $datos['dni']) {
                 return false; // Ya existe, salimos del registro con mensaje informátivo
             }
         }
 
+    
         // encriptar las contraseña, en el json.
         $datos['password'] = password_hash($datos['password'], PASSWORD_BCRYPT);
 
@@ -177,9 +180,9 @@ Let's break down each property: */
         $recepcionistas[] = $datos;
 
         // Guardar en el JSON
-        file_put_contents(self::RUTA_JSON_RECEPCIONISTAS, json_encode($recepcionistas, JSON_PRETTY_PRINT));
+        $registrado=file_put_contents(self::RUTA_JSON_RECEPCIONISTAS, json_encode($recepcionistas, JSON_PRETTY_PRINT));
 
-        return true; //registro exitoso
+        return $registrado; //boolean
     }
 
 
