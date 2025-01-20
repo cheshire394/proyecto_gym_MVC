@@ -26,46 +26,11 @@ $horario = ControladorClases::mostrar_todas_Clases();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horario del Gimnasio</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px auto;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: rgb(100, 149, 237);
-            color: white;
-        }
-        td {
-            background-color: #f9f9f9;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #ddd;
-            
-        }
-        .hora {
-            font-weight: bold;
-            background-color: rgb(100, 149, 237);
-            color:#f2f2f2; 
-        }
-        .libre {
-            background-color:hsl(0, 85.30%, 86.70%);
-        }
-        .ocupada{
-            background-color: #d2f5b9;
-        }
-    </style>
+    <link rel="stylesheet" href="/proyecto_gym_MVC/stylos/form_stylos.css">
+    
 </head>
 <body>
-    <h2 style='color:rgb(75, 125, 218); font-size:43px; text-align:center';>Horario del Gimnasio</h2>
+   
     <table>
         <thead>
             <tr>
@@ -102,9 +67,19 @@ $horario = ControladorClases::mostrar_todas_Clases();
             ?>
         </tbody>
     </table>
-    <br>
-    <a href="../bienvenida_recepcionista.php">Volver a la página de Bienvenida</a>
-    <br>
+   
+    
+
+                          <div id='divEnlace'>
+                                  <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+                                  <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                  </svg>
+                                  <span>volver al menú principal</span>
+                                  </a>
+                          </div>
+      
+                     
     <?php
 
             //Mensaje de exito de las acciones ejecutadas desde otras páginas: 

@@ -1,0 +1,177 @@
+body {
+    color: #2f5b96;
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f6f8;
+}
+
+h1 {
+    font-size: 43px;
+    text-align: center;
+    margin-top: 20px;
+    color: #2f5b96;
+}
+
+p {
+    font-size: 23px;
+    text-align: center;
+    color: #2f5b96;
+}
+
+
+
+fieldset {
+    border: 2px solid #2f5b96;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%; /* Ocupa el 90% del ancho del viewport */
+    max-width: 600px; /* Límite máximo de anchura */
+    min-width: 300px; /* Límite mínimo de anchura */
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Centra horizontalmente */
+    position: relative;
+}
+
+
+legend {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2f5b96; 
+    padding: 0 10px;
+    text-align: center;
+}
+
+label{
+    color:#2f5b96; 
+    font-size: 25px; 
+}
+
+input, select {
+    background-color: #dcdef7;
+    border-radius: 4px;
+    padding: 7px 9px;
+    border: 1px solid #ccc;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #4b6c98;
+}
+
+
+
+button {
+    background-color: #2f5b96;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 55px;
+    margin-left:40px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover {
+    background-color: #dcdef7;
+    color: #040934;
+    transform: translateY(3px);
+}
+
+button:active {
+    background-color: #040934;
+    color:white;
+
+}
+
+#divEnlace{
+    
+    display: inline-flex; 
+    float: right;
+    margin: 2em;
+    align-items: center; 
+    text-decoration: none; 
+    color: inherit;
+}
+
+#divEnlace:hover{
+    color:#040934; 
+}
+
+
+
+
+table {
+    width: 80%;
+    height: 40%;
+    border-collapse: collapse;
+    border-radius: 4px;
+    margin: 20px auto;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color:  #2f5b96;
+    color: white;
+}
+td {
+    background-color: #f9f9f9;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #ddd;
+}
+.hora {
+    font-weight: bold;
+    background-color: #2f5b96;
+    color: #f2f2f2; 
+}
+.libre {
+    background-color: #eaeaea;
+}
+.noFiltro {
+    background-color: #f096a2;
+}
+.filtrada {
+    background-color: #ecfedc;
+}
+
+.contenedor-horas-extra {
+    background-color: #dcdef7;
+    display: flex; /* Habilitar Flexbox */
+    align-items: center; /* Alinear verticalmente */
+    justify-content: flex-start; /* Alinear horizontalmente */
+    gap: 5px; /* Espacio entre los elementos */
+    width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+#input_horas_extra {
+    flex: 1; /* Ocupa espacio proporcional */
+    width: auto; /* Permite al input ajustarse */
+    display: block;
+    padding: 8px; /* Espaciado interno para mayor usabilidad */
+}
+
+#btn_horas_extra {
+    flex: 1; /* Ocupa espacio proporcional */
+    width: auto;
+    display: block;
+    padding: 8px; /* Espaciado interno para mejor interacción */
+    text-align: center; /* Centra el texto del botón */
+    margin-bottom: 4px;
+}

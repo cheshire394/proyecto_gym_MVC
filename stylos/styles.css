@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    color: #2f5b96;
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.main-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 300px; /* Ensanchamiento del sidebar */
+    background-color: #2f5b96;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: white;
+    padding-top: 5em;
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-button {
+    width: 100%;
+    padding: 15px 20px;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    font-size: 22px; /* Texto ligeramente más grande */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu-button:hover {
+    background-color: #040934; /* Color azul oscuro al hacer hover */
+}
+
+.submenu {
+    position: absolute;
+    width: 50%;
+    left: 100%;
+    top: 0;
+    width: 250px; /* Ajustado para el submenú */
+    background-color: #2f5b96;
+    display: none;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    font-size: 22px; /* Aumentado ligeramente */
+}
+
+.menu-item:hover .submenu {
+    display: block;
+}
+
+.submenu a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    display: block;
+    transition: background-color 0.3s;
+    white-space: nowrap; /* Texto en una sola línea */
+    overflow: hidden; /* Ocultar texto que sobresalga */
+    text-overflow: ellipsis; /* Mostrar puntos suspensivos si el texto es muy largo */
+}
+
+.submenu a:hover {
+    background-color: #040934; /* Azul oscuro */
+}
+
+.content {
+    margin-left: 300px; /* Ajuste según el ancho del sidebar */
+    padding: 20px;
+    flex: 1;
+}
+
+.icon {
+    width: 24px; /* Tamaño ligeramente mayor para íconos */
+    height: 24px;
+}
+
+.theme-toggle {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.theme-button {
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-button:hover {
+    background-color: #2c3e50;
+    color: #f0f2f5;
+}
+
+main {
+    background-image: url('img/fondo6.jpg');
+    color: white;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Poppins", serif;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Estilo del título */
+#titulo {
+    position: absolute;
+    top: 13%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    font-family: 'Rock Salt', cursive;
+    font-size: 2.5rem;
+    color: #2f5b96;
+    white-space: nowrap; /* Mantiene los espacios */
+}
+
+/* Estilo de las letras del título */
+.letra {
+    display: inline-block;
+    opacity: 0; /* Inicialmente oculto */
+    transform: scale(0.8); /* Tamaño inicial pequeño */
+    animation: escribir 0.2s forwards; /* Animación personalizada */
+}
+
+/* Animación de escritura */
+@keyframes escribir {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+    }
+    70% {
+        transform: scale(1.2) rotate(5deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

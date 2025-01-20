@@ -44,98 +44,137 @@ receptionist. Here's a breakdown of what each part of the code is doing: -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Recepcionista</title>
+    <style>
+        body{
+            background-image: url('../img/fondo1.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        fieldset{
+            background-color:white;
+            float: right;
+            margin-right: 15em;
+            margin-top: 10em;
+            padding: 1em;
+            border-radius: 8px;
+            
+            
+        }
+
+        form{
+         
+            text-align: left;
+        }
+
+        h2{
+          
+            margin-right: 15em;
+            color: #b7475a; 
+        }
+        button{
+            background-color: #b7475a;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 1em;
+            margin:1.4em; 
+        }
+        button:hover{
+            background-color: #bdbcbd;
+            transform:translateY(3px);
+            transition: 0.5s;
+            color:black; 
+        }
+        input{
+            padding: 0.5em;
+            margin: 0.70em;
+           
+        }
+        label{
+            font-size: x-large;
+        }
+
+      
+    </style>
 </head>
 <body>
-    <h1>Registro Recepcionista: </h1>
-    <p style='color:rgb(75, 125, 218); font-size:23px';>*Datos de solo lectura para facilitar la prueba de la aplicación. Únicamente es necesario añadir la contraseña.</p>
-    
-    <!--Enviará los datos mediante el método POST al archivo index.php con un parámetro action=registro.-->
-    <fieldset>
-    <form method="POST" action="../index.php?action=registro">
-    <fieldset>
-        <form method="POST" action="../index.php?action=registro">
 
-            <!-- Datos del usuario -->
-            <fieldset>
-                <legend>Datos usuario:</legend>
-
-                <label for="nombre">Nombre:</label><br>
-                <input type="text" id="nombre" name="nombre" value="<?= $recepcionista1['nombre'] ?>" readonly><br><br>
-
-                <label for="apellidos">Apellidos:</label><br>
-                <input type="text" id="apellidos" name="apellidos" value="<?= $recepcionista1['apellidos'] ?>" readonly><br><br>
-
-                <label for="dni">DNI:</label><br>
-                <input type="text" id="dni" name="dni" value="<?= $recepcionista1['dni'] ?>" readonly><br><br>
-
-                <label for="fecha_nac">Fecha de Nacimiento:</label><br>
-                <input type="date" id="fecha_nac" name="fecha_nac" value="<?= $recepcionista1['fecha_nac'] ?>" readonly><br><br>
-
-                <label for="telefono">Teléfono:</label><br>
-                <input type="tel" id="telefono" name="telefono" value="<?= $recepcionista1['telefono'] ?>" readonly><br><br>
-
-                <label for="email">Correo Electrónico:</label><br>
-                <input type="email" id="email" name="email" value="<?= $recepcionista1['email'] ?>" readonly><br><br>
-            </fieldset>
-
-            <br>
-
-            <!-- Datos adicionales -->
-            <fieldset>
-                <legend>Datos adicionales:</legend>
-
-                <label for="cuenta_bancaria">Cuenta Bancaria:</label><br>
-                <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" value="<?= $recepcionista1['cuenta_bancaria'] ?>" readonly><br><br>
-
-                <label for="funcion">Función:</label><br>
-                <input type="text" id="funcion" name="funcion" value="<?= $recepcionista1['funcion'] ?>" readonly><br><br>
-
-                <label for="sueldo">Sueldo:</label><br>
-                <input type="number" id="sueldo" name="sueldo" value="<?= $recepcionista1['sueldo'] ?>" readonly><br><br>
-
-                <label for="horas_extra">Horas Extra:</label><br>
-                <input type="number" id="horas_extra" name="horas_extra" value="<?= $recepcionista1['horas_extra'] ?>" readonly><br><br>
-
-                <label for="jornada">Jornada:</label><br>
-                <input type="number" id="jornada" name="jornada" value="<?= $recepcionista1['jornada'] ?>" readonly><br><br>
-            </fieldset>
-
-            <br>
-
-            <!-- Datos de acceso -->
-            <fieldset>
-                <legend>Acceso:</legend>
-
-                <label for="password">Contraseña:</label><br>
-                <input type="password" id="password" name="password" required><br><br>
-            </fieldset>
-
-            <br>
-
-            <!-- Botón de enviar -->
-            <button type="submit" name="registrar">Registrar</button>
-        </form>
-    </fieldset>
-
-    <br>
-
-    <!-- Enlace para ir al login -->
-    <fieldset>
-        <a href="login_recepcionista.php">Login Recepción</a>
-    </fieldset>
-
-    <!-- Código PHP -->
-    <?php
+ <!-- Código PHP -->
+ <?php
     //Incluye el archivo controladorRecepcionista.php, donde se encuentra la lógica para procesar los datos del formulario.
     require_once('../controllers/controladorRecepcionista.php'); 
 
         /* The `if` statement you provided is checking if a specific condition is met in the URL
         parameters. Let's break it down: */
         if (isset($_GET['error']) && $_GET['error'] === 'dni_existente') {
-                echo '<p style="color: red;">La recepcionista ya está registrada, redirigiendo al login</p>';
-                header('Refresh:3; url=login_recepcionista.php?dni');
+            echo '<p style="color: red; font-size: 24px; font-weight: bold; text-align: center; background-color:white">La recepcionista ya está registrada, redirigiendo al login</p>';
+                header('Refresh:4 login_recepcionista.php');
             } 
 ?>
+   
+    
+    <!--Enviará los datos mediante el método POST al archivo index.php con un parámetro action=registro.-->
+   
+    <form method="POST" action="../index.php?action=registro">
+    <fieldset>
+        <h2>Registro recepcionista</h2>
+        <form method="POST" action="../index.php?action=registro">
+
+            <!-- Datos del usuario -->
+        
+
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="<?= $recepcionista1['nombre'] ?>" readonly><br>
+
+                <label for="apellidos">Apellidos</label>
+                <input type="text" id="apellidos" name="apellidos" value="<?= $recepcionista1['apellidos'] ?>" readonly><br>
+
+                <label for="dni">DNI</label>
+                <input type="text" id="dni" name="dni" value="<?= $recepcionista1['dni'] ?>" readonly><br>
+
+                <label for="fecha_nac">Fecha de nacimiento</label>
+                <input type="date" id="fecha_nac" name="fecha_nac" value="<?= $recepcionista1['fecha_nac'] ?>" readonly><br>
+
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" value="<?= $recepcionista1['telefono'] ?>" readonly><br>
+
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" value="<?= $recepcionista1['email'] ?>" readonly><br>
+
+                <label for="cuenta_bancaria">Cuenta Bancaria</label>
+                <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" value="<?= $recepcionista1['cuenta_bancaria'] ?>" readonly><br>
+
+                <label for="funcion">Función</label>
+                <input type="text" id="funcion" name="funcion" value="<?= $recepcionista1['funcion'] ?>" readonly><br>
+
+                <label for="sueldo">Sueldo</label>
+                <input type="number" id="sueldo" name="sueldo" value="<?= $recepcionista1['sueldo'] ?>" readonly><br>
+
+                <label for="horas_extra">Horas Extra</label>
+                <input type="number" id="horas_extra" name="horas_extra" value="<?= $recepcionista1['horas_extra'] ?>" readonly><br>
+
+                <label for="jornada">Jornada</label>
+                <input type="number" id="jornada" name="jornada" value="<?= $recepcionista1['jornada'] ?>" readonly><br>
+         
+            <br>
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required><br><br>
+        
+            <!-- Botón de enviar -->
+            <button type="submit" name="registrar">Registrar</button>
+               <!-- Enlace para ir al login -->
+            <br>
+        <a href="login_recepcionista.php">Login recepción</a>
+        </form>
+    
+
+    <br>
+
+ 
+   
+
+   
 
    
 </body>

@@ -28,52 +28,7 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Monitores</title>
-    <style>
-        details{
-            margin:10px; 
-            padding: 10px;
-        }
-        h1{
-            text-align: center;
-            color:rgb(75, 125, 218);
-            border-color: #c0cef8;
-            font-weight: bold;
-            font-size: 40px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-            background-color: #eef1fb;
-        }
-        th {
-            background-color:rgb(75, 125, 218);
-            color:white; 
-            font-weight: bold;
-          
-        }
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        button{
-            background-color:rgb(75, 125, 218);
-            border: solid white; 
-            border-radius: 4px;
-            color:white; 
-            padding: 7px;
-            margin-top: 5px;
-        }
-        button:hover{
-            transform: translateY(3px);
-            background-color:#1e50f9; 
-        }
-    </style>
+    <link rel="stylesheet" href="/proyecto_gym_MVC/stylos/form_stylos.css">
 </head>
 <body>
     <h1>Listado de Monitores</h1>
@@ -118,22 +73,23 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
                         <td><?= htmlspecialchars($monitor->__get('horas_extra'))?></td>
                         <td>
 
-                       
-                        <form method="post" action="../../controllers/controlador_horas.php">
+                        <div class="contenedor-horas-extra">  
+                            <form method="post" action="../../controllers/controlador_horas.php">
 
-                            <input type='number' name='horas_extra' min='0'  maxlenght='2' require>
-                            <input type='hidden' name='dni' value=<?php echo $dni?>>
-                            <button type='submit' name='add_horas'>añadir horas extra</button>
+                                <input id='input_horas_extra' type='number' name='horas_extra' min='0'  maxlenght='2' require>
+                                <input type='hidden' name='dni' value=<?php echo $dni?>>
+                                <button id='btn_horas_extra' type='submit' name='add_horas'>añadir horas extra</button>
 
-                        
-                        </form>
+                            
+                            </form>
+                        </div>
                         </td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
 
-        <p style='color:rgb(75, 125, 218); font-size:23px';>Nota* La jornada, el sueldo, las clases y las disciplinas se van actualizando según se manipulan las clases que ejercen</p>
+        <p>Nota* La jornada, el sueldo, las clases y las disciplinas se van actualizando según se manipulan las clases que ejercen</p>
     <?php } else { ?>
         <p>No hay monitores disponibles en el registro</p>
     <?php } ?>
@@ -181,8 +137,14 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
     <?php } ?>
         <br>
 
-    <fieldset>
-        <a href="../bienvenida_recepcionista.php">Página de Bienvenida</a>
-    </fieldset>
+        <div id='divEnlace'>
+                    <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    <span>volver al menú principal</span>
+                    </a>
+            </div>
+            </div>
 </body>
 </html>
