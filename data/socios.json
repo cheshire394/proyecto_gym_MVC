@@ -7,8 +7,9 @@
         "telefono": "611987654",
         "email": "luis.perez@gym.com",
         "tarifa": "2",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": "ES9121000418450200051332",
+        "fecha_alta": "10-12-2024"
+        
     },
     {
         "dni": "93330782W",
@@ -18,8 +19,9 @@
         "telefono": "612345987",
         "email": "sofia.lopez@gym.com",
         "tarifa": "3",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": null,
+        "fecha_alta": "10-12-2024"
+        
     },
     {
         "dni": "55534150Y",
@@ -29,8 +31,9 @@
         "telefono": "613456123",
         "email": "javier.rod@gym.com",
         "tarifa": "1",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": "ES1421000418450200051415",
+        "fecha_alta": "10-12-2024"
+        
     },
     {
         "dni": "28539505R",
@@ -40,8 +43,9 @@
         "telefono": "614567890",
         "email": "laura.hernandez@gym.com",
         "tarifa": "2",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": null,
+        "fecha_alta": "10-12-2024"
+      
     },
     {
         "dni": "17304391L",
@@ -51,8 +55,9 @@
         "telefono": "615678234",
         "email": "miguel.gomez@gym.com",
         "tarifa": "3",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": "ES4721000418450200051516",
+        "fecha_alta": "10-12-2024"
+       
     },
     {
         "dni": "10129216Q",
@@ -62,8 +67,9 @@
         "telefono": "616789567",
         "email": "carmen.sanchez@gym.com",
         "tarifa": "1",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": null,
+        "fecha_alta": "10-12-2024"
+       
     },
     {
         "dni": "38735211Z",
@@ -73,8 +79,9 @@
         "telefono": "617890345",
         "email": "antonio.ruiz@gym.com",
         "tarifa": "2",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": "ES9121000418450200051627",
+        "fecha_alta": "10-12-2024"
+        
     },
     {
         "dni": "84084556Y",
@@ -84,8 +91,8 @@
         "telefono": "618901234",
         "email": "elena.diaz@gym.com",
         "tarifa": "3",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": null,
+        "fecha_alta": "10-12-2024"
     },
     {
         "dni": "32520517N",
@@ -95,7 +102,8 @@
         "telefono": "619012678",
         "email": "pablo.romero@gym.com",
         "tarifa": "1",
-        "fecha_alta": "10-12-2024",
-        "fecha_baja": "desconocida"
+        "cuenta_bancaria": "ES4621000418450200051738",
+        "fecha_alta": "10-12-2024"
+      
     }
 ]

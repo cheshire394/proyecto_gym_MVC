@@ -30,13 +30,14 @@ class controladorSocios
         try {
             // Obtener los datos del formulario
             $dni = $_POST['dni'];
-            $nombre = $_POST['nombre'];
-            $apellidos = $_POST['apellidos'];
+            $nombre = ucwords($_POST['nombre']);
+            $apellidos = ucwords($_POST['apellidos']);
             $fecha_nac = $_POST['fecha_nac'];
             $telefono = $_POST['telefono'];
             $email = $_POST['email'];
             $tarifa = $_POST['tarifa'];
             $cuenta_bancaria = $_POST['cuenta_bancaria'];
+            $fecha_alta=$_POST['fecha_alta']; 
 
             // Llamada al método addSocio de la clase Socio
             $resultado = Socio::addSocio(
@@ -47,7 +48,8 @@ class controladorSocios
                 $telefono,
                 $email,
                 $tarifa,
-                $cuenta_bancaria
+                $cuenta_bancaria,
+                $fecha_alta
             );
 
             // Si $resultado no es true, significa que hubo un error
@@ -94,7 +96,6 @@ class controladorSocios
             $email = $_POST['email'];  // Correo electrónico del socio
             $tarifa = $_POST['tarifa'];  // Tarifa asignada al socio
             $fecha_alta = $_POST['fecha_alta'];  // Fecha de alta del socio
-            $fecha_baja = $_POST['fecha_baja'];  // Fecha de baja del socio (si se aplica)
             $cuenta_bancaria = $_POST['cuenta_bancaria'];  // Número de cuenta bancaria del socio
 
             // Cargar los socios desde el archivo JSON
@@ -123,7 +124,6 @@ class controladorSocios
                         $socio['email'] = $email;
                         $socio['tarifa'] = $tarifa;
                         $socio['fecha_alta'] = $fecha_alta;
-                        $socio['fecha_baja'] = $fecha_baja;
                         $socio['cuenta_bancaria'] = $cuenta_bancaria;
 
                         // Guardar los cambios en el archivo JSON
@@ -149,7 +149,7 @@ class controladorSocios
      * La función `verSocio` verifica la existencia de un archivo, lo incluye y filtra y muestra
      * los datos de los socios según los parámetros proporcionados por el usuario.
      * 
-     * @return void
+     * @return array
      *
      * Esta función no devuelve un valor explícito, pero genera la salida HTML para mostrar los resultados
      * basados en la búsqueda de un socio según los parámetros proporcionados por el usuario.
@@ -201,46 +201,21 @@ class controladorSocios
         }
     }
 
-    /**
-     * La función `mostrarTodos` incluye un archivo de vista si existe, lee y decodifica los datos de un archivo
-     * JSON, y valida los datos antes de mostrar un mensaje si hay problemas.
-     * 
-     * @return void
-     *
-     * Esta función no devuelve un valor explícito. En su lugar, genera la salida HTML mostrando mensajes si
-     * el archivo de vista no se encuentra, si los datos no se pudieron cargar o si el archivo JSON está vacío.
-     */
-    public function mostrarTodos()
+   
+
+/**
+ * The function `mostrarTodosSocios` returns an array of objects representing all the members.
+ * 
+ * @return An array of objects representing all the members (socios) is being returned. If there are no
+ * members, an empty array will be returned.
+ */
+
+     public static function mostrarTodosSocios()
     {
-        try {
-            // Ruta al archivo JSON
-            //******************************************************************* RUTAS ***************************************************************************
-            $rutaJson = __DIR__ . '/../data/socios.json';
-
-            // Verificar si el archivo existe
-            if (!file_exists($rutaJson)) {
-                throw new Exception("El archivo de datos no se encuentra.");
-            }
-
-            // Leer y decodificar los datos del archivo JSON
-            $sociosJson = json_decode(file_get_contents($rutaJson), true);
-
-            // Validar que los datos del JSON se hayan cargado correctamente
-            if (!$sociosJson) {
-                throw new Exception("No se pudieron cargar los datos de los socios o el archivo JSON está vacío.");
-            }
-
-            // Incluir primero la vista verSocio.php
-            //******************************************************************* RUTAS ***************************************************************************
-            include $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
-
-            // Luego incluir la vista que muestra la tabla con todos los socios
-            //******************************************************************* RUTAS ***************************************************************************
-            include $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/todosSocios.php';
-        } catch (Exception $e) {
-            echo "<p style='color:red'>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
-        }
+         return Socio::crearObjetosSocio() ?? []; 
     }
+
+
 
     /**
      * La función `eliminarSocio` en PHP maneja la eliminación de un socio basado en criterios específicos

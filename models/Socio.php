@@ -8,13 +8,13 @@ error_reporting(E_ALL);
 
 final class Socio extends Persona
 {
+
+    const RUTA_JSON_SOCIOS= __DIR__ . "/../data/socios.json"; 
     private $tarifa;
     private $fecha_alta;
-    private $fecha_baja;
     private $cuenta_bancaria;
     private static $contador_socios = 0;
-    private static $socios = [];
-    private static $bajas_socios = [];
+
 
     //******************************************************************* RUTAS ***************************************************************************
     private static $rutaJSON = __DIR__ . '/../data/socios.json';
@@ -32,36 +32,21 @@ final class Socio extends Persona
      * @param string $tarifa La tarifa de suscripción del socio, con un valor predeterminado de "1".
      * @param string $cuenta_bancaria El número de cuenta bancaria del socio.
      * 
-     * @throws datosIncorrectos Si el email no tiene un formato válido o el DNI no es válido.
      */
-    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa = "1", $cuenta_bancaria)
+    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria, $fecha_alta)
     {
-        // Validar el email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new datosIncorrectos("ERROR: El email proporcionado no es válido.");
-        }
-
-        // Comprobación del formato del DNI
-        if (!preg_match('/^\d{8}[A-Z]$/', $dni)) {
-            throw new datosIncorrectos("ERROR: El DNI proporcionado no es válido.");
-        }
+     
+        $this->tarifa = $tarifa;
+        $this->cuenta_bancaria = $cuenta_bancaria;
+        $this->fecha_alta = $fecha_alta;
 
         // Incrementar contador de socios
         self::$contador_socios++;
 
-        // Establecer fecha de alta y baja
-        $this->fecha_alta = date('d-m-Y');
-        $this->fecha_baja = 'Sin efectuar';
-
-        // Asignar valores predeterminados o proporcionados
-        $this->tarifa = $tarifa;
-        $this->cuenta_bancaria = $cuenta_bancaria;
-
-        // Llamada al constructor de la clase base (si es necesario)
+        // Llamada al constructor de la clase base 
         parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email);
 
-        // Almacenar el objeto socio en el array estático de socios
-        self::$socios[$this->dni] = $this;
+     
     }
 
 
@@ -115,6 +100,45 @@ final class Socio extends Persona
         }
     }
 
+
+
+    public static function crearObjetosSocio() {
+        $sociosObjetos = [];
+        $socios = self::socioJSON(); 
+        foreach ($socios as $dni => $socio) {
+            $socioObj = new Socio(
+                $socio['dni'],
+                $socio['nombre'],
+                $socio['apellidos'],
+                $socio['fecha_nac'],
+                $socio['telefono'],
+                $socio['email'],
+                $socio['tarifa'],
+                $socio['cuenta_bancaria'] ?? 'no aportada',
+                $socio['fecha_alta']
+            );
+            $sociosObjetos[] = $socioObj;
+        }
+        return $sociosObjetos; 
+    }
+
+    public static function socioJSON() {
+
+        // si el archivo JSON existe
+        if (!file_exists(self::RUTA_JSON_SOCIOS)) {
+            file_put_contents(self::RUTA_JSON_SOCIOS, json_encode([]));
+        }
+
+        
+        $socios = file_get_contents(self::RUTA_JSON_SOCIOS);
+        
+        $socios = json_decode($socios, true);
+
+        return $socios ?: [];
+    }
+
+   
+    
     /**
      * Filtra los socios según un campo y un valor específico.
      * 
@@ -150,7 +174,7 @@ final class Socio extends Persona
      * 
      * @return bool|string Retorna true si el socio se añade correctamente, o un mensaje de error si ocurre un problema.
      */
-    public static function addSocio(string $dni, string $nombre, string $apellidos, string $fecha_nac, string $telefono, string $email, string $tarifa, string $cuenta_bancaria)
+    public static function addSocio(string $dni, string $nombre, string $apellidos, string $fecha_nac, string $telefono, string $email, string $tarifa, string $cuenta_bancaria, string $fecha_alta)
     {
         try {
             // Leer socios existentes
@@ -164,7 +188,8 @@ final class Socio extends Persona
             }
 
             // Si no existe, crear el nuevo socio
-            $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria);
+          
+            $nuevoSocio = new Socio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $cuenta_bancaria,$fecha_alta);
 
             // Guardar el socio en el archivo JSON
             $sociosJson[] = $nuevoSocio->toArray();
@@ -323,8 +348,6 @@ final class Socio extends Persona
             'tarifa' => $this->tarifa,
             // Usa la fecha actual si no existe fecha de alta
             'fecha_alta' => $this->fecha_alta ?? date('Y-m-d'),
-            // Si no hay fecha de baja, retorna null
-            'fecha_baja' => $this->fecha_baja ?? null,
             'cuenta_bancaria' => $this->cuenta_bancaria,
         ];
     }
@@ -335,7 +358,7 @@ final class Socio extends Persona
      * 
      * @return void
      */
-    public static function mostrarSocios()
+    /*public static function mostrarSocios()
     {
         // Recorre todos los socios almacenados en la propiedad estática $socios
         foreach (self::$socios as $dni => $obj_socio) {
@@ -357,7 +380,7 @@ final class Socio extends Persona
             // Espaciado entre socios
             echo "<br>";
         }
-    }
+    }*/
 
 
     /**

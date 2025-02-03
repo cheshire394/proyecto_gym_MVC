@@ -21,12 +21,10 @@ if (isset($_GET['action'])) {
             break;
 
         case 'verSocio':
-            $controladorSocios->verSocio();
-            break;
 
-        case 'mostrarTodos':
-            $controladorSocios->mostrarTodos();
-            break;
+            $sociosEncontrados= $controladorSocios->verSocio();
+            break; 
+            
 
         case 'eliminarSocio':
             $controladorSocios->eliminarSocio();

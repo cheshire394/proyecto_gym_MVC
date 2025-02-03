@@ -6,13 +6,6 @@
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
     },
-    "lunes-16:00": {
-        "dni_monitor": "50489319H",
-        "nombre_actividad": "boxeo",
-        "dia_semana": "lunes",
-        "hora_inicio": "16:00",
-        "hora_fin": "18:00"
-    },
     "lunes-18:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
@@ -48,26 +41,12 @@
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "miercoles-10:00": {
-        "dni_monitor": "50489319H",
-        "nombre_actividad": "boxeo",
-        "dia_semana": "miercoles",
-        "hora_inicio": "10:00",
-        "hora_fin": "12:00"
-    },
     "miercoles-12:00": {
         "dni_monitor": "50489319H",
         "nombre_actividad": "kickboxing",
         "dia_semana": "miercoles",
         "hora_inicio": "12:00",
         "hora_fin": "14:00"
-    },
-    "miercoles-16:00": {
-        "dni_monitor": "50489319H",
-        "nombre_actividad": "boxeo",
-        "dia_semana": "miercoles",
-        "hora_inicio": "16:00",
-        "hora_fin": "18:00"
     },
     "miercoles-18:00": {
         "dni_monitor": "50489319H",
@@ -132,13 +111,6 @@
         "hora_inicio": "18:00",
         "hora_fin": "20:00"
     },
-    "sabado-10:00": {
-        "dni_monitor": "50489319H",
-        "nombre_actividad": "boxeo",
-        "dia_semana": "sabado",
-        "hora_inicio": "10:00",
-        "hora_fin": "12:00"
-    },
     "sabado-12:00": {
         "dni_monitor": "09626574Q",
         "nombre_actividad": "karate",
@@ -161,7 +133,7 @@
         "hora_fin": "20:00"
     },
     "lunes-10:00": {
-        "dni_monitor": "50489319H",
+        "dni_monitor": "09626574Q",
         "nombre_actividad": "MMA",
         "dia_semana": "lunes",
         "hora_inicio": "10:00",

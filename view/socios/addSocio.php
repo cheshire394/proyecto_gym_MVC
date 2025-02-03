@@ -74,11 +74,8 @@ if (!isset($_SESSION['nombre'])) {
                 <label for="fecha_alta">Fecha de Alta</label>
                 <input type="date" id="fecha_alta" name="fecha_alta" value="<?php echo $fechaActual; ?>"><br><br>
 
-                <label for="fecha_baja">Fecha de Baja (opcional)</label>
-                <input type="date" id="fecha_baja" name="fecha_baja"><br><br>
-
                 <label for="cuenta_bancaria">Cuenta Bancaria</label>
-                <input type="text" id="cuenta_bancaria" name="cuenta_bancaria"><br><br>
+                <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" value='no aportada'><br><br>
                 <br>
 
                 <?php

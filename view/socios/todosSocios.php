@@ -7,31 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Socios</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: rgb(149, 175, 247);
-        }
-
-        .error {
-            color: red;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid red;
-            background-color: #fee;
-        }
-    </style>
+    <link rel="stylesheet" href="/proyecto_gym_MVC/stylos/form_stylos.css">
 </head>
 
 <body>

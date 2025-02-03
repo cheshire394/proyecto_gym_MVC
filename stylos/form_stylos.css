@@ -1,14 +1,22 @@
-body {
-    color: #2f5b96;
-    font-family: "Poppins", sans-serif;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f6f8;
+}
+
+/* Para el contenido principal */
+main {
+    flex: 1;
+    padding: 20px;
+    width: 100%;
 }
 
 h1 {
@@ -95,19 +103,18 @@ button:active {
 }
 
 #divEnlace{
-    
+    color: #2f5b96;
     display: inline-flex; 
     float: right;
     margin: 2em;
     align-items: center; 
     text-decoration: none; 
-    color: inherit;
+    
 }
 
 #divEnlace:hover{
     color:#040934; 
 }
-
 
 
 
@@ -117,6 +124,7 @@ table {
     border-collapse: collapse;
     border-radius: 4px;
     margin: 20px auto;
+
 }
 th, td {
     border: 1px solid #ddd;
@@ -124,7 +132,7 @@ th, td {
     text-align: center;
 }
 th {
-    background-color:  #2f5b96;
+    background-color: #2f5b96;
     color: white;
 }
 td {
@@ -175,3 +183,4 @@ tr:hover {
     text-align: center; /* Centra el texto del botón */
     margin-bottom: 4px;
 }
+
