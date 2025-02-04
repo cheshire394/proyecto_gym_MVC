@@ -1,4 +1,4 @@
-<!-- La clase `controladorSocios` gestiona la adición, modificación, visualización y eliminación de socios, con manejo de errores y redirección. -->
+
 
 <?php
 //Mostrar errores
@@ -9,247 +9,203 @@ error_reporting(E_ALL);
 // Incluir las clases necesarias para gestionar personas, trabajadores, clases, monitores y socios.
 require_once __DIR__ . '/../models/datosIncorrectos.php'; //excepción personalizada
 require_once __DIR__ . '/../models/Persona.php';
-require_once __DIR__ . '/../models/Trabajador.php';
-require_once __DIR__ . '/../models/Clase.php';
-require_once __DIR__ . '/../models/Monitor.php';
 require_once __DIR__ . '/../models/Socio.php';
 
 class controladorSocios
 {
-    /**
-     * La función `addSocio` procesa los datos del formulario para agregar un nuevo socio con los detalles 
-     * especificados y redirige al usuario según si el proceso fue exitoso o no.
-     *
-     * @return void
-     *
-     * @throws Exception Si ocurre un error durante la adición de un nuevo socio, la función lanzará 
-     * una excepción.
-     */
-    public function addSocio()
-    {
-        try {
-            // Obtener los datos del formulario
-            $dni = $_POST['dni'];
-            $nombre = ucwords($_POST['nombre']);
-            $apellidos = ucwords($_POST['apellidos']);
-            $fecha_nac = $_POST['fecha_nac'];
-            $telefono = $_POST['telefono'];
-            $email = $_POST['email'];
-            $tarifa = $_POST['tarifa'];
-            $cuenta_bancaria = $_POST['cuenta_bancaria'];
-            $fecha_alta=$_POST['fecha_alta']; 
 
-            // Llamada al método addSocio de la clase Socio
-            $resultado = Socio::addSocio(
-                $dni,
-                $nombre,
-                $apellidos,
-                $fecha_nac,
-                $telefono,
-                $email,
-                $tarifa,
-                $cuenta_bancaria,
-                $fecha_alta
-            );
 
-            // Si $resultado no es true, significa que hubo un error
-            if ($resultado !== true) {
-                //******************************************************************* RUTAS ***************************************************************************
-                // Redirigir de vuelta al formulario con el mensaje de error
-                header('Location: ../socios/addSocio.php?error=' . urlencode($resultado));
+    public static function mostrarTodosSocios(){
+
+        require_once('conexionBBDD.php'); 
+
+            $socios = Socio::verSocios($conn);
+
+            return $socios;
+    }
+
+
+    public static function filtrarSocios(){
+
+        require_once('conexionBBDD.php'); 
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
+
+            $propiedad = $_POST['propiedad']; 
+            $valor = $_POST['valor']; 
+    
+        try{
+            
+            
+            $socios_filtrados = Socio::filtrarSocios($conn, $propiedad, $valor);
+            return $socios_filtrados;
+
+
+    
+        
+        }catch(PDOException $e) {
+            $msg = urlencode($e->getMessage());
+            header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+            exit;
+        }
+
+        }
+
+       
+    
+    }
+
+
+    public static function addSocio(){
+
+        //Rescatamos los valores del formulario: 
+            require_once('conexionBBDD.php');
+    
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $dni = $_POST['dni'];
+                $nombre = $_POST['nombre'];
+                $apellidos = $_POST['apellidos'];
+                $fecha_nac = $_POST['fecha_nac'];
+                $telefono = $_POST['telefono'];
+                $email = $_POST['email'];
+                $tarifa = $_POST['tarifa'];
+                $fecha_alta = $_POST['fecha_alta'];
+                $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null; //La cuenta bancaria no es un dato requerido
+    
+                try {
+                    $insertado = Socio::addSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
+                    
+                    if ($insertado) {
+                        $msg = "Los datos del socio han sido actualizados correctamente.";
+                    } else {
+                        $msg = "No se pudo actualizar el socio.";
+                    }
+
+                } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                }
+    
+                header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
                 exit;
             }
-            //******************************************************************* RUTAS ***************************************************************************
-            // Si todo fue correcto
-            header('Location: ../socios/addSocio.php?exito=Socio añadido correctamente');
-            exit;
-        }catch(datosIncorrectos $e){
 
-            header('Location: ../socios/addSocio.php?error=' . urlencode($e->datosIncorrectos()));
 
-        }catch (Exception $e) {
-            // Capturar cualquier otra excepción y redirigir con el mensaje de error
-            //******************************************************************* RUTAS ***************************************************************************
-            header('Location: ../socios/addSocio.php?error=' . urlencode($e->getMessage()));
-            exit;
-        }
     }
 
-    /**
-     * La función `modificarSocio` se utiliza para actualizar la información de un socio existente en el archivo JSON,
-     * con manejo de errores y redirección según si el proceso es exitoso o no.
-     * 
-     * @return void
-     *
-     * @throws Exception Si ocurre un error durante el proceso de modificación, la función lanzará una excepción.
-     */
-    public function modificarSocio()
-    {
-        // Verificar si se recibieron datos del formulario mediante el método POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Obtener los datos del formulario
-            $dni = $_POST['dni'];  // DNI del socio a modificar
-            $nombre = $_POST['nombre'];  // Nombre del socio
-            $apellidos = $_POST['apellidos'];  // Apellidos del socio
-            $fecha_nac = $_POST['fecha_nac'];  // Fecha de nacimiento del socio
-            $telefono = $_POST['telefono'];  // Número de teléfono del socio
-            $email = $_POST['email'];  // Correo electrónico del socio
-            $tarifa = $_POST['tarifa'];  // Tarifa asignada al socio
-            $fecha_alta = $_POST['fecha_alta'];  // Fecha de alta del socio
-            $cuenta_bancaria = $_POST['cuenta_bancaria'];  // Número de cuenta bancaria del socio
 
-            // Cargar los socios desde el archivo JSON
-            //******************************************************************* RUTAS ***************************************************************************
-            $jsonFile = __DIR__ . '/../data/socios.json'; // Ruta al archivo JSON con los datos de los socios
 
-            // Verificar si el archivo de datos existe
-            if (file_exists($jsonFile)) {
-                // Cargar los socios desde el archivo JSON
-                $socios = json_decode(file_get_contents($jsonFile), true);
+        public static function eliminarSocio(){
 
-                // Verificar si los datos del JSON se cargaron correctamente
-                if (!$socios) {
-                    echo "<p style='color:red'>Error: No se pudieron cargar los datos de los socios.</p>";
-                    return;
-                }
+        
+            require_once('conexionBBDD.php'); 
+            
+            if(isset($_POST['dni_socio'])){
 
-                // Buscar al socio que se va a modificar por su DNI
-                foreach ($socios as &$socio) {
-                    if ($socio['dni'] === $dni) {
-                        // Modificar los datos del socio con los valores del formulario
-                        $socio['nombre'] = $nombre;
-                        $socio['apellidos'] = $apellidos;
-                        $socio['fecha_nac'] = $fecha_nac;
-                        $socio['telefono'] = $telefono;
-                        $socio['email'] = $email;
-                        $socio['tarifa'] = $tarifa;
-                        $socio['fecha_alta'] = $fecha_alta;
-                        $socio['cuenta_bancaria'] = $cuenta_bancaria;
+                $dni = $_POST['dni_socio']; 
 
-                        // Guardar los cambios en el archivo JSON
-                        file_put_contents($jsonFile, json_encode($socios, JSON_PRETTY_PRINT));
-
-                        // Redirigir al usuario a la misma página con mensaje de exito
-                        //******************************************************************* RUTAS ***************************************************************************
-                        header('Location: ../socios/modificarSocio.php?exito=Socio modificado correctamente');
-                        exit;
-                    }
-                }
-
-                // Si no se encuentra el socio con el DNI proporcionado, mostrar mensaje de error
-                echo "<p style='color:red'>Error: No se encontró un socio con el DNI proporcionado.</p>";
-            } else {
-                // Si el archivo de datos no existe, mostrar mensaje de error
-                echo "<p style='color:red'>Error: No se encontró el archivo de datos.</p>";
+                //retorna un booleano 
+                $eliminado = Socio::eliminarSocio($conn, $dni);
             }
-        }
-    }
 
-    /**
-     * La función `verSocio` verifica la existencia de un archivo, lo incluye y filtra y muestra
-     * los datos de los socios según los parámetros proporcionados por el usuario.
-     * 
-     * @return array
-     *
-     * Esta función no devuelve un valor explícito, pero genera la salida HTML para mostrar los resultados
-     * basados en la búsqueda de un socio según los parámetros proporcionados por el usuario.
-     */
-    public function verSocio()
-    {
-        // Ruta absoluta al archivo de vista principal
-        //******************************************************************* RUTAS ***************************************************************************
-        $file = $_SERVER['DOCUMENT_ROOT'] . '/proyecto_gym_MVC/view/socios/verSocio.php';
+            
+            if($eliminado){
+                $msg = "Socio eliminado con éxito"; 
+                header( 'Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg='.$msg);
+            } 
+            else{
 
-        // Verificar si la vista principal existe
-        if (!file_exists($file)) {
-            echo "El archivo no se encuentra en la ruta: $file";
-            return;
+                $msg = "error al modificar el socio"; 
+                header( 'Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg='.$msg);
+            }  
+            
+           
         }
 
-        // Incluir la vista verSocio.php para mostrar el formulario o la interfaz de búsqueda
-        include $file;
+        // Este método rescata los valores del socio que el usuario quiere modificar para mostrarlos en el formulario: 
+        public static function mostrarFormularioModificar() {
+            require_once('conexionBBDD.php');
+    
+            if(isset($_POST['dni_socio'])) {
 
-        // Verificar si se han recibido parámetros de búsqueda (campo y valor)
-        if (isset($_POST['campo'], $_POST['valor'])) {
-            // Asignar los valores del formulario a las variables
-            $campo = $_POST['campo'];
-            $valor = $_POST['valor'];
 
-            try {
-                // Llamar al método `filtrarSocios` para obtener los socios filtrados
-                $sociosEncontrados = Socio::filtrarSocios($campo, $valor);
+                $dni = $_POST['dni_socio'];
+    
+                try {
+                    $socio = Socio::buscarSocio($conn, $dni);
+                } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                    header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+                    exit;
+                }
+    
+                if($socio) {
+                    // Enviar datos del socio a la vista a traves de una variable de session
+                    session_start();
+                    $_SESSION['socio'] = $socio;  
 
-                //******************************************************************* RUTAS ***************************************************************************
-                // Ruta de la vista que mostrará los resultados filtrados
-                $filtroView = __DIR__ . '/../view/socios/filtroSocio.php';
-
-                // Verificar si la vista de filtro existe
-                if (file_exists($filtroView)) {
-                    // Incluir la vista para mostrar los resultados
-                    include $filtroView;
+                    //redirigir al formulario si tse ha encontrado el socio para modificar los datos
+                    header('Location: /proyecto_gym_MVC/view/socios/modificarSocio.php');
+                    exit;
                 } else {
-                    // Mostrar mensaje de error si no se encuentra la vista de filtro
-                    echo "<p>No se encontró la vista de filtro de socios.</p>";
+                    $msg = "Socio no encontrado.";
+                   
                 }
-            } catch (Exception $e) {
-                // Mostrar mensaje de error si ocurre una excepción durante el filtrado
-                echo "<p>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
-            }
-        } else {
-            // Mensaje si no se han recibido los datos necesarios para la búsqueda
-            echo "<p>No se han recibido datos para realizar la búsqueda.</p>";
-        }
-    }
-
-   
-
-/**
- * The function `mostrarTodosSocios` returns an array of objects representing all the members.
- * 
- * @return An array of objects representing all the members (socios) is being returned. If there are no
- * members, an empty array will be returned.
- */
-
-     public static function mostrarTodosSocios()
-    {
-         return Socio::crearObjetosSocio() ?? []; 
-    }
-
-
-
-    /**
-     * La función `eliminarSocio` en PHP maneja la eliminación de un socio basado en criterios específicos
-     * (como DNI, teléfono o email) y redirige con mensajes de éxito o error según corresponda.
-     * 
-     * @return void
-     *
-     * Esta función no devuelve un valor explícito. En su lugar, redirige al usuario a diferentes vistas según
-     * si la operación de eliminación fue exitosa o si ocurrió algún error.
-     */
-    public function eliminarSocio()
-    {
-        try {
-            // Obtener los datos enviados desde el formulario
-            $campo = $_POST['campo'] ?? null; // Puede ser dni, telefono o email
-            $valor = $_POST['valor'] ?? null;
-
-            // Verificar si ambos datos están presentes
-            if (!$campo || !$valor) {
-                throw new Exception("Debes seleccionar un campo y proporcionar un valor.");
+            } else {
+                $msg = "No se ha proporcionado el DNI del socio.";
+              
             }
 
-            // Llamar al método del modelo para eliminar el socio
-            $mensaje = Socio::eliminarSocio($campo, $valor);
-
-            //******************************************************************* RUTAS ***************************************************************************
-            // Si todo fue correcto
-            header('Location: ../socios/eliminarSocio.php?exito=Socio eliminado correctamente');
-            exit;
-        } catch (Exception $e) {
-            //******************************************************************* RUTAS ***************************************************************************
-            // Redirigir de vuelta al formulario con el mensaje de error
-            header('Location: ../socios/eliminarSocio.php?error=Excepción personalizada: no existe ningún socio registrado con ese DNI');
+            //Si no ha se ha enconrado ningun socio, o algún error ha hecho que el dni no se envie en el input hidden, redirigimos a la vista
+            //con mensaje de error.
+            header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
             exit;
         }
+
+
+
+    //Este método recoge los valores que el usurio ha modificado y los aplica a la BBDD
+        public static function modificarSocio() {
+            require_once('conexionBBDD.php');
+    
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $dni = $_POST['dni'];
+                $nombre = $_POST['nombre'];
+                $apellidos = $_POST['apellidos'];
+                $fecha_nac = $_POST['fecha_nac'];
+                $telefono = $_POST['telefono'];
+                $email = $_POST['email'];
+                $tarifa = $_POST['tarifa'];
+                $fecha_alta = $_POST['fecha_alta'];
+                $cuenta_bancaria = $_POST['cuenta_bancaria'];
+    
+                try {
+                    $modificado = Socio::modificarSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
+                    
+                    if ($modificado) {
+                        $msg = "Los datos del socio han sido actualizados correctamente.";
+                    } else {
+                        $msg = "No se pudo actualizar el socio.";
+                    }
+                } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                }
+    
+                header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+                exit;
+            }
+        }
+
+
+
+
+      
+    
     }
-}
+
+
+  
+        
+    
+
+
+?>
