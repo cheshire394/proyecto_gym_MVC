@@ -53,7 +53,7 @@ final class Socio extends Persona
     {
         // Evita modificar la propiedad 'fecha_alta'
         if ($name == 'fecha_alta') {
-            throw new datosIncorrectos("ERROR: No es posible modificar la fecha de alta de un socio.");
+            throw new Exception("ERROR: No es posible modificar la fecha de alta de un socio.");
         }
 
         // Verifica si la propiedad existe y asigna el valor
@@ -143,11 +143,12 @@ final class Socio extends Persona
         
     }
 
-
+    
     public static function addSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
         // Insertado en la BBDDD
-        $sql = "INSERT SOCIOS VALUES (:dni, :nombre, :apellidos, :fecha_nac, :telefono, :email, :tarifa, :fecha_alta, :cuenta_bancaria)";
+        $sql = "INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, fecha_alta, cuenta_bancaria) 
+        VALUES (:dni, :nombre, :apellidos, :fecha_nac, :telefono, :email, :tarifa, :fecha_alta, :cuenta_bancaria)";
 
        
             $stmt = $conn->prepare($sql);

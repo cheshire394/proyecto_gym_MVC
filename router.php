@@ -1,9 +1,12 @@
 
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-/* The code snippet you provided is a PHP script that serves as the main entry point for a web
-application. Here's a breakdown of what the code does: */
+// Al inicio del script
+var_dump($_POST);
+var_dump($_GET);
 
 // Incluye el archivo del controlador de Recepcionista
 require_once 'controllers/controladorRecepcionista.php';
@@ -12,20 +15,21 @@ require_once 'controllers/controladorRecepcionista.php';
 // Verifica si se ha pasado una acción mediante el método GET
 if (isset($_GET['action'])) {
     $action = $_GET['action']; // Obtiene la acción desde el parámetro GET
-    $controlador = new ControladorRecepcionista(); // Crea una instancia del controlado
+    
 
     // Realiza una acción según el valor de 'action'
     switch ($action) {
         case 'login':
-            $controlador->login();
+            ControladorRecepcionista::login();
             break;
 
         case 'registro':
-            $controlador->registro();
+            ControladorRecepcionista::registro();
+            include('/proyecto_gym_MVC/view/login_recepcionista.php'); 
             break;
 
         case 'logout':
-            $controlador->logout();
+            ControladorRecepcionista::logout();
             break;
 
         default:

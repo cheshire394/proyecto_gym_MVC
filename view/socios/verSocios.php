@@ -9,6 +9,7 @@ if(isset($socios_filtrados)){
 
     $socios = $socios_filtrados;
 
+   
 
 }else{
 
@@ -28,9 +29,9 @@ if(isset($socios_filtrados)){
     
 </head>
 <body>
-    <div class="filter-container">
+    
         <fieldset id='form_socios'>
-            <legend>filtro:</legend>
+            <legend>filtro de búsqueda </legend>
 
                 <!-- formulario para filtrar socios -->
                     <form method="POST" action="router_socios.php?action=filtrar_socios">
@@ -42,28 +43,43 @@ if(isset($socios_filtrados)){
                             <option value="tarifa" selected>Tarifa</option>
                         </select>
                         <input type="text"  name="valor" required>
-                        <button type='submit'>Filtrar socios</button>
+                        <button type='submit' name='filtrar_socios'>Filtrar socios</button>
+
+                    <!--volver al menú principal-->
+                        <div id='divEnlace'>
+                            <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span>volver al menú principal</span>
+                            </a>
+                        </div>
                     </form>
 
-
-            <!-- Formulario para refrescar la página y volver a ver todos los socios -->
-            <form method="post" actio='index_socios.php?action=verSocio'>
-            <button type="submit" name="refresh">
-                <!-- icono dos perosnas -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-                Mostrar todos los socios
-            </button>
-        </form>
+       
         </fieldset>
 
-      
-       
+    
+
+    <div id='todoSocios'>
+        <!-- Formulario para refrescar la página y volver a ver todos los socios -->
+            <a  href="/proyecto_gym_MVC/view/socios/verSocios.php">
+
+        <!-- icono dos perosnas -->  
+        
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Mostrar todos los socios
+        
+            </a>
+    
     </div>
+
+    
     
     <!--Mensajes de exito o error cuando somo redigidos desde el controlador trás haber ejecutado una acción desde este script-->
     <?php
@@ -75,6 +91,8 @@ if(isset($socios_filtrados)){
         }
 
     ?>
+
+   
 
     <br>
 

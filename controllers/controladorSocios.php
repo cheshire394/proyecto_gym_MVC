@@ -7,7 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Incluir las clases necesarias para gestionar personas, trabajadores, clases, monitores y socios.
-require_once __DIR__ . '/../models/datosIncorrectos.php'; //excepción personalizada
+
 require_once __DIR__ . '/../models/Persona.php';
 require_once __DIR__ . '/../models/Socio.php';
 
@@ -29,7 +29,7 @@ class controladorSocios
 
         require_once('conexionBBDD.php'); 
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST'){ 
+        if (isset($_POST['filtrar_socios'])){ 
 
             $propiedad = $_POST['propiedad']; 
             $valor = $_POST['valor']; 
@@ -62,29 +62,41 @@ class controladorSocios
             require_once('conexionBBDD.php');
     
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
                 $dni = $_POST['dni'];
                 $nombre = $_POST['nombre'];
                 $apellidos = $_POST['apellidos'];
                 $fecha_nac = $_POST['fecha_nac'];
-                $telefono = $_POST['telefono'];
-                $email = $_POST['email'];
                 $tarifa = $_POST['tarifa'];
                 $fecha_alta = $_POST['fecha_alta'];
-                $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null; //La cuenta bancaria no es un dato requerido
+                $telefono = $_POST['telefono'] ?? null;
+                $email = $_POST['email'] ?? null;
+                $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null;
     
                 try {
                     $insertado = Socio::addSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
                     
                     if ($insertado) {
-                        $msg = "Los datos del socio han sido actualizados correctamente.";
+                        $msg = "$nombre ha sido registrado con éxito";
+                    } 
+
+                } catch (PDOException $e) {
+
+                    //Si la insercción da error por este codigo "23000" es porque el dni ya esta registrado
+                    if ($e->getCode() == 23000) {
+
+                        $msg =  "Excepción PDO: el socio con el el dni $dni ya está registrado";
+
+                       
                     } else {
-                        $msg = "No se pudo actualizar el socio.";
+                        //Mensaje  de error desconocido
+                        $msg = $e->getMessage(); 
                     }
 
-                } catch(PDOException $e) {
-                    $msg = urlencode($e->getMessage());
+                  
                 }
-    
+
+
                 header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
                 exit;
             }
@@ -139,7 +151,7 @@ class controladorSocios
                 }
     
                 if($socio) {
-                    // Enviar datos del socio a la vista a traves de una variable de session
+                    // Enviar datos del socio a la vista a traves de una variable de session, para que el formulario ya este compleatado con los datos del socio
                     session_start();
                     $_SESSION['socio'] = $socio;  
 

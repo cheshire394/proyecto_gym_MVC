@@ -1,10 +1,7 @@
-<!-- Página con el bienvenida/inicio de un recepcionista.
-     Muestra el menú de lo que puede hacer -->
 
 <!-- Código PHP -->
 <?php
-/* This PHP code block is responsible for managing the user session. Here's a breakdown of what it
-    does: */
+
 // Inicia una nueva sesión o reanuda la sesión existente
 session_start();
 
@@ -41,7 +38,7 @@ if (!isset($_SESSION['nombre'])) {
 <body>
     <div class="main-container">
         <aside class="sidebar">
-            <!-- Dashboard -->
+            <!-- GESTION DE CLASESE -->
             <div class="menu-item">
                 <button class="menu-button">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="48" height="48">
@@ -50,7 +47,7 @@ if (!isset($_SESSION['nombre'])) {
                     Gestión de las clases
                 </button>
                 <div class="submenu">
-                <a href="/proyecto_gym_MVC/view/clases/addClase.php">Añadir una clase</a>
+                    <a href="/proyecto_gym_MVC/view/clases/addClase.php">Añadir una clase</a>
                     <a href="/proyecto_gym_MVC/view/clases/sustituirMonitor.php">Sustituir monitor</a>
                     <a href="/proyecto_gym_MVC/view/clases/verClases.php">Horario</a>
                     <a href="/proyecto_gym_MVC/view/clases/clasesFiltro.php">Horario con filtro</a>
@@ -61,7 +58,7 @@ if (!isset($_SESSION['nombre'])) {
             </div>
 
 
-            <!-- Usuarios -->
+            <!-- GESTION DE TABAJADORES -->
                         <div class="menu-item">
                 <button class="menu-button" onclick="window.location.href='/proyecto_gym_MVC/view/trabajadores/verTrabajadores.php'">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -71,7 +68,7 @@ if (!isset($_SESSION['nombre'])) {
                 </button>
             </div>
 
-            <!-- Configuración -->
+            <!-- GESTION DE SOCIOS -->
             <div class="menu-item">
                 <button class="menu-button">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,16 +78,14 @@ if (!isset($_SESSION['nombre'])) {
                     Gestión de Socios
                 </button>
                 <div class="submenu">
-                    <a href="/proyecto_gym_MVC/view/socios/addSocio.php">Registrar nuevo socio</a>
-                    <a href="/proyecto_gym_MVC/view/socios/modificarSocio.php">Modificar socio</a>
-                    <a href="/proyecto_gym_MVC/view/socios/verSocio.php">Buscar socio / socios</a>
-                    <a href="/proyecto_gym_MVC/view/socios/eliminarSocio.php">Eliminar socio</a>
-                
+                    <a href="/proyecto_gym_MVC/view/socios/verSocios.php">socios</a>
+                    <a href="/proyecto_gym_MVC/view/socios/addSocio.php">añadir socio</a>
+            
                 </div>
             </div>
 
 
-            <!-- Configuración -->
+            <!-- PESTAÑA DE CIERRE SESSION -->
             <div class="menu-item">
                 <button class="menu-button" onclick="window.location.href='../index.php?action=logout'">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +97,7 @@ if (!isset($_SESSION['nombre'])) {
                 </button>
             </div>
 
-           
+            <!-- TEMA CLARO/OSCURO -->
                 <div class="theme-toggle" id="theme-toggle-container">
                     <button id="light_btn" class="theme-button">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

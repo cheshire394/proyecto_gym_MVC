@@ -1,15 +1,6 @@
-<!-- Página para el incio de sesión d elos recepcionistas
-     HTML con el fmormulario de acceso, que pide DNI y la contraseña para acceder, y para finalizar el botón -->
 
-<!-- Código PHP -->
+
 <?php
-// Inicio o reanudación de una sesión existente.
-session_start();
-
-// Verifica si existe un DNI almacenado en la sesión y lo asigna a una variable.
-if (isset($_SESSION['dni'])) {
-    $dni_registrado = $_SESSION['dni'];
-}
 
 // Comprueba si se pasó un error de credenciales incorrectas a través de la URL.
 if (isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas') {
@@ -82,13 +73,15 @@ if (isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas') {
 
 
 <body>
+    
  
 
-    <form method="POST" action="../index.php?action=login">
-        <!-- Acceso -->
-        <fieldset>
-            <h2>Inicio de Sesión recepcionista</h2>
+<fieldset>
 
+<h2>Inicio de Sesión recepcionista</h2>
+
+    <form method="POST" action="/proyecto_gym_MVC/router.php?action=login">
+        <!-- Acceso -->
             <label for="dni">DNI</label><br>
             <input type="text" id="dni" name="dni" value="16280029P" placeholder="16280029P"><br><br>
 
@@ -97,13 +90,20 @@ if (isset($_GET['error']) && $_GET['error'] == 'credenciales_incorrectas') {
             <button type="submit" name="login">Iniciar Sesión</button>
             <br>
             <a href="registro_recepcionista.php">Registrar Recepcionista</a>
-        </fieldset>
         
 
         <br>
- 
-        
+    
     </form>
+      <!--Mensajes de error o exito en el registro y logeo de la recepcionista-->
+      <?php     
+                    if (isset($_GET['msg'])) {
+                        echo "<p style='color: #b7475a;'><strong>".htmlspecialchars($_GET['msg'])."</strong></p>";
+                    
+                        } 
+    ?>
+
+</fieldset>
 
     <br>
 

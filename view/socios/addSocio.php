@@ -43,7 +43,7 @@ if (!isset($_SESSION['nombre'])) {
                 <input type="text" id="apellidos" name="apellidos" required><br><br>
 
                 <label for="fecha_nac">*Fecha de Nacimiento</label>
-                <input type="date" id="fecha_nac" name="fecha_nac" required><br><br>
+                <input type="date" id="fecha_nac" name="fecha_nac" value="<?php echo date('2000-01-01');?>" required><br><br>
 
                 <label for="tarifa">*Tarifa</label>
                 <select id="tarifa" name="tarifa" required>
@@ -53,7 +53,8 @@ if (!isset($_SESSION['nombre'])) {
                 </select><br><br>
 
                 <label for="fecha_alta">*Fecha de Alta</label>
-                <input type="date" id="fecha_alta" name="fecha_alta" value="<?php echo date('Y-m-d'); ?>" required><br><br>
+                <input type="date" id="fecha_alta" name="fecha_alta" value="<?php echo date('Y-m-d'); ?>" required>
+                <br><br>
 
                 <label for="telefono">Teléfono</label>
                 <input type="tel" id="telefono" name="telefono"><br><br>
@@ -76,7 +77,7 @@ if (!isset($_SESSION['nombre'])) {
                 <div>
                 
                 <button type="submit" style="margin-left: 60px;">añadir socio</button>
-               
+               <!--volver a bievenida -->
                 <div id='divEnlace'>
                         <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
