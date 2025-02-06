@@ -56,6 +56,7 @@ if (!isset($_SESSION['nombre'])) {
                 <br><br>
            
                 <label for="id_clase">Horario Disponible</label>
+        
                 <select id="id_clase" name="id_clase" required <?= empty($horas_disponibles) ? 'disabled' : '' ?>>
                     <?php if (empty($horas_disponibles)) : ?>
                         <option value="">Ninguna clase libre disponible</option>

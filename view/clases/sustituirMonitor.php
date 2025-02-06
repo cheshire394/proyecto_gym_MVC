@@ -58,6 +58,7 @@ if (!isset($_SESSION['nombre'])) {
 
            
                 <label for="id_clase">Selecciona la clase</label>
+              
                 <select id="id_clase" name="id_clase" required <?= empty($horas_ocupadas) ? 'disabled' : '' ?>>
                     <?php if (empty($horas_ocupadas)) : ?>
                         <option value="">Ninguna clase libre disponible</option>
@@ -69,10 +70,12 @@ if (!isset($_SESSION['nombre'])) {
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </select>
+
+                <p style='color:grey;'><small>nota* las clases libres no aparecen para seleccionar</small></p>
                         
            
                 
-            <button type="submit">sustituir monitor</button>
+            <button type="submit" name='sustituir_monitor'>sustituir monitor</button>
            
             <div id='divEnlace'>
                     <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">

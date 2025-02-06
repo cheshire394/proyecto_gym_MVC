@@ -121,83 +121,28 @@ public static function horas_ocupadas(){
 
 
 
-    public static function mostrar_clases_filtradas() {
-
-            //recogermos el valor del formulario (required): 
-            $propiedad_filtrada = $_POST['propiedad_filtrada'];
-
-
-            //Ajustamos la entrada al método, dependiendo del parametro recibido, ya que dni, necesita converir a mayusculas: 
-            if ($propiedad_filtrada == 'dni_monitor') {
-                $valor_filtrado = htmlentities(strtoupper(trim($_POST['valor_filtrado'])));
-            } else {
-                $valor_filtrado = htmlentities(strtolower(trim($_POST['valor_filtrado'])));
-            }
-
-            try {
-
-
-                $clases_filtradas = Clase::Clases_filtradas($propiedad_filtrada, $valor_filtrado);
-
-                return $clases_filtradas; 
-
-            //Datos incorrectos, envia los mensajes de error por parte de usuario y exception son mensaje de error provocados por nuestro código
-            } catch (PDOException $e) {
-                $mensaje = urlencode($e->getMessage());
-                header("Location: /proyecto_gym_MVC/view/clases/clasesFiltro.php?msg=$mensaje");
-                exit;
-            } catch (Exception $e) {
-                $mensaje = urlencode($e->getMessage());
-                header("Location: /proyecto_gym_MVC/view/clases//clasesFiltro.php?msg=$mensaje");
-                exit;
-            }
-    }
-
-
-
-
-
-  /**
-   * The function `sustituirMonitor` in PHP handles the substitution of a monitor for a class based on
-   * user input, redirecting to different pages based on success or error.
-   */
     public static function sustituirMonitor() {
 
+
+    if(isset($_POST['sustituir_monitor'])){
+
         //recogemos los valores del formulario: 
-        $dni_monitor_sustituto = $_POST['dni_monitor'];
-        $dia_semana = $_POST['dia_semana'];
-        $hora_inicio = $_POST['hora_inicio'];
+        $dni_monitor_new = $_POST['dni_monitor'];
+        $id_clase = $_POST['id_clase'];
+        
 
-        try {
+        Clase::sustituirMonitor($dni_monitor_new, $id_clase);
 
-            $exitoso = Clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
+    }
 
-            if ($exitoso) {
-                $msg = "El monitor ha sido sustituido correctamente en la clase $dia_semana - $hora_inicio"; 
-                header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$msg");
-                exit;
-            }
+      
 
 
-            
-        } catch (PDOException $e) {
-            $mensaje = urlencode($e->getMessage());
-            header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
-            exit;
-        } catch (Exception $e) {
-            $mensaje = urlencode($e->getMessage());
-            header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
-            exit;
-        }
     }
 
 
 
 
-   /**
-    * The function `eliminarDisciplina` in PHP is used to delete a discipline from a gym project,
-    * handling exceptions and redirecting based on success or failure.
-    */
     public static function eliminarDisciplina() {
 
         $nombre_actividad = $_POST['nombre_actividad'];

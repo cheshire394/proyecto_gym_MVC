@@ -75,7 +75,7 @@ final class Clase {
             $actualizado_monitor = Monitor::actualizarMonitorNuevo($conn, $dni_monitor);
     
             if (!$actualizado_monitor) {
-                throw new Exception("Error al actualizar el monitor con DNI $dni_monitor");
+                throw new PDOException("Error al actualizar el monitor con DNI $dni_monitor");
             }
     
             // Confirmar la transacción
@@ -94,13 +94,10 @@ final class Clase {
             if ($e->getCode() == 23000) {
                 $msg = "Excepción PDO: ya existe una clase asignada para el ID $id_clase";
             } else {
-                $msg = "Error PDO: " . $e->getMessage();
+                $msg = $e->getMessage();
             }
     
-        } catch (Exception $e) {
-            $conn->rollBack();
-            $msg = "Error: " . $e->getMessage();
-        }
+        } 
     
         // Redirigir de nuevo al formulario de añadir clase con mensaje de error
         header("Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=" . urlencode($msg));
@@ -191,9 +188,12 @@ final class Clase {
         include  __DIR__ . '/../data/conexionBBDD.php'; 
     
     
-        // Obtener los id_clase ya registrados en la base de datos
-        $sql = "SELECT id_clase FROM CLASES";
-       
+        // Obtener los id_clase ya registrados en la base de datos, recibimos los datos ordenados con un criterio especifico 
+        //para que en el formulario aparezcan las clases ocupadas por orden de la semana y no alfabético.
+        $sql = "SELECT id_clase FROM CLASES ORDER BY 
+        FIELD(SUBSTRING_INDEX(id_clase, '-', 1), 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'),
+        SUBSTRING_INDEX(id_clase, '-', -1) ASC";
+
 
         if (!$stmt= $conn->prepare($sql)) {
             throw new PDOException('Excepción PDO al preparar la consulta de las clases disponibles');
@@ -214,6 +214,7 @@ final class Clase {
 
    
     public static function sustituirMonitor($dni_new_monitor, $id_clase) {
+
         include  __DIR__ . '/../data/conexionBBDD.php';
     
         try {
@@ -225,39 +226,64 @@ final class Clase {
             $stmt->bindParam(':id_clase', $id_clase);
             $stmt->execute();
             $dni_old_monitor = $stmt->fetchColumn(); 
-    
-            if (!$dni_old_monitor) {
-                throw new PDOException('No se encontró el antiguo monitor para la clase especificada.');
-            }
-    
-            Monitor::actualizarMonitorAntiguo();
 
-            Monitor::actualizarMonitorNuevo($dni_new_monitor, $conn);
+
+            if (!$dni_old_monitor) {
+                throw new PDOException("Excepción PDO: No se encontró el antiguo monitor que imapartía la clase $id_clase");
+
+            
+            }
+            
+            //Evitamos actualizaciones ineccesarias sobre la BBDD
+            if($dni_old_monitor == $dni_new_monitor){
+                throw new PDOException('El monitor seleccionado ya imparte esa clase');
+            }
+
+
+            //Si se ha encontrado el antiguo monitor, además no es el mismo que el nuevo monitor, entonces actualizamos los datos en la BBDD
     
-        
-            // Actualizar el monitor en la tabla CLASES
+           $actualizado_monitor_old = Monitor::actualizarMonitorAntiguo($conn, $dni_old_monitor);
+
+           $actualizado_monitor_new = Monitor::actualizarMonitorNuevo($conn, $dni_new_monitor);
+
+            //Si existe algun error hacemos rollback de los cambios ejecutados
+           if(!$actualizado_monitor_old || !$actualizado_monitor_new){
+
+                throw new PDOException("Error al actualizar el monitor con DNI $dni_monitor");
+           }
+    
+           
+            //Si los monitores se han actualizado correctamente,  Actualizamos el monitor en la tabla CLASES
             $query = "UPDATE CLASES SET dni_monitor = :dni_new_monitor WHERE id_clase = :id_clase";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':dni_new_monitor', $dni_new_monitor);
             $stmt->bindParam(':id_clase', $id_clase);
             $stmt->execute();
     
-            $conn->commit(); // Confirmar cambios
+            $conn->commit(); // Confirmamos todos los  cambios
+
+            // Redirigir a verClases.php con mensaje de éxito
+            $msg = "monitor sustituido correctamente";
+            header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=" . urlencode($msg));
+            exit;
+    
+
         } catch (PDOException $e) {
+
             $conn->rollBack(); // Revertir cambios en caso de error
-            throw new PDOException("Error en la sustitución del monitor: " . $e->getMessage());
+
+               // Redirigir de nuevo al formulario sustituir monitor con mensaje de error
+               $msg = $e->getMessage(); 
+                header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=" . urlencode($msg));
+                exit;
+            
         }
     }
     
 
    
   
-    public static function Clases_filtradas($propiedad_filtrada, $valor_filtrado) {
-      
-
-    }
-
-
+ 
 
 
     
