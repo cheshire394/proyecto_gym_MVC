@@ -89,17 +89,19 @@ final class Socio extends Persona
     }
 
 
-    public static function verSocios($conn){
+    public static function verSocios(){
        
-        
 
+        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        
         $sql = "SELECT * FROM SOCIOS"; 
 
-        //Podemosusar query, por que en esta consulta el usuario no inyecta ningun dato a traves del formulario
-        $resultados = $conn->query($sql); 
+
+       $stmt = $conn->prepare($sql);
+       $stmt->execute();
 
         $socios=[]; 
-        while($socio = $resultados->fetchObject('Socio')){
+        while($socio = $stmt->fetchObject('Socio')){
             
             $socios[]=$socio; 
 
@@ -111,10 +113,15 @@ final class Socio extends Persona
 
 
 
-    public static function filtrarSocios($conn, $propiedad, $valor){
+    public static function filtrarSocios($propiedad, $valor){
+
+
 
         $propiedades_validas = ['dni', 'nombre', 'apellidos', 'tarifa']; 
         if(!in_array($propiedad, $propiedades_validas)) throw new PDOException('Se ha manipulado el formulario desde el inspector'); 
+
+
+        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
 
         $sql = "SELECT * FROM SOCIOS WHERE $propiedad = ?"; 
 
@@ -144,8 +151,10 @@ final class Socio extends Persona
     }
 
     
-    public static function addSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
+    public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
+
+        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
         // Insertado en la BBDDD
         $sql = "INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, fecha_alta, cuenta_bancaria) 
         VALUES (:dni, :nombre, :apellidos, :fecha_nac, :telefono, :email, :tarifa, :fecha_alta, :cuenta_bancaria)";
@@ -167,7 +176,7 @@ final class Socio extends Persona
 
             // Ejecutar la consulta o lanzar excepción en caso de error
            if($stmt->execute()) return true; 
-           else throw new PDOException('Excepción PDO al ejecutar la modificación del socio'); 
+           else throw new PDOException('Excepción PDO al ejecutar la insercción del socio en la BBDD'); 
 
 
 }
@@ -176,7 +185,9 @@ final class Socio extends Persona
 
 
 
-    public static function eliminarSocio($conn, $dni) {
+    public static function eliminarSocio($dni) {
+
+        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
         $sql = "DELETE FROM SOCIOS WHERE DNI = ?"; 
         $stmt = $conn->prepare($sql);
         
@@ -191,7 +202,9 @@ final class Socio extends Persona
         }
     }
 
-    public static function buscarSocio($conn, $dni) {
+    public static function buscarSocio($dni) {
+
+        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
 
         $sql = "SELECT * FROM SOCIOS WHERE DNI = ?"; 
         $stmt = $conn->prepare($sql);
@@ -214,9 +227,9 @@ final class Socio extends Persona
         }
     }
 
-    public static function modificarSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
+    public static function modificarSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
-         
+        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
         // update en la BBDD
          $sql = "UPDATE SOCIOS SET
          nombre = :nombre,

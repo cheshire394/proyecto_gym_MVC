@@ -2,6 +2,17 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+
+// Verifica si existe una variable de sesión 'nombre'
+session_start(); 
+if (!isset($_SESSION['nombre'])) {
+    // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
+    header('location: ../login_recepcionista.php');
+    exit(); 
+}
+
+
 require_once '../../controllers/controladorSocios.php';
 
 // Si nos encontramos en esta vista, porque el controlador nos ha dervidado desde el método filtar socios, mostramos solo los socios filtrados

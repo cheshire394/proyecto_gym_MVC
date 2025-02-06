@@ -11,12 +11,8 @@ if (isset($_GET['action'])) {
 
             case 'addClase':
                 controladorClases::addClase();
-                break;
-
-
-            case 'verClasesFiltradas':
-                $horario = ControladorClases::mostrar_clases_filtradas();
-                require 'clasesFiltro.php'; // Cargamos la vista con los datos procesados
+               
+               
                 break;
 
              case 'eliminarDisciplina': 

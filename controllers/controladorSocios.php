@@ -17,9 +17,7 @@ class controladorSocios
 
     public static function mostrarTodosSocios(){
 
-        require_once('conexionBBDD.php'); 
-
-            $socios = Socio::verSocios($conn);
+            $socios = Socio::verSocios();
 
             return $socios;
     }
@@ -37,7 +35,7 @@ class controladorSocios
         try{
             
             
-            $socios_filtrados = Socio::filtrarSocios($conn, $propiedad, $valor);
+            $socios_filtrados = Socio::filtrarSocios($propiedad, $valor);
             return $socios_filtrados;
 
 
@@ -64,8 +62,8 @@ class controladorSocios
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $dni = $_POST['dni'];
-                $nombre = $_POST['nombre'];
-                $apellidos = $_POST['apellidos'];
+                $nombre = ucwords($_POST['nombre']); 
+                $apellidos = ucwords($_POST['apellidos']);
                 $fecha_nac = $_POST['fecha_nac'];
                 $tarifa = $_POST['tarifa'];
                 $fecha_alta = $_POST['fecha_alta'];
@@ -74,7 +72,7 @@ class controladorSocios
                 $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null;
     
                 try {
-                    $insertado = Socio::addSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
+                    $insertado = Socio::addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
                     
                     if ($insertado) {
                         $msg = "$nombre ha sido registrado con éxito";
@@ -93,6 +91,8 @@ class controladorSocios
                         $msg = $e->getMessage(); 
                     }
 
+                    header('Location: /proyecto_gym_MVC/view/socios/addSocio.php?msg=' . $msg);
+                    exit;
                   
                 }
 
@@ -116,7 +116,7 @@ class controladorSocios
                 $dni = $_POST['dni_socio']; 
 
                 //retorna un booleano 
-                $eliminado = Socio::eliminarSocio($conn, $dni);
+                $eliminado = Socio::eliminarSocio($dni);
             }
 
             
@@ -143,7 +143,7 @@ class controladorSocios
                 $dni = $_POST['dni_socio'];
     
                 try {
-                    $socio = Socio::buscarSocio($conn, $dni);
+                    $socio = Socio::buscarSocio($dni);
                 } catch(PDOException $e) {
                     $msg = urlencode($e->getMessage());
                     header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
@@ -181,8 +181,8 @@ class controladorSocios
     
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $dni = $_POST['dni'];
-                $nombre = $_POST['nombre'];
-                $apellidos = $_POST['apellidos'];
+                $nombre = ucwords($_POST['nombre']);
+                $apellidos = ucwords($_POST['apellidos']);
                 $fecha_nac = $_POST['fecha_nac'];
                 $telefono = $_POST['telefono'];
                 $email = $_POST['email'];
@@ -191,7 +191,7 @@ class controladorSocios
                 $cuenta_bancaria = $_POST['cuenta_bancaria'];
     
                 try {
-                    $modificado = Socio::modificarSocio($conn, $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
+                    $modificado = Socio::modificarSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
                     
                     if ($modificado) {
                         $msg = "Los datos del socio han sido actualizados correctamente.";

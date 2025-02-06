@@ -1,91 +1,126 @@
 <?php
 
-require_once __DIR__ . '/../models/datosIncorrectos.php'; //excepción personalizada
+
 require_once __DIR__ . '/../models/Persona.php';
-require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Monitor.php';
 require_once __DIR__ . '/../models/Clase.php';
 
 class ControladorClases {
 
     
-    /**
-     * The function `addClase` in PHP processes form data to add a new class, redirects to a success
-     * message or error message page based on the outcome, and handles exceptions.
-     */
+    
     public static function addClase() {
+
+
+
+    if(isset($_POST['addClase'])){
 
         //recogemos los valores del formulario (son required, no es necesario comprobar que existan):
         $dni_monitor = $_POST['dni_monitor'];
-        $nombre_actividad = $_POST['nombre_actividad'];
-        $dia_semana = $_POST['dia_semana'];
-        $hora_inicio = $_POST['hora_inicio'];
 
-        try {
+        //corregimos la entrada
+        if($_POST['nombre_actividad'] == 'mma' || $_POST['nombre_actividad'] == 'MMA') $nombre_actividad = 'MMA'; 
+        else $nombre_actividad = trim(strtolower($_POST['nombre_actividad']));
 
-            
-                $exitoso = Clase::addClase($dni_monitor, $nombre_actividad, $dia_semana, $hora_inicio);
+        $id_clase = $_POST['id_clase'];
+       
+
+        Clase::addClase($id_clase, $dni_monitor, $nombre_actividad);
+
+    }
+    
+
+}
 
 
-                //Mensaje de exito, redirige al horario para ver la nueva clase añadida: 
-                if ($exitoso) {
-                    header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=addClase');
-                    exit;
-                } 
+    public static function horario() {
 
-                //este método puede capturar excepciones en la manipulacion de getter y setter, y tambíen captura Excepción si los datos de los monitores no se han actualizado correctamente,
-                //enviamos la información de error al usuario a tráves del url.
-            } catch (Exception $e) {
-            $mensaje = urlencode($e->getMessage());
-            header("Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=$mensaje");
-            exit;
 
-        }
+    try{
+
+            $horario =  Clase::horario() ?? [];
+
+            return $horario; 
+
+
+
+    } catch (PDOException $e) {
+            $msg =  $e->getMessage();
+          
+    }catch (Exception $e) {
+
+            $msg =  $e->getMessage();
+          
     }
 
 
+    header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$msg");
+    exit;
+}
 
 
-  /**
-   * The function `mostrar_todas_Clases` retrieves all gym classes, sorts them by schedule, and returns
-   * the sorted list.
-   * 
-   * @return The `mostrar_todas_Clases` function is returning the result of the `ordenarHorario` method
-   * called on the `` array after retrieving the classes' schedule using the `getHorario_gym`
-   * method.
-   */
-    public static function mostrar_todas_Clases() {
-            try {
-                
-                $clases = Clase::getHorario_gym();
 
-                $ordenar_horario = Clase::ordenarHorario($clases); 
-            
-                return $ordenar_horario; 
+//Obtiene el dni y nombre de los monitores para el formulario de addCLase (aparece los dnis de lo monitores)
+public static function get_monitores(){
 
 
-            } catch (datosIncorrectos $e) {
-                $mensaje = urlencode($e->datosIncorrectos());
-                header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$mensaje");
-                exit;
-            } catch (Exception $e) {
-                $mensaje = urlencode($e->getMessage());
-                header("Location: /proyecto_gym_MVC/view/clases//verClases.php?msg=$mensaje");
-                exit;
-            }
+    try {
+        $monitores = Monitor::get_monitores(); 
+        return $monitores;
+
+    } catch (PDOException $e) {
+       $msg= $e->getMessage();
     }
 
+    header("Location: /proyecto_gym_MVC/view/clases/addClases.php?msg=$msg");
+    exit;
 
 
 
-   /**
-    * The function `mostrar_clases_filtradas` in PHP processes user input to filter classes based on a
-    * specified property, handling exceptions and redirecting with error messages if needed.
-    * 
-    * @return The `mostrar_clases_filtradas` function is returning the variable ``,
-    * which contains the result of calling the `Clase::Clases_filtradas` method with the filtered
-    * property and value as parameters.
-    */
+} 
+
+
+//obtiene la clases disponibles para cuando la recepcionista desea añadir una clase 
+public static function horas_disponibles(){
+
+    try {
+        $horas_disponibles = Clase::horas_disponibles(); 
+        return $horas_disponibles;
+
+    } catch (PDOException $e) {
+       $msg= $e->getMessage();
+    }
+
+    header("Location: /proyecto_gym_MVC/view/clases/addClases.php?msg=$msg");
+    exit;
+
+
+
+
+}
+
+
+public static function horas_ocupadas(){
+
+    try {
+    $horas_ocupadas = Clase::horas_ocupadas(); 
+        return $horas_ocupadas;
+
+    } catch (PDOException $e) {
+       $msg= $e->getMessage();
+    }
+
+    header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$msg");
+    exit;
+
+
+
+
+}
+
+
+
+
     public static function mostrar_clases_filtradas() {
 
             //recogermos el valor del formulario (required): 
@@ -107,8 +142,8 @@ class ControladorClases {
                 return $clases_filtradas; 
 
             //Datos incorrectos, envia los mensajes de error por parte de usuario y exception son mensaje de error provocados por nuestro código
-            } catch (datosIncorrectos $e) {
-                $mensaje = urlencode($e->datosIncorrectos());
+            } catch (PDOException $e) {
+                $mensaje = urlencode($e->getMessage());
                 header("Location: /proyecto_gym_MVC/view/clases/clasesFiltro.php?msg=$mensaje");
                 exit;
             } catch (Exception $e) {
@@ -138,14 +173,15 @@ class ControladorClases {
             $exitoso = Clase::sustituirMonitor($dni_monitor_sustituto, $dia_semana, $hora_inicio);
 
             if ($exitoso) {
-                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=sustituido');
+                $msg = "El monitor ha sido sustituido correctamente en la clase $dia_semana - $hora_inicio"; 
+                header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$msg");
                 exit;
             }
 
 
-            //Datos incorrectos, envia los mensajes de error por parte de usuario, exception son mensaje de error provocados por nuestro código
-        } catch (datosIncorrectos $e) {
-            $mensaje = urlencode($e->datosIncorrectos());
+            
+        } catch (PDOException $e) {
+            $mensaje = urlencode($e->getMessage());
             header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=$mensaje");
             exit;
         } catch (Exception $e) {
@@ -176,8 +212,8 @@ class ControladorClases {
 
 
             //La excepción saltará si no existe ninguna clase guardada el json, o no hay ninguna clase con el nombre de actividad seleccionado
-        } catch (datosIncorrectos $e) {
-            $mensaje = urlencode($e->datosIncorrectos());
+        } catch (PDOException $e) {
+            $mensaje = urlencode($e->getMessage());
             header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
             exit;
         }
@@ -207,8 +243,8 @@ class ControladorClases {
             }
 
             //La excepción saltará si no existe ninguna clase guardada el json, o bien no hay ninguna clase con ese id
-        } catch (datosIncorrectos $e) {
-            $mensaje = urlencode($e->datosIncorrectos());
+        } catch (PDOException $e) {
+            $mensaje = urlencode($e->getMessage());
             header("Location: /proyecto_gym_MVC/view/clases/eliminarClase.php?msg=$mensaje");
             exit;
         }

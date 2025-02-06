@@ -10,6 +10,12 @@ if (!isset($_SESSION['nombre'])) {
        header('location: ../login_recepcionista.php');
        exit(); 
    }
+
+   require_once '../../controllers/controladorClases.php';
+
+   //Metodos para controlar los valores introducidos en el formulario
+   $monitores = ControladorClases::get_monitores(); 
+   $horas_ocupadas = ControladorClases::horas_ocupadas(); 
  
 ?>
 
@@ -28,60 +34,43 @@ if (!isset($_SESSION['nombre'])) {
             background-size:cover;
             
         }
+
+        #sustituirMonitor{
+            float: left;
+        }
     </style>
 </head>
 <body>
    
    
-    <fieldset>
-        <h2 style='text-align: center';>sustituir monitor de una clase</h2>
-        <form method="POST" action="index_clases.php?action=sustituirMonitor">
+    <fieldset id='sustituirMonitor'>
+        <h1 style='text-align: center';>sustituir monitor</h1>
+        <form method="POST" action="router_clases.php?action=sustituirMonitor">
 
             <label for="dni_monitor">DNI nuevo monitor</label>
             <select id="dni_monitor" name="dni_monitor" required>
+                    <?php foreach ($monitores as $monitor) : ?>
+                        <option value="<?= htmlspecialchars($monitor['dni']) ?>">
+                            <?= htmlspecialchars($monitor['nombre']) . " --- ". htmlspecialchars($monitor['dni']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
 
-            <?php
-                /* This PHP code block is reading data from a JSON file that contains information about
-                monitors.
-                Es necesario para rescatar los dni, que tenemos en el json para que el usuario no pueda insertar cualquier DNI */
-                $monitoresJson = "../../data/monitores.json";
-                if (file_exists($monitoresJson)) {
-                    $jsonData = file_get_contents($monitoresJson);
-                    $monitores = json_decode($jsonData, true); // Decodificamos el contenido JSON a un array asociativo
-                    foreach ($monitores as $dni_monitor => $monitor) {
-                        echo '<option value="' . $dni_monitor . '">'
-                            . $dni_monitor . ' - ' . $monitor['nombre']
-                            . '</option>';
-                    }
-                } else {
-                    echo '<option value="" disabled>No se encontraron monitores disponibles</option>';
-                }
-                ?>
-
-
-            </select>
-            <br><br>
-
-            <label for="dia_semana">Día de la Semana</label>
-            <select id="dia_semana" name="dia_semana" required>
-                <option value="lunes" selected>Lunes</option>
-                <option value="martes">Martes</option>
-                <option value="miercoles">Miércoles</option>
-                <option value="jueves">Jueves</option>
-                <option value="viernes">Viernes</option>
-                <option value="sabado">Sábado</option>
-            </select>
-            <br><br>
-
-            <label for="hora_inicio">Hora de Inicio</label>
-            <select id="hora_inicio" name="hora_inicio" required>
-                <option value="10:00" selected>10:00</option>
-                <option value="12:00">12:00</option>
-                <option value="16:00">16:00</option>
-                <option value="18:00">18:00</option>
-            </select>
-            <br>
-            <div>
+           
+                <label for="id_clase">Selecciona la clase</label>
+                <select id="id_clase" name="id_clase" required <?= empty($horas_ocupadas) ? 'disabled' : '' ?>>
+                    <?php if (empty($horas_ocupadas)) : ?>
+                        <option value="">Ninguna clase libre disponible</option>
+                    <?php else : ?>
+                        <?php foreach ($horas_ocupadas as $id_clase) : ?>
+                            <option value="<?= htmlspecialchars($id_clase) ?>">
+                                <?= htmlspecialchars($id_clase) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+                        
+           
                 
             <button type="submit">sustituir monitor</button>
            

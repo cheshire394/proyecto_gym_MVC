@@ -1,9 +1,7 @@
 <!-- Página Añadir Socio -->
 
 <?php
-/* This PHP code block is responsible for managing the user session. Here's a breakdown of what it
-    does: */
-// Inicia una nueva sesión o reanuda la sesión existente
+
 session_start();
 
 // Verifica si existe una variable de sesión 'nombre'
@@ -77,7 +75,7 @@ if (!isset($_SESSION['nombre'])) {
                 <div>
                 
                 <button type="submit" style="margin-left: 60px;">añadir socio</button>
-               <!--volver a bievenida -->
+               <!--volver a bievenida-->
                 <div id='divEnlace'>
                         <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

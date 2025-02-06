@@ -50,7 +50,6 @@ if (!isset($_SESSION['nombre'])) {
                     <a href="/proyecto_gym_MVC/view/clases/addClase.php">Añadir una clase</a>
                     <a href="/proyecto_gym_MVC/view/clases/sustituirMonitor.php">Sustituir monitor</a>
                     <a href="/proyecto_gym_MVC/view/clases/verClases.php">Horario</a>
-                    <a href="/proyecto_gym_MVC/view/clases/clasesFiltro.php">Horario con filtro</a>
                     <a href="/proyecto_gym_MVC/view/clases/eliminarDisciplina.php">Eliminar una disciplina</a>
                     <a href="/proyecto_gym_MVC/view/clases/eliminarClase.php">Eliminar una clase</a>
                   
