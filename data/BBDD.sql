@@ -67,31 +67,31 @@ CREATE TABLE IF NOT EXISTS RECEPCIONISTAS (
 INSERT INTO MONITORES (dni, nombre, apellidos, fecha_nac, telefono, email, cuenta_bancaria, funcion, sueldo, horas_extra, jornada) VALUES
 ('50489319H', 'Laura', 'Rodriguez Vallejo', '1994-06-17', '650448327', 'laura_boxing@gmail.com', 'ES9123456789012345678901', 'monitor', 240, 0, 8),
 ('09626574Q', 'Carlos', 'Gómez Pérez', '1990-03-12', '691234567', 'carlos@gmail.com', 'ES9234567890123456789012', 'monitor', 420, 0, 14),
-('55462206Y', 'Ana', 'Martínez López', '1988-09-23', '677123456', 'ana.judo@gmail.com', 'ES9345678901234567890123', 'monitor', 540, 0, 18);
+('55462206Y', 'Ana', 'Martínez López', '1988-09-23', '677123456', 'ana.Judo@gmail.com', 'ES9345678901234567890123', 'monitor', 540, 0, 18);
 
 -- Insertar disciplinas
 INSERT INTO DISCIPLINAS_MONITORES (dni_monitor, disciplina) VALUES
-('50489319H', 'boxeo'), ('50489319H', 'kickboxing'), ('50489319H', 'MMA'), ('50489319H', 'moay thai'), ('50489319H', 'capoira'),
-('09626574Q', 'taekwondo'), ('09626574Q', 'karate'), ('09626574Q', 'boxeo'), ('09626574Q', 'MMA'), ('09626574Q', 'PRUEBA IAGO'),
-('55462206Y', 'judo'), ('55462206Y', 'aikido'), ('55462206Y', 'capoira'), ('55462206Y', 'MMA');
+('50489319H', 'Boxeo'), ('50489319H', 'Kickboxing'), ('50489319H', 'MMA'), ('50489319H', 'Moay thai'), ('50489319H', 'Capoira'),
+('09626574Q', 'Taekwondo'), ('09626574Q', 'Karate'), ('09626574Q', 'Boxeo'), ('09626574Q', 'MMA'), ('09626574Q', 'PRUEBA IAGO'),
+('55462206Y', 'Judo'), ('55462206Y', 'Aikido'), ('55462206Y', 'Capoira'), ('55462206Y', 'MMA');
 
 -- Insertar clases
 INSERT INTO CLASES (id_clase, dni_monitor, nombre_actividad, dia_semana, hora_inicio, hora_fin) VALUES
-('lunes-12:00', '50489319H', 'kickboxing', 'lunes', '12:00', '14:00'),
-('lunes-18:00', '50489319H', 'kickboxing', 'lunes', '18:00', '20:00'),
-('miercoles-12:00', '50489319H', 'kickboxing', 'miercoles', '12:00', '14:00'),
-('miercoles-18:00', '50489319H', 'kickboxing', 'miercoles', '18:00', '20:00'),
-('viernes-10:00', '09626574Q', 'taekwondo', 'viernes', '10:00', '12:00'),
-('viernes-12:00', '09626574Q', 'karate', 'viernes', '12:00', '14:00'),
-('viernes-16:00', '09626574Q', 'taekwondo', 'viernes', '16:00', '18:00'),
-('viernes-18:00', '09626574Q', 'karate', 'viernes', '18:00', '20:00'),
-('sabado-12:00', '09626574Q', 'karate', 'sabado', '12:00', '14:00'),
-('sabado-18:00', '09626574Q', 'taekwondo', 'sabado', '18:00', '20:00'),
+('lunes-12:00', '50489319H', 'Kickboxing', 'lunes', '12:00', '14:00'),
+('lunes-18:00', '50489319H', 'Kickboxing', 'lunes', '18:00', '20:00'),
+('miercoles-12:00', '50489319H', 'Kickboxing', 'miercoles', '12:00', '14:00'),
+('miercoles-18:00', '50489319H', 'Kickboxing', 'miercoles', '18:00', '20:00'),
+('viernes-10:00', '09626574Q', 'Taekwondo', 'viernes', '10:00', '12:00'),
+('viernes-12:00', '09626574Q', 'Karate', 'viernes', '12:00', '14:00'),
+('viernes-16:00', '09626574Q', 'Taekwondo', 'viernes', '16:00', '18:00'),
+('viernes-18:00', '09626574Q', 'Karate', 'viernes', '18:00', '20:00'),
+('sabado-12:00', '09626574Q', 'Karate', 'sabado', '12:00', '14:00'),
+('sabado-18:00', '09626574Q', 'Taekwondo', 'sabado', '18:00', '20:00'),
 ('lunes-10:00', '09626574Q', 'MMA', 'lunes', '10:00', '12:00'),
-('martes-10:00', '55462206Y', 'judo', 'martes', '10:00', '12:00'),
-('martes-12:00', '55462206Y', 'aikido', 'martes', '12:00', '14:00'),
-('martes-16:00', '55462206Y', 'judo', 'martes', '16:00', '18:00'),
-('martes-18:00', '55462206Y', 'aikido', 'martes', '18:00', '20:00');
+('martes-10:00', '55462206Y', 'Judo', 'martes', '10:00', '12:00'),
+('martes-12:00', '55462206Y', 'Aikido', 'martes', '12:00', '14:00'),
+('martes-16:00', '55462206Y', 'Judo', 'martes', '16:00', '18:00'),
+('martes-18:00', '55462206Y', 'Aikido', 'martes', '18:00', '20:00');
 
 -- Insertar socios
 INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, cuenta_bancaria, fecha_alta) VALUES

@@ -23,11 +23,12 @@ if (!isset($_SESSION['nombre'])) {
 </head>
 <body>
 
+<p><small>importante* Esta página no está diseñada para eliminar una clase del horario, elimina todas las clases que forman parte de la disciplina elegida</small></p>
 
     <fieldset>
         <legend>Selecciona la disciplina que deseas eliminar </legend>
-        <form method="POST" action="index_clases.php?action=eliminarDisciplina">
-            <label for="disciplina">Disciplina:</label>
+        <form method="POST" action="router_clases.php?action=eliminarDisciplina">
+            <label for="disciplina">nombre actividad</label>
             <select id="disciplina" name="nombre_actividad" required>
                 <option value="taekwondo">Taekwondo</option>
                 <option value="karate">Karate</option>
@@ -42,7 +43,7 @@ if (!isset($_SESSION['nombre'])) {
             <br>
             <div>
                 
-            <button type="submit">Eliminar disciplina</button>
+            <button type="submit" name='eliminar_diciplina'>Eliminar disciplina</button>
            
             <div id='divEnlace'>
                     <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
@@ -64,7 +65,7 @@ if (!isset($_SESSION['nombre'])) {
         </form>
     </fieldset>
     <br>
-    <p><b>importante* Esta página no está diseñada para eliminar una clase del horario, su fin es eliminar todas las clases que forman parte de la disciplina elegida</b></p>
+   
     
 </body>
 </html>

@@ -50,7 +50,7 @@ if (!isset($_SESSION['nombre'])) {
                     <a href="/proyecto_gym_MVC/view/clases/addClase.php">Añadir una clase</a>
                     <a href="/proyecto_gym_MVC/view/clases/sustituirMonitor.php">Sustituir monitor</a>
                     <a href="/proyecto_gym_MVC/view/clases/verClases.php">Horario</a>
-                    <a href="/proyecto_gym_MVC/view/clases/eliminarDisciplina.php">Eliminar una disciplina</a>
+                    <a href="/proyecto_gym_MVC/view/clases/eliminarDisciplina.php">Eliminar disciplina</a>
                     <a href="/proyecto_gym_MVC/view/clases/eliminarClase.php">Eliminar una clase</a>
                   
                 </div>
@@ -86,7 +86,7 @@ if (!isset($_SESSION['nombre'])) {
 
             <!-- PESTAÑA DE CIERRE SESSION -->
             <div class="menu-item">
-                <button class="menu-button" onclick="window.location.href='../index.php?action=logout'">
+                <button class="menu-button" onclick="window.location.href='../router.php?action=logout'">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                         <polyline points="16 17 21 12 16 7"/>

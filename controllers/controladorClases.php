@@ -16,16 +16,32 @@ class ControladorClases {
     if(isset($_POST['addClase'])){
 
         //recogemos los valores del formulario (son required, no es necesario comprobar que existan):
+
+
         $dni_monitor = $_POST['dni_monitor'];
 
-        //corregimos la entrada
-        if($_POST['nombre_actividad'] == 'mma' || $_POST['nombre_actividad'] == 'MMA') $nombre_actividad = 'MMA'; 
-        else $nombre_actividad = trim(strtolower($_POST['nombre_actividad']));
+        //corregimos la entrada para evitar inconsistencias de nombre el la BBDD
+        if($_POST['nombre_actividad'] == 'mma' || $_POST['nombre_actividad'] == 'Mma' || $_POST['nombre_actividad'] == 'MMA') $nombre_actividad = 'MMA'; 
+        else $nombre_actividad = trim(ucwords($_POST['nombre_actividad']));
 
         $id_clase = $_POST['id_clase'];
        
 
-        Clase::addClase($id_clase, $dni_monitor, $nombre_actividad);
+        $insertada = Clase::addClase($id_clase, $dni_monitor, $nombre_actividad);
+
+        if($insertada){
+             // Redirigir a verClases.php con mensaje de éxito
+             $msg = "Clase de $nombre_actividad a las $id_clase registrada correctamente";
+             header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=" . urlencode($msg));
+             exit;
+
+             
+        }else{
+            $msg = $insertada; // Aquí se espera que $insertada contenga el mensaje de error de tipo PDOException
+            header("Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=$msg");
+            exit;
+
+        }
 
     }
     
@@ -121,77 +137,84 @@ public static function horas_ocupadas(){
 
 
 
-    public static function sustituirMonitor() {
+public static function sustituirMonitor() {
+    if (isset($_POST['sustituir_monitor'])) {
+        try {
+            $dni_monitor_new = $_POST['dni_monitor'];
+            $id_clase = $_POST['id_clase'];
 
+            $sustitucion_exitosa = Clase::sustituirMonitor($dni_monitor_new, $id_clase);
 
-    if(isset($_POST['sustituir_monitor'])){
+            if ($sustitucion_exitosa === true) {
+                $msg = "Monitor sustituido correctamente";
+                header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=" . urlencode($msg));
+            } else {
+                $msg = $sustitucion_exitosa; // Aquí se espera que $sustitucion_exitosa contenga el mensaje de error de tipo PDOException
+                header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=" . urlencode($sustitucion_exitosa));
+            }
 
-        //recogemos los valores del formulario: 
-        $dni_monitor_new = $_POST['dni_monitor'];
-        $id_clase = $_POST['id_clase'];
-        
-
-        Clase::sustituirMonitor($dni_monitor_new, $id_clase);
-
+            //Si el monitor que que deseamos sustituir es el mismo que hemos introducido en el formulario, el error será de tipo exceptión
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=" . urlencode($msg));
+        }
+        exit; 
     }
+}
 
-      
-
-
-    }
 
 
 
 
     public static function eliminarDisciplina() {
 
-        $nombre_actividad = $_POST['nombre_actividad'];
-
-        try {
-            $exitoso = Clase::eliminarDisciplina($nombre_actividad);
-
-            if ($exitoso) {
-                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminadaDisciplina');
-                exit;
-            }
-
-
-            //La excepción saltará si no existe ninguna clase guardada el json, o no hay ninguna clase con el nombre de actividad seleccionado
-        } catch (PDOException $e) {
-            $mensaje = urlencode($e->getMessage());
-            header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$mensaje");
-            exit;
+         //Si se ha pulsado el bton eliminar_displina del formulario:
+            if (isset($_POST['eliminar_diciplina'])) {
+        
+                $nombre_actividad = $_POST['nombre_actividad']; 
+                $eliminadas = Clase::eliminarDisciplina($nombre_actividad);
+    
+                if ($eliminadas === true) {
+                    $msg = "Eliminadas todas las clases de $nombre_actividad";
+                    header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$msg");
+                } else {
+                    $msg = $eliminadas; // Aquí se espera que $eliminadas contenga el mensaje de error de tipo PDOException
+                    header("Location: /proyecto_gym_MVC/view/clases/eliminarClase.php?msg=$msg");
+                    exit;
+                }
+          
+           
         }
+
+        
     }
 
 
-    /**
-     * The function `eliminarClase` in PHP collects form values, constructs an `id_clase` to delete,
-     * attempts to delete the class using the `Clase` class, and redirects based on success or failure.
-     */
+ 
     public static function eliminarClase() {
 
-        //recogemos los valores del formulario
-        $dia = $_POST['dia_semana'];
-        $hora = $_POST['hora_inicio']; 
 
-        //construimod el id_clase a eliminar: 
-        $id_clase=$dia."-".$hora; 
-
-        try {
-
-            $exitoso = Clase::eliminarClase($id_clase);
-
-            if ($exitoso) {
-                header('Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=eliminarClase');
-                exit;
-            }
-
-            //La excepción saltará si no existe ninguna clase guardada el json, o bien no hay ninguna clase con ese id
-        } catch (PDOException $e) {
-            $mensaje = urlencode($e->getMessage());
-            header("Location: /proyecto_gym_MVC/view/clases/eliminarClase.php?msg=$mensaje");
-            exit;
+        //Si se ha pulsado el bton eliminar_clase del formulario:
+        if (isset($_POST['eliminar_clase'])) {
+        
+                $id_clase = $_POST['id_clase']; 
+                $eliminada = Clase::eliminarClase($id_clase);
+    
+                if ($eliminada === true) {
+                    $msg = "La clase $id_clase ha sido eliminada con éxito";
+                    header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=$msg");
+                } else {
+                    $msg = $eliminada; // Aquí se espera que $eliminada contenga el mensaje de error de tipo PDOException
+                    header("Location: /proyecto_gym_MVC/view/clases/eliminarClase.php?msg=$msg");
+                    exit;
+                }
+          
+           
         }
     }
+    
+    
+  
+
+     
 }

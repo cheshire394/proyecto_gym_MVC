@@ -27,15 +27,7 @@ final class Clase {
     }
 
 
-    // La unica propiedad de la clase que modificable es el dni del monitor que la imparte, para mantener la congruencia de los datos, ya que 
-    // la hora_inicio y la semana constituye la clave primaria, (y representa un espacio de tiempo físico dentro del gimnasio).
-    public function setDni_monitor($dni_monitor)
-    {
-            $this->dni_monitor = $dni_monitor;
-
-            return $this;
-    }
-
+  
 
 
 
@@ -81,27 +73,25 @@ final class Clase {
             // Confirmar la transacción
             $conn->commit();
     
-            // Redirigir a verClases.php con mensaje de éxito
-            $msg = "Clase registrada correctamente";
-            header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=" . urlencode($msg));
-            exit;
+           return true; 
     
         } catch (PDOException $e) {
             // Revertir la transacción en caso de error
             $conn->rollBack();
     
-            // Manejo de errores específicos
+            // Manejo de errores con mensajes específicos segun el tipo de PDO exception: si el metodo clases disponibles funciona correctamente
+            // la violación de la primary key nunca deberia suceder, ya que desde el formulario solo se puede añadir clases en huecos libres.
             if ($e->getCode() == 23000) {
-                $msg = "Excepción PDO: ya existe una clase asignada para el ID $id_clase";
+
+                return "Excepción PDO: ya existe una clase asignada para el ID $id_clase";
+                
             } else {
-                $msg = $e->getMessage();
+               return $msg = $e->getMessage();
             }
     
         } 
     
-        // Redirigir de nuevo al formulario de añadir clase con mensaje de error
-        header("Location: /proyecto_gym_MVC/view/clases/addClase.php?msg=" . urlencode($msg));
-        exit;
+      
     }
     
      
@@ -214,91 +204,168 @@ final class Clase {
 
    
     public static function sustituirMonitor($dni_new_monitor, $id_clase) {
-
-        include  __DIR__ . '/../data/conexionBBDD.php';
+        include __DIR__ . '/../data/conexionBBDD.php';
     
         try {
-            $conn->beginTransaction(); // Iniciar transacción para asegurar consistencia
+            $conn->beginTransaction(); 
     
-            // PASO 1) Obtener el dni del antiguo monitor (el monitor que estaba impartiendo esa clase)
+            // Obtener el dni del antiguo monitor
             $query = "SELECT dni_monitor FROM CLASES WHERE id_clase = :id_clase";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':id_clase', $id_clase);
             $stmt->execute();
             $dni_old_monitor = $stmt->fetchColumn(); 
-
-
+    
             if (!$dni_old_monitor) {
-                throw new PDOException("Excepción PDO: No se encontró el antiguo monitor que imapartía la clase $id_clase");
-
-            
+                throw new PDOException("No se encontró el monitor para la clase $id_clase");
             }
-            
-            //Evitamos actualizaciones ineccesarias sobre la BBDD
-            if($dni_old_monitor == $dni_new_monitor){
-                throw new PDOException('El monitor seleccionado ya imparte esa clase');
+    
+            // Evitar actualización innecesaria
+            if ($dni_old_monitor == $dni_new_monitor) {
+                throw new  Exception("El monitor seleccionado ya imparte esta clase");
             }
-
-
-            //Si se ha encontrado el antiguo monitor, además no es el mismo que el nuevo monitor, entonces actualizamos los datos en la BBDD
     
-           $actualizado_monitor_old = Monitor::actualizarMonitorAntiguo($conn, $dni_old_monitor);
-
-           $actualizado_monitor_new = Monitor::actualizarMonitorNuevo($conn, $dni_new_monitor);
-
-            //Si existe algun error hacemos rollback de los cambios ejecutados
-           if(!$actualizado_monitor_old || !$actualizado_monitor_new){
-
-                throw new PDOException("Error al actualizar el monitor con DNI $dni_monitor");
-           }
+            // Actualizar monitores
+            $actualizado_monitor_old = Monitor::actualizarMonitorAntiguo($conn, $dni_old_monitor);
+            $actualizado_monitor_new = Monitor::actualizarMonitorNuevo($conn, $dni_new_monitor);
     
-           
-            //Si los monitores se han actualizado correctamente,  Actualizamos el monitor en la tabla CLASES
+            if (!$actualizado_monitor_old || !$actualizado_monitor_new) {
+                throw new PDOException("Error al actualizar el monitor.");
+            }
+    
+            // Actualizar el monitor en la tabla CLASES
             $query = "UPDATE CLASES SET dni_monitor = :dni_new_monitor WHERE id_clase = :id_clase";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':dni_new_monitor', $dni_new_monitor);
             $stmt->bindParam(':id_clase', $id_clase);
             $stmt->execute();
     
-            $conn->commit(); // Confirmamos todos los  cambios
-
-            // Redirigir a verClases.php con mensaje de éxito
-            $msg = "monitor sustituido correctamente";
-            header("Location: /proyecto_gym_MVC/view/clases/verClases.php?msg=" . urlencode($msg));
-            exit;
+            $conn->commit(); 
+            return true; 
     
-
         } catch (PDOException $e) {
-
-            $conn->rollBack(); // Revertir cambios en caso de error
-
-               // Redirigir de nuevo al formulario sustituir monitor con mensaje de error
-               $msg = $e->getMessage(); 
-                header("Location: /proyecto_gym_MVC/view/clases/sustituirMonitor.php?msg=" . urlencode($msg));
-                exit;
-            
+            $conn->rollBack(); 
+            error_log("Error en sustituir Monitor: " . $e->getMessage()); // Registrar error
+            return $e->getMessage(); // Devolver el mensaje de error específico
         }
     }
     
-
-   
-  
- 
-
-
     
-    public static function eliminarDisciplina($nombre_actividad) {
-        
-          
-          
-    }
-
 
     public static function eliminarClase($id_clase) {
-        
-        
-      
-}
+        include __DIR__ . '/../data/conexionBBDD.php';
+    
+        try {
+            $conn->beginTransaction(); // Iniciar transacción
+    
+            // Obtener el DNI del monitor antes de eliminar la clase
+            $sql = "SELECT dni_monitor FROM CLASES WHERE id_clase = :id_clase";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':id_clase', $id_clase, PDO::PARAM_STR);
+            $stmt->execute();
+            //Solo devuelve un único valor de la primera fila del resultado
+            $dni_monitor = $stmt->fetchColumn();
+    
+            if (!$dni_monitor) {
+                throw new PDOException("No se encontró la clase con ID $id_clase.");
+            }
+    
+            // Actualizar las condiciones del monitor antes de eliminar la clase
+            $actualizado_monitor_old = Monitor::actualizarMonitorAntiguo($conn, $dni_monitor);
+            if (!$actualizado_monitor_old) {
+                throw new PDOException("Error al actualizar las condiciones del monitor.");
+            }
+    
+            // Eliminar la clase
+            $sql = "DELETE FROM CLASES WHERE id_clase = :id_clase";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':id_clase', $id_clase, PDO::PARAM_STR);
+    
+            if (!$stmt->execute()) {
+                throw new PDOException("Error al eliminar la clase con ID $id_clase.");
+            }
+    
+            $conn->commit(); // Confirmar la transacción
+            return true; 
+        } catch (PDOException $e) {
+            $conn->rollBack(); // Revertir cambios en caso de error
+            error_log("Error en eliminarClase: " . $e->getMessage()); // Registrar error
+            return  $e->getMessage(); // Devolver el mensaje de error específico
+        }
+    }
+    
+  
+    
+    public static function eliminarDisciplina($nombre_actividad) {
+        include __DIR__ . '/../data/conexionBBDD.php';
+    
+        try {
+            $conn->beginTransaction(); // Iniciar la transacción
+    
+            // Obtener los DNI de los monitores que impartían la disciplina
+            $sql = "SELECT dni_monitor FROM CLASES WHERE nombre_actividad = :nombre_actividad";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nombre_actividad', $nombre_actividad, PDO::PARAM_STR);
+            $stmt->execute();
+
+            //Recupera todas las filas de la consulta, pero solo los valores de una columna específica (dni_monitor)
+            $dnis_monitores = $stmt->fetchAll(PDO::FETCH_COLUMN); 
+    
+            if (empty($dnis_monitores)) {
+                throw new PDOException("No se encontraron clases para la disciplina '$nombre_actividad'.");
+            }
+    
+            // Contar cuántas veces aparece cada monitor para saber cuántas clases impartía:
+
+            /*$dnis_monitores nos devuelve un array simple de tipo string con los dnis, si un dni aparece dos veces, en el array aparece dos veces
+            como queremos contabilizar el numero de veces que aparece cada dni, para actualizar sus datos tantas veces como aparezca hemos utilizado 
+            esta función que nos devuelve una array asociativo en la que la key es el dni de un monitor concreto y el valor es el numero de veces que aparece en consulta
+
+            por ejemplo: 
+
+            array = {
+
+                647465657T => 2,
+                646446466M => 4
+            
+            }
+            
+            */
+            $conteo_monitores = array_count_values($dnis_monitores);
+    
+            // Actualizar las condiciones de los monitores afectados
+            foreach ($conteo_monitores as $dni_monitor => $cantidad_clases) {
+                for ($i = 0; $i < $cantidad_clases; $i++) {
+                    $actualizado = Monitor::actualizarMonitorAntiguo($conn, $dni_monitor);
+                    if (!$actualizado) {
+                        throw new PDOException("Error al actualizar las condiciones del monitor con DNI $dni_monitor.");
+                    }
+                }
+            }
+    
+            // Eliminar las clases de la disciplina
+            $sql = "DELETE FROM CLASES WHERE nombre_actividad = :nombre_actividad";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nombre_actividad', $nombre_actividad, PDO::PARAM_STR);
+    
+            if (!$stmt->execute()) {
+                throw new PDOException("Error al eliminar las clases de '$nombre_actividad'.");
+            }
+    
+            $conn->commit(); // Confirmar la transacción
+            return true; 
+    
+        } catch (PDOException $e) {
+            $conn->rollBack(); // Revertir cambios en caso de error
+            error_log("Error en eliminarDisciplina: " . $e->getMessage()); // Registrar error
+            return $e->getMessage(); // Devolver mensaje de error específico
+        }
+    }
+    
+    
+
+
+  
 
 
 }

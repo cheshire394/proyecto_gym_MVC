@@ -133,7 +133,8 @@ class controladorSocios
            
         }
 
-        // Este método rescata los valores del socio que el usuario quiere modificar para mostrarlos en el formulario: 
+        // Este método rescata los valores del socio que el usuario quiere modificar para mostrarlos en el formulario modificar socio y facilitar al usuario 
+        //la modificación de datos: 
         public static function mostrarFormularioModificar() {
             require_once('conexionBBDD.php');
     
