@@ -6,28 +6,17 @@ class Recepcionista extends Persona {
     
     const EUROS_HORA=30;
 
-    private $funcion; 
-    private $sueldo; 
-    private $jornada; 
-    private $horas_extra; 
+
+    private $funcion;
+    private $sueldo;
+    private $jornada;
+    private $horas_extra;
     private $cuenta_bancaria;
+    private $password;
     
-    function __construct(
-        $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, 
-        $cuenta_bancaria, $funcion = 'recepcionista', $sueldo = 1100,$horas_extra = 0, $jornada =40) {
-    
-    
-    $this->cuenta_bancaria = $this->validarCuentaBancaria($cuenta_bancaria); 
-    $this->funcion = $funcion;
-    $this->sueldo = $sueldo;
-    $this->horas_extra = $horas_extra;
-    $this->jornada = $jornada;
-
-    //propiedades heredadas:
-    parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email);
-    
-
-}
+    function __construct() {
+        // Constructor vacío para fetchObject
+    }
 
         
 
@@ -36,13 +25,6 @@ class Recepcionista extends Persona {
         if (property_exists($this, $name)) {
 
             $this->$name = $value; 
-
-
-            if($name == 'jornada'){
-
-                $actualizar_sueldo= $value * Recepcionista::EUROS_HORA; 
-                $this->__set('sueldo', $actualizar_sueldo); 
-            }
 
         } else {
             throw new Exception('ERROR EN EL SETTER TRABAJADOR: LA PROPIEDAD QUE DESEAS MODIFICAR NO EXISTE'); 
@@ -112,27 +94,28 @@ class Recepcionista extends Persona {
             return false; // Credenciales incorrectas
         }
     }
-    
 
- 
+    public static function verRecepcionistas(){
 
-    public function validarCuentaBancaria($cuenta) {
+        include  __DIR__ . '/../data/conexionBBDD.php'; 
         
-        $cuenta = trim($cuenta);
-        if (substr($cuenta, 0, 2) === 'ES' && strlen($cuenta) === 24) {
+        $sql = "SELECT * FROM RECEPCIONISTAS"; 
+
+       if(!$stmt = $conn->prepare($sql)) throw new PDOException('Error al preparar la consuta que obtiene todas los recepcionistas en verRecepcionistas'); 
+       if(!$stmt->execute()) throw new PDOException("Excepción PDO: error al ejecutar la consulta en verRecepcionistas"); 
+
+        $recepcionistas=[]; 
+        while($recepcionista = $stmt->fetchObject('Recepcionista')){
             
-            $numeros = substr($cuenta, 2);
-            /*usamos ctype_digit, porqué es más restrictivo que is_numeric y no permite usar números negativos */
-            if (ctype_digit($numeros)) {
-                return $cuenta; 
-            }
+            $recepcionistas[]=$recepcionista; 
+
         }
-    
-        throw new Exception('ERROR: LA CUENTA BANCARIA INTRODUCIDA NO ES VÁLIDA');
+
+        return $recepcionistas;
+
+
     }
-
-
-    
+      
 
 }
 

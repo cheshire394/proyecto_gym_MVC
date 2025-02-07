@@ -1,7 +1,9 @@
 <?php
-/* This PHP code block is responsible for managing the user session. Here's a breakdown of what it
-    does: */
-// Inicia una nueva sesión o reanuda la sesión existente
+
+//Mostrar errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 
 // Verifica si existe una variable de sesión 'nombre'
@@ -40,50 +42,24 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
                     <th>DNI</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
-                    <th>edad</th>
                     <th>Fecha de Nacimiento</th>
                     <th>Teléfono</th>
                     <th>Email</th>
-                    <th>Disciplinas</th>
-                    <th>Clases</th>
                     <th>Jornada</th>
                     <th>Sueldo</th>
-                    <th>Horas extra</th>
-                    <th>Modificar horas extra</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($monitores as $dni => $monitor) { ?>
+                <?php foreach ($monitores as $monitor) { ?>
                     <tr>
-                        <td><?= htmlspecialchars($dni) ?></td>
+                        <td><?= htmlspecialchars($monitor->__get('dni')) ?></td>
                         <td><?= htmlspecialchars($monitor->__get('nombre')) ?></td>
                         <td><?= htmlspecialchars($monitor->__get('apellidos')) ?></td>
-                        <td><?= htmlspecialchars($monitor->__get('edad')) ?></td>
                         <td><?= htmlspecialchars($monitor->__get('fecha_nac')) ?></td>
                         <td><?= htmlspecialchars($monitor->__get('telefono')) ?></td>
                         <td><?= htmlspecialchars($monitor->__get('email')) ?></td>
-                        <td>
-                            <?= htmlspecialchars(implode(', ', $monitor->__get('disciplinas'))) ?>
-                        </td>
-                        <td>
-                            <?= htmlspecialchars(implode(', ', array_keys($monitor->__get('clases')))) ?>
-                        </td>
                         <td><?= htmlspecialchars($monitor->__get('jornada')) ?> horas</td>
                         <td><?= htmlspecialchars(number_format($monitor->__get('sueldo'), 2)) ?> €</td>
-                        <td><?= htmlspecialchars($monitor->__get('horas_extra'))?></td>
-                        <td>
-
-                        <div class="contenedor-horas-extra">  
-                            <form method="post" action="../../controllers/controlador_horas.php">
-
-                                <input id='input_horas_extra' type='number' name='horas_extra' min='0'  maxlenght='2' require>
-                                <input type='hidden' name='dni' value=<?php echo $dni?>>
-                                <button id='btn_horas_extra' type='submit' name='add_horas'>añadir horas extra</button>
-
-                            
-                            </form>
-                        </div>
-                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -96,38 +72,39 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
     <br>
     <br>
     <hr>
+ 
     <h1>Listado de recepcionistas</h1>
 
     <?php if (!empty($recepcionistas)) { ?>
+
+    
         <table>
             <thead>
                 <tr>
                     <th>DNI</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
-                    <th>edad</th>
                     <th>Fecha de Nacimiento</th>
                     <th>Teléfono</th>
                     <th>Email</th>
                     <th>Jornada</th>
                     <th>Sueldo</th>
-                    <th>Horas extra</th>
+                   
                    
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($recepcionistas as $dni => $recepcionista) { ?>
+                <?php foreach ($recepcionistas as $recepcionista) { ?>
                     <tr>
                         <td><?= htmlspecialchars($recepcionista->__get('dni')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('nombre')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('apellidos')) ?></td>
-                        <td><?= htmlspecialchars($recepcionista->__get('edad')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('fecha_nac')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('telefono')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('email')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('jornada')) ?> horas</td>
                         <td><?= htmlspecialchars(number_format($recepcionista->__get('sueldo'), 2)) ?> €</td>
-                        <td><?= htmlspecialchars($recepcionista->__get('horas_extra'))?></td>
+                      
                     </tr>
                 <?php } ?>
             </tbody>
@@ -135,10 +112,13 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
     <?php } else { ?>
         <p>No hay recepcionistas disponibles en el registro</p>
     <?php } ?>
+   
+
+
         <br>
 
         <div id='divEnlace'>
-                    <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+                    <a href="../bienvenida_recepcionista.php" style="display: inline-block; align-items: center; text-decoration: none; color: inherit;">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>

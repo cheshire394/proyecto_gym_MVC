@@ -1,51 +1,74 @@
 <?php
-require_once __DIR__ . '/Recepcionista.php';
 
-final class Monitor extends Recepcionista {
+
+final class Monitor extends Persona {
 
   
 
     const EUROS_HORA=30;
-    private $disciplinas = []; 
-    private  $clases = []; 
+    
+    private $jornada;
+    private $sueldo;
+    private $cuenta_bancaria;
+    private $funcion;
+    private $horas_extra;
 
+    function __construct(){
 
-    function __construct(
+        //contructor vacio para fetchObject()
+    }
         
-        $dni, $nombre, $apellidos, $fecha_nac, $telefono, $email,
-        $cuenta_bancaria,$funcion='monitor',$sueldo = 1100, $horas_extra = 0, $jornada=40) {
-    
-        $this->funcion='monitor'; 
-         // clases y disciplinas se añade/elimina  cuando se manipula las clases (añadir, sustituitMonitor, eliminar disciplina...).
-        $this->clases=[]; 
-        $this->disciplinas =[]; 
+        
 
-        parent::__construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email,$cuenta_bancaria,$funcion, $sueldo, $horas_extra, $jornada); 
-    }
-
-
+    public function __set($name, $value)
+    {
     
 
-  
-    public function __set($name, $value) {
-
-        if ($name == 'clases' || $name == 'disciplinas') {
-
+        // Verifica si la propiedad existe y asigna el valor
+        if (property_exists($this, $name)) {
             $this->$name = $value;
-
-        }else {
-
-            parent::__set($name, $value); 
+        } else {
+            // Lanza una excepción si la propiedad no existe
+            throw new Exception("ERROR: La propiedad '$name' no existe en la clase monitor");
         }
     }
 
-   
-    public function __get($name) {
-        if ($name == 'clases' || $name == 'disciplinas') {
-            return $this->$name; 
-        } else {
-            return parent::__get($name); 
+    public function __get($name)
+    {
+        // Verifica si la propiedad existe en la propia clase Monitor
+        if (property_exists($this, $name)) {
+            return $this->$name;
         }
+        // Si no está en Monitor, revisar en Persona
+        elseif (property_exists(get_parent_class($this), $name)) {
+            return $this->$name;
+        } else {
+            throw new Exception("ERROR: La propiedad '$name' no existe en la clase Monitor ni en Persona.");
+        }
+    }
+    
+
+
+    //funcion para obtener todos los datos de los monitores y verlo en una tarbla (crea los objetos)
+    public static function verMonitores(){
+
+        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        
+        $sql = "SELECT * FROM MONITORES"; 
+
+       if(!$stmt = $conn->prepare($sql)) throw new PDOException('Error al preparar la consuta que obtiene todos los monitores en verMonitores'); 
+       if(!$stmt->execute()) throw new PDOException("Excepción PDO: error al ejecutar la consulta en verMonitores"); 
+
+        $monitores=[]; 
+        while($monitor = $stmt->fetchObject('Monitor')){
+            
+            $monitores[]=$monitor; 
+
+        }
+
+        return $monitores;
+
+
     }
 
 

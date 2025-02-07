@@ -11,50 +11,21 @@ final class Socio extends Persona
 {
 
    
- 
-    /**
-     * Constructor para la clase Socio que valida los datos de entrada, establece valores predeterminados
-     * y almacena el miembro en un array de la clase.
-     * 
-     * @param string $dni El DNI del socio, que debe cumplir con el formato de 8 dígitos seguidos de una letra mayúscula.
-     * @param string $nombre El nombre del socio.
-     * @param string $apellidos Los apellidos del socio.
-     * @param string $fecha_nac La fecha de nacimiento del socio.
-     * @param string $telefono El número de teléfono del socio.
-     * @param string $email El correo electrónico del socio. Se valida para asegurar que tiene el formato adecuado.
-     * @param string $tarifa La tarifa de suscripción del socio, con un valor predeterminado de "1".
-     * @param string $cuenta_bancaria El número de cuenta bancaria del socio.
-     * 
-     */
-
      private $tarifa;
      private $fecha_alta;
      private $cuenta_bancaria;
     
-        // Constructor vacío para poder crear los objetos con PDO --> fetchObject
-    public function __construct() {
-        // No hacer nada aquí
         
+    public function __construct() {
+        
+        // Constructor vacío para poder crear los objetos con PDO --> fetchObject
     }
 
 
-    // Método mágico para establecer propiedades
-    /**
-     * El método mágico __set en PHP se utiliza para asignar un valor a una propiedad en una clase,
-     * aplicando restricciones específicas y manejo de errores.
-     * 
-     * @param string $name El nombre de la propiedad a la que se le asignará un valor.
-     * @param mixed $value El valor que se asignará a la propiedad especificada.
-     * 
-     * @throws Exception Lanza una excepción si la propiedad no existe en la clase.
-     * @throws datosIncorrectos Lanza una excepción si se intenta modificar la propiedad 'fecha_alta'.
-     */
+ 
     public function __set($name, $value)
     {
-        // Evita modificar la propiedad 'fecha_alta'
-        if ($name == 'fecha_alta') {
-            throw new Exception("ERROR: No es posible modificar la fecha de alta de un socio.");
-        }
+    
 
         // Verifica si la propiedad existe y asigna el valor
         if (property_exists($this, $name)) {
@@ -66,17 +37,6 @@ final class Socio extends Persona
     }
 
 
-    // Método mágico para obtener propiedades
-    /**
-     * El método mágico __get en PHP se utiliza para recuperar dinámicamente las propiedades inaccesibles
-     * de un objeto.
-     * 
-     * @param string $name El nombre de la propiedad a obtener.
-     * 
-     * @return mixed Retorna el valor de la propiedad si existe. Si la propiedad no existe, lanza una excepción con un mensaje de error.
-     * 
-     * @throws Exception Si la propiedad no existe en la clase, se lanzará una excepción con el mensaje "ERROR: La propiedad '$name' no existe en la clase Socio."
-     */
     public function __get($name)
     {
         // Verifica si la propiedad existe en el objeto actual
