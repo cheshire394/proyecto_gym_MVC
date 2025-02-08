@@ -23,7 +23,6 @@ if (isset($_GET['action'])) {
         
         case 'filtrar_socios':
 
-            
             $socios_filtrados = controladorSocios::filtrarSocios(); 
             include('verSocios.php');
 
@@ -33,7 +32,19 @@ if (isset($_GET['action'])) {
             
             controladorSocios::addSocio(); 
             break; 
+            
 
+        case 'desapuntarClase':
+
+            controladorSocios::desapuntarClase(); 
+            break;
+
+        case 'inscribirClase':
+
+            controladorSocios::incribirClase(); 
+            break;
+
+          
 
         default:
             echo "Acción no reconocida.";

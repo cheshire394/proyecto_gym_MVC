@@ -225,26 +225,33 @@ class controladorSocios
         }
 
 
+
+
         public static function incribirClase(){
             
 
             if(isset($_POST['dni_socio'])) {
 
 
-                $dni = $_POST['dni_socio']; //enviado por oculto
-                $id_clase = ['id_clase'];
+                $dni_socio = $_POST['dni_socio']; //enviado por oculto
+                $id_clase = $_POST['id_clase'];
 
 
     
                 try {
 
-                    $inscrito = Socio::inscribirClase($dni);
+                    $inscrito = Socio::inscribirClase($dni_socio, $id_clase);
 
                     if($inscrito){
-                        $msg = "socio inscrito con éxito"; 
+                        $msg = "socio $dni_socio inscrito con éxito en la clase $id_clase"; 
+                        header('Location: /proyecto_gym_MVC/view/clases/clasesSocios.php?msg=' . $msg);
+                        exit;
                     }
 
                 } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                   
+                } catch(Exception $e) {
                     $msg = urlencode($e->getMessage());
                    
                 }
@@ -265,16 +272,69 @@ class controladorSocios
         }
 
 
+        public static function desapuntarClase(){
+
+            if(isset($_POST['dni_socio'])) {
 
 
-      
+                $dni_socio = $_POST['dni_socio']; //enviado por oculto
+                $id_clase = $_POST['id_clase'];
+
     
-    }
+                try {
 
+                    $desapuntar = Socio::desapuntarClase($dni_socio, $id_clase);
 
-  
-        
+                    if($desapuntar){
+                        $msg = "$dni_socio ha sido despuntado con éxito de la clase"; 
+                    }
+
+                } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                   
+                }catch(Exception $e) {
+                    $msg = urlencode($e->getMessage());
+                   
+                }
     
+              
+            } else {
+                $msg = "No se ha proporcionado el DNI del socio.";
+              
+            }
+
+            //Si no ha se ha enconrado ningun socio, o algún error ha hecho que el dni no se envie en el input hidden, redirigimos a la vista
+            //con mensaje de error.
+            header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+            exit;
+
+        }
+
+
+
+        //Retoran las clases donde esta inscrito el socio para el formulario de desapuntar socio de una clase
+
+        public  static function get_clases_inscrito($dni_socio){
+
+            try{
+
+                $clases_inscrito = Socio::get_clases_inscrito($dni_socio) ?? []; 
+
+                return $clases_inscrito; 
+
+
+            } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                   
+                }catch(Exception $e) {
+                    $msg = urlencode($e->getMessage());
+                   
+                }
+
+            }
+
+
+        }
 
 
 ?>

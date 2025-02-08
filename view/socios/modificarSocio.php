@@ -54,7 +54,7 @@ unset($_SESSION['socio']);
             
             <button type="submit">Modificar Socio</button>
 
-            <!--BOTON BIENVENIDA-->
+            <!--BOTON volver a socios-->
             <div  style="position: absolute; top: 91%; left: 51%; margin: 10px; padding: 10px 15px; background-color: #2f5b96; border: 1px solid #2f5b96; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                                 <a href="verSocios.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
                                 <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

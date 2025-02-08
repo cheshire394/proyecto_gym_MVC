@@ -27,10 +27,7 @@ $clases = controladorClases::clasesSocios();
 </head>
 
 <body>
-    <!-- Mensajes de éxito o error -->
-    <?php if(isset($_GET['msg'])) { echo "<p>" . htmlspecialchars($_GET['msg']) . "</p>"; } ?>
-
-  
+   
 
     <?php if (!empty($clases)) { ?>
 
@@ -60,6 +57,12 @@ $clases = controladorClases::clasesSocios();
             </a>
            
         </div>
+
+        <br>
+         <!-- Mensajes de éxito o error -->
+    <?php if(isset($_GET['msg'])) { echo "<p>" . htmlspecialchars($_GET['msg']) . "</p>"; } ?>
+
+  
 
         <ul>
             <?php foreach ($clases as $clase) { ?>

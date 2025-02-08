@@ -48,6 +48,8 @@ fieldset {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin: 20px auto; /* Centra horizontalmente */
     position: relative;
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
 
@@ -114,6 +116,7 @@ table {
     border-collapse: collapse;
     border-radius: 4px;
     margin: 20px auto;
+    margin-bottom: 6%;
 
 }
 th, td {
@@ -134,48 +137,14 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #ddd;
 }
-.hora {
-    font-weight: bold;
-    background-color: #2f5b96;
-    color: #f2f2f2; 
-}
-.libre {
-    background-color: #eaeaea;
-}
-.noFiltro {
-    background-color: #f096a2;
-}
-.filtrada {
-    background-color: #ecfedc;
-}
 
-.contenedor-horas-extra {
-    background-color: #dcdef7;
-    display: flex; /* Habilitar Flexbox */
-    align-items: center; /* Alinear verticalmente */
-    justify-content: flex-start; /* Alinear horizontalmente */
-    gap: 5px; /* Espacio entre los elementos */
-    width: 100%; /* Ocupa todo el ancho disponible */
-}
 
-#input_horas_extra {
-    flex: 1; /* Ocupa espacio proporcional */
-    width: auto; /* Permite al input ajustarse */
-    display: block;
-    padding: 8px; /* Espaciado interno para mayor usabilidad */
-}
 
-#btn_horas_extra {
-    flex: 1; /* Ocupa espacio proporcional */
-    width: auto;
-    display: block;
-    padding: 8px; /* Espaciado interno para mejor interacción */
-    text-align: center; /* Centra el texto del botón */
-    margin-bottom: 4px;
-}
+
 
 #todoSocios{
 
+    float: left;
     color:white;
     margin-left: 15%;
     padding: 1%;
@@ -297,3 +266,106 @@ ol li:hover {
     transform: scale(1.1); /* Efecto de escala al pasar el mouse */
 }
 
+/* Estilos para los botones dentro de celdas de tabla ver socios */
+td.gestion-button-cell {
+    text-align: center;
+    padding: 4px;
+    white-space: nowrap;
+}
+
+.gestion-button {
+    font-size: 0.9rem;
+    padding: 6px 6px;
+    margin: 2px;
+    width: auto;
+    min-width: 60px;
+    max-width: 150px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    border-radius: 4px;
+    border: 1px solid #2f5b96;
+    background-color: #2f5b96;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.gestion-button:hover {
+    background-color: #244775;
+    color: white; 
+}
+
+/* Para asegurar que los íconos y texto estén alineados */
+.gestion-button svg {
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.gestion-button span {
+    vertical-align: middle;
+}
+
+
+
+/* Contenedor principal de la leyenda */
+/* Contenedor wrapper para el posicionamiento */
+.legend-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+}
+
+/* Contenedor principal de la leyenda */
+.icon-legend {
+    width: 250px;
+    margin-right: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 15px;
+}
+
+/* Título de la leyenda */
+.icon-legend h4 {
+    margin: 0 0 15px 0;
+    color: #2f5b96;
+    font-size: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 8px;
+}
+
+/* Grid de iconos en disposición vertical */
+.icon-legend-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Contenedor de cada icono y su texto */
+.icon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+/* Estilos para los iconos SVG */
+.icon-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: #2f5b96;
+    flex-shrink: 0;
+}
+
+/* Texto de la descripción */
+.icon-item span {
+    color: #495057;
+    font-size: 0.9rem;
+}

@@ -225,12 +225,100 @@ final class Socio extends Persona
     }
 
 
-    public static function inscribirClase($id_clase){
 
-       
+    //Devuelve todas las clases en las que esta inscrito el socio (para el formulario cuando se desapunta de una clase) Y Paara lanzar excepcion 
+     //si incribimos un socio que en una clase que ya esta inscrito.
+
+     public static function get_clases_inscrito($dni_socio) {
+        include __DIR__ . '/../data/conexionBBDD.php';
+    
+        // Definir la consulta para obtener las clases en las que está inscrito el socio
+        $sql = "SELECT id_clase FROM SOCIOS_CLASES  WHERE dni_socio = :dni_socio";
+    
+        // Preparar la consulta
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':dni_socio', $dni_socio);
+    
+        // Ejecutar la consulta y verificar si hubo algún error
+        if (!$stmt->execute()) {
+            throw new PDOException('Excepción PDO al ejecutar la consulta de clases inscritas');
+        }
+    
+        
+        // Obtener el resultado como un array de clases
+            $clases = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    
+        // Retornar el resultado (un array de clases)
+        return $clases;
+    }
+    
+
+   
+
+    public static function inscribirClase($dni_socio, $id_clase){
+
+        include __DIR__ . '/../data/conexionBBDD.php';
+
+        $clases_inscrito = Socio::get_clases_inscrito($dni_socio); 
+
+        if(in_array($id_clase, $clases_inscrito)) throw new Exception("Excepción: $dni_socio ya está inscrito en la clase del $id_clase"); 
+
+        include  __DIR__ . '/../data/conexionBBDD.php'; 
+
+            // Obtenemos la tarifa del socio
+            $sql = "SELECT tarifa FROM SOCIOS WHERE dni = :dni_socio";
+
+           if(!$stmt = $conn->prepare($sql))throw new PDOException('Excepción PDO al preparar la consulta de tarifa del socio'); 
+
+            $stmt->bindParam(':dni_socio', $dni_socio);
+
+            if(!$stmt->execute()) throw new PDOException('Excepción PDO al ejecutar la consulta de tarifa del socio'); 
+
+            $tarifa = $stmt->fetchColumn();
+
+
+            // 2. Contar las clases en las que ya está inscrito el socio
+            $cantidad_clases= count($clases_inscrito); 
+
+            // 3. Verificar si el socio ya ha alcanzado el límite de clases según su tarifa
+            if ($cantidad_clases >= $tarifa) {
+                throw new Exception("$dni_socio ha alcanzado el límite de clases permitidas según su tarifa.");
+            }
+
+            // 4. Insertar al socio en la nueva clase
+            $insertar= "INSERT INTO SOCIOS_CLASES (dni_socio, id_clase) VALUES (:dni_socio, :id_clase)"; 
+            $stmt = $conn->prepare($insertar);
+            $stmt->bindParam(':dni_socio', $dni_socio);
+            $stmt->bindParam(':id_clase', $id_clase);
+            if(!$stmt->execute()) throw new PDOException('Excepción PDO al ejecutar la consulta número de clases apuntado'); 
+
+            return true; 
 
     }
 
+
+     
+    public static function desapuntarClase($dni_socio, $id_clase) {
+        
+        include __DIR__ . '/../data/conexionBBDD.php';
+    
+
+        // Eliminamos la inscripción del socio en la clase
+        $delete = "DELETE FROM SOCIOS_CLASES WHERE dni_socio = :dni_socio AND id_clase = :id_clase";
+        $stmt = $conn->prepare($delete);
+        $stmt->bindParam(':dni_socio', $dni_socio);
+        $stmt->bindParam(':id_clase', $id_clase);
+        
+        if (!$stmt->execute()) {
+            throw new PDOException('Excepción PDO al ejecutar la consulta de eliminación de inscripción.');
+        }
+    
+        return true;
+    }
+
+
+   
 
 
 

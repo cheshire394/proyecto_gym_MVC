@@ -56,6 +56,7 @@ if (!isset($_SESSION['nombre'])) {
                     <option value="1">1 clase</option>
                     <option value="2">2 clases</option>
                     <option value="3">3 clases</option>
+                    <option value="24">ilimitadas</option>
                 </select><br><br>
 
                 <label for="fecha_alta">*Fecha de Alta</label>

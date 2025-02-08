@@ -93,8 +93,7 @@ if(isset($socios_filtrados)){
     
     </div>
 
-    
-    
+   
     <!--Mensajes de exito o error cuando somo redigidos desde el controlador trás haber ejecutado una acción desde este script-->
     <?php
 
@@ -105,6 +104,52 @@ if(isset($socios_filtrados)){
         }
 
     ?>
+
+
+<div class="icon-legend">
+    <h4>Leyenda de iconos:</h4>
+    
+    <div class="icon-legend-grid">
+        <!-- Icono de eliminar socio -->
+        <div class="icon-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+            </svg>
+            <span>Eliminar socio del gimnasio</span>
+        </div>
+
+        <!-- Icono Editar o modificar socio -->
+        <div class="icon-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+           
+            <span>modificar los datos del socio</span>
+        </div>
+
+        <!-- Icono inscribir socio -->
+        <div class="icon-item">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3l4 4m0 0l-10 10H7v-4L17 3z"/>
+            </svg>
+
+            <span>Inscribir socio en una clase</span>
+        </div>
+
+        <!-- Icono desapuntar clase -->
+        <div class="icon-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <span>desapuntar socio de una clase</span>
+        </div>
+    </div>
+</div>
+
+
 
    
 
@@ -125,6 +170,7 @@ if(isset($socios_filtrados)){
                         <th>cuenta bancaria</th>
                         <th>fecha alta</th>
                         <th>Gestionar socio</th>
+                        <th>Gestionar clases</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -136,22 +182,21 @@ if(isset($socios_filtrados)){
                             <td><?= htmlspecialchars($socio->__get('fecha_nac')) ?></td>
                             <td><?= htmlspecialchars($socio->__get('telefono')) ?? 'dato no aportado' ?></td>
                             <td><?= htmlspecialchars($socio->__get('email')) ?? 'dato no aportado' ?></td>
-                            <td><?= htmlspecialchars($socio->__get('tarifa')) ?></td>
+                            <td><?= ($socio->__get('tarifa') == 24) ? 'ilimitada' : htmlspecialchars($socio->__get('tarifa')) . " clases"; ?></td>
                             <td><?= $socio->__get('cuenta_bancaria') ?? 'dato no aportado' ?></td>
                             <td><?= htmlspecialchars($socio->__get('fecha_alta')) ?></td>
-                            <td>
+                            <td class="gestion-button-cell">
 
                             <!--modificar un socio de la BBDD-->
                                 <form method="post" action="router_socios.php?action=mostrarFormularioModificar">
                                 <!--enviamos por oculto al formulario del socio que deseamos modificar-->
                                 <input type="hidden" name="dni_socio" value="<?php echo $socio->__get('dni'); ?>"> 
-                                <button type='submit'>
+                                <button type='submit' class="gestion-button">
                                     <!-- Icono configuración -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="3"></circle>
                                         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                                     </svg>
-                                    modificar
                                 </button>
 
                                 </form>
@@ -163,16 +208,48 @@ if(isset($socios_filtrados)){
                                             <!--enviamos por oculto al formulario del socio que deseamos eliminar-->
                                             <input type="hidden" name="dni_socio" value="<?php echo $socio->__get('dni'); ?>"> 
                                                 <!-- Icono basura -->
-                                            <button type='submit'>
+                                            <button type='submit' class="gestion-button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                     <path d="M3 6h18"></path>
                                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
                                                 </svg>
-                                                eliminar
                                         
                                             </button>
                                 </form>
+                            </td>
+                            <td class="gestion-button-cell">
+                                    <!--inscribir al socio en una clase-->
+                                    <form method="post" action="inscribirClase.php">
+                                    <!--enviamos por oculto al formulario del socio que deseamos modificar-->
+                                    <input type="hidden" name="dni_socio" value="<?php echo $socio->__get('dni'); ?>"> 
+                                    <button type='submit' class="gestion-button">
+                                        <!-- Icono incrbirse -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3l4 4m0 0l-10 10H7v-4L17 3z"/>
+                                            </svg>
+
+                
+                                    </button>
+
+                                    </form>
+                                    
+                                
+                                <!-- desapuntar un socio de una clase de la BBDD-->
+
+                                    <form method="post" action="desapuntarClase.php">
+                                                <!--enviamos por oculto al formulario del socio que deseamos eliminar-->
+                                                <input type="hidden" name="dni_socio" value="<?php echo $socio->__get('dni'); ?>"> 
+                                                    <!-- Icono x -->
+                                                <button type='submit' class="gestion-button">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
+
+                                            </button>
+                                    </form>
+
+
                             </td>
                         </tr>
                     <?php } ?>
@@ -182,6 +259,20 @@ if(isset($socios_filtrados)){
             <p>No hay socios disponibles</p>
         <?php } ?>
     </div>
+
+    <br>
+
+ 
+<!-- Flecha para subir al inicio - colocada al final del contenido -->
+<div id="scroll-to-top"  style="text-align: center; margin: 30px 0;">
+    <a href="#top" class="scroll-button">
+        <svg class="scroll-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </a>
+</div>
+
+<div id="bottom"></div>
 
     
 
