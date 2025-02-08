@@ -96,6 +96,27 @@ public static function get_monitores(){
 } 
 
 
+//obtiene el nombre de las disciplinas introducidad en el horario para el formulario
+public static function get_disciplinas(){
+
+
+    try {
+        $disciplinas = Clase::get_disciplinas(); 
+        return $disciplinas;
+
+    } catch (PDOException $e) {
+       $msg= $e->getMessage();
+    }
+
+    header("Location: /proyecto_gym_MVC/view/clases/eliminarDisciplina.php?msg=$msg");
+    exit;
+
+
+
+        
+}
+
+
 //obtiene la clases disponibles para cuando la recepcionista desea añadir una clase 
 public static function horas_disponibles(){
 
@@ -213,7 +234,32 @@ public static function sustituirMonitor() {
         }
     }
     
-    
+
+    public static function clasesSocios() {
+        try {
+
+
+            return Clase::clasesSocios();
+
+
+        } catch (PDOException $e) {
+
+             $msg = $e->getMessage(); 
+
+        }catch(Exception $e){
+
+            $msg = $e->getMessage(); 
+
+        }
+
+        header("Location: /proyecto_gym_MVC/view/clases/clasesSocios.php?msg=$msg");
+        exit;
+
+
+    }
+
+
+   
   
 
      

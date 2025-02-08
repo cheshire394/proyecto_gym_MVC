@@ -10,15 +10,20 @@ CREATE TABLE IF NOT EXISTS MONITORES (
     telefono VARCHAR(15),
     email VARCHAR(100),
     cuenta_bancaria VARCHAR(24),
-    funcion VARCHAR(20) DEFAULT 'monitor',
+    funcion VARCHAR(20),
     sueldo DECIMAL(10,2),
     horas_extra INT,
     jornada INT
 );
 
+-- Tabla de disciplinas por monitor
+CREATE TABLE IF NOT EXISTS DISCIPLINAS_MONITORES (
+    dni_monitor VARCHAR(9),
+    disciplina VARCHAR(50),
+    FOREIGN KEY (dni_monitor) REFERENCES MONITORES(dni) ON DELETE CASCADE
+);
 
-
--- Tabla de clases 
+-- Tabla de clases
 CREATE TABLE IF NOT EXISTS CLASES (
     id_clase VARCHAR(20) PRIMARY KEY,
     dni_monitor VARCHAR(9),
@@ -29,43 +34,29 @@ CREATE TABLE IF NOT EXISTS CLASES (
     FOREIGN KEY (dni_monitor) REFERENCES MONITORES(dni) ON DELETE SET NULL
 );
 
-
-
-
 -- Tabla de socios
 CREATE TABLE IF NOT EXISTS SOCIOS (
     dni VARCHAR(9) PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    fecha_nac DATE NOT NULL,
+    nombre VARCHAR(50),
+    apellidos VARCHAR(100),
+    fecha_nac DATE,
     telefono VARCHAR(15),
     email VARCHAR(100),
-    tarifa INT NOT NULL,
+    tarifa INT,
     cuenta_bancaria VARCHAR(24),
     fecha_alta DATE
-);
-
-
--- Tabla intermedia para la relación N:M entre SOCIOS y CLASES
-CREATE TABLE IF NOT EXISTS SOCIOS_CLASES (
-    id_socio_clase INT AUTO_INCREMENT PRIMARY KEY,
-    dni_socio VARCHAR(9) NOT NULL,
-    id_clase VARCHAR(20) NOT NULL,
-    FOREIGN KEY (dni_socio) REFERENCES SOCIOS(dni) ON DELETE CASCADE,
-    FOREIGN KEY (id_clase) REFERENCES CLASES(id_clase) ON DELETE CASCADE,
-    UNIQUE (dni_socio, id_clase) -- Evita inscripciones duplicadas
 );
 
 -- Tabla de Recepcionistas
 CREATE TABLE IF NOT EXISTS RECEPCIONISTAS (
     dni VARCHAR(9) PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    apellidos VARCHAR(50) NOT NULL,
+    nombre VARCHAR(50),
+    apellidos VARCHAR(50),
     fecha_nac DATE,
     telefono VARCHAR(15),
     email VARCHAR(50),
     cuenta_bancaria VARCHAR(30),
-    funcion VARCHAR(20) DEFAULT 'recepcionista',
+    funcion VARCHAR(20),
     sueldo DECIMAL(10,2),
     horas_extra INT,
     jornada INT,
@@ -78,18 +69,24 @@ INSERT INTO MONITORES (dni, nombre, apellidos, fecha_nac, telefono, email, cuent
 ('09626574Q', 'Carlos', 'Gómez Pérez', '1990-03-12', '691234567', 'carlos@gmail.com', 'ES9234567890123456789012', 'monitor', 420, 0, 14),
 ('55462206Y', 'Ana', 'Martínez López', '1988-09-23', '677123456', 'ana.Judo@gmail.com', 'ES9345678901234567890123', 'monitor', 540, 0, 18);
 
--- Insertar clases SIN la columna socios_inscritos
+-- Insertar disciplinas
+INSERT INTO DISCIPLINAS_MONITORES (dni_monitor, disciplina) VALUES
+('50489319H', 'Boxeo'), ('50489319H', 'Kickboxing'), ('50489319H', 'MMA'), ('50489319H', 'Moay thai'), ('50489319H', 'Capoira'),
+('09626574Q', 'Taekwondo'), ('09626574Q', 'Karate'), ('09626574Q', 'Boxeo'), ('09626574Q', 'MMA'), ('09626574Q', 'PRUEBA IAGO'),
+('55462206Y', 'Judo'), ('55462206Y', 'Aikido'), ('55462206Y', 'Capoira'), ('55462206Y', 'MMA');
+
+-- Insertar clases
 INSERT INTO CLASES (id_clase, dni_monitor, nombre_actividad, dia_semana, hora_inicio, hora_fin) VALUES
 ('lunes-12:00', '50489319H', 'Kickboxing', 'lunes', '12:00', '14:00'),
 ('lunes-18:00', '50489319H', 'Kickboxing', 'lunes', '18:00', '20:00'),
-('miercoles-12:00', '50489319H', 'Kickboxing', 'miércoles', '12:00', '14:00'),
-('miercoles-18:00', '50489319H', 'Kickboxing', 'miércoles', '18:00', '20:00'),
+('miercoles-12:00', '50489319H', 'Kickboxing', 'miercoles', '12:00', '14:00'),
+('miercoles-18:00', '50489319H', 'Kickboxing', 'miercoles', '18:00', '20:00'),
 ('viernes-10:00', '09626574Q', 'Taekwondo', 'viernes', '10:00', '12:00'),
 ('viernes-12:00', '09626574Q', 'Karate', 'viernes', '12:00', '14:00'),
 ('viernes-16:00', '09626574Q', 'Taekwondo', 'viernes', '16:00', '18:00'),
 ('viernes-18:00', '09626574Q', 'Karate', 'viernes', '18:00', '20:00'),
-('sabado-12:00', '09626574Q', 'Karate', 'sábado', '12:00', '14:00'),
-('sabado-18:00', '09626574Q', 'Taekwondo', 'sábado', '18:00', '20:00'),
+('sabado-12:00', '09626574Q', 'Karate', 'sabado', '12:00', '14:00'),
+('sabado-18:00', '09626574Q', 'Taekwondo', 'sabado', '18:00', '20:00'),
 ('lunes-10:00', '09626574Q', 'MMA', 'lunes', '10:00', '12:00'),
 ('martes-10:00', '55462206Y', 'Judo', 'martes', '10:00', '12:00'),
 ('martes-12:00', '55462206Y', 'Aikido', 'martes', '12:00', '14:00'),
@@ -111,29 +108,9 @@ INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, 
 ('27988689N', 'Elena', 'Hernández López', '1991-11-15', '618901234', 'elena.hernandez@gym.com', 1, NULL, '2024-12-10'),
 ('98222874V', 'Pablo', 'Gómez Ruiz', '1987-09-05', '619012345', 'pablo.gomez@gym.com', 2, 'ES1421000418450200051234', '2024-12-10'),
 ('16416926D', 'Raúl', 'Martínez Sánchez', '1994-06-20', '620123456', 'raul.martinez@gym.com', 3, NULL, '2024-12-10'),
-('94192599D', 'Clara', 'Vázquez Fernández', '1996-02-14', '621234567', 'clara.vazquez@gym.com', 1, 'ES9121000418450200057890', '2024-12-10'),
+('94192599D', 'Clara', 'Vázquez Fernández', '1996-02-14', '621234567', 'clara.vazquez@gym.com', 1, 'ES9121000418450200057890', '2024-12-10')
 ('17304391L', 'Miguel', 'Gómez Martín', '1993-06-15', '615678234', 'miguel.gomez@gym.com', 3, 'ES4721000418450200051516', '2024-12-10');
 
--- Insertar inscripciones en la tabla intermedia SOCIOS_CLASES
-INSERT INTO SOCIOS_CLASES (dni_socio, id_clase) VALUES
-('82709958A', 'lunes-12:00'),
-('93330782W', 'lunes-12:00'),
-('04173382D', 'lunes-12:00'),
-('28539505R', 'lunes-18:00'),
-('78419440C', 'lunes-18:00'),
-('16416926D', 'lunes-18:00'),
-('64592462K', 'miercoles-12:00'),
-('93330782W', 'miercoles-12:00'),
-('17304391L', 'miercoles-12:00'),
-('19517067A', 'miercoles-18:00'),
-('78419440C', 'miercoles-18:00'),
-('04173382D', 'miercoles-18:00'),
-('55534150Y', 'viernes-10:00'),
-('82709958A', 'viernes-10:00'),
-('93330782W', 'viernes-10:00'),
-('84264364T', 'viernes-12:00'),
-('28539505R', 'viernes-12:00'),
-('78419440C', 'viernes-12:00');
 
 -- Insertar datos en Recepcionistas
 INSERT INTO RECEPCIONISTAS VALUES 

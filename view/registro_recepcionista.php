@@ -87,7 +87,7 @@
                 <input type="text" id="dni" name="dni" value='04371618P' required><br>
 
                 <label for="fecha_nac">Fecha de nacimiento</label>
-                <input type="date" id="fecha_nac" name="fecha_nac"  required><br>
+                <input type="date" id="fecha_nac" name="fecha_nac" value="<?php echo date('2000-01-01');?>" required><br>
 
                 <label for="telefono">Teléfono</label>
                 <input type="tel" id="telefono" name="telefono" value='675849393' required><br>

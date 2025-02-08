@@ -10,6 +10,10 @@ if (!isset($_SESSION['nombre'])) {
        header('location: ../login_recepcionista.php');
        exit(); 
    }
+
+   require_once '../../controllers/controladorClases.php';
+   //Metodo para controlar los valores introducidos en el formulario
+   $disciplinas = ControladorClases::get_disciplinas(); 
  
 ?>
 
@@ -30,29 +34,35 @@ if (!isset($_SESSION['nombre'])) {
         <form method="POST" action="router_clases.php?action=eliminarDisciplina">
             <label for="disciplina">nombre actividad</label>
             <select id="disciplina" name="nombre_actividad" required>
-                <option value="taekwondo">Taekwondo</option>
-                <option value="karate">Karate</option>
-                <option value="boxeo">Boxeo</option>
-                <option value="MMA">MMA</option>
-                <option value="kickboxing">Kickboxing</option>
-                <option value="moay thai">Moay Thai</option>
-                <option value="capoeira">Capoeira</option>
-                <option value="judo">Judo</option>
-                <option value="aikido">Aikido</option>
-            </select>
+            <?php
+            // Comprobamos si $disciplinas no está vacío
+            if (!empty($disciplinas)) {
+                // Recorremos el array de disciplinas y generamos las opciones
+                foreach ($disciplinas as $disciplina) {
+                    echo "<option value='" . htmlspecialchars($disciplina) . "'>" . htmlspecialchars($disciplina) . "</option>";
+                }
+            } else {
+                // Si no hay disciplinas, mostramos un mensaje
+                echo "<option disabled>No hay disciplinas disponibles</option>";
+            }
+            ?>
+        </select>
             <br>
             <div>
                 
             <button type="submit" name='eliminar_diciplina'>Eliminar disciplina</button>
            
-            <div id='divEnlace'>
-                    <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    <span>volver al menú principal</span>
-                    </a>
-            </div>
+                 <!--volver a bienvenida-->
+                 <div style="position: absolute; top: 58%; left: 48%; margin: 10px; padding: 10px 15px; background-color: #2f5b96; border: 1px solid #2f5b96; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                    </svg>
+                                    <span style='color:white';>volver a página principal</span>
+                                </a>
+                                
+                     </div>
             </div>
             <br>
             <?php

@@ -25,7 +25,7 @@ abstract class Persona {
     }
 
  
-    private function validarDni($dni){
+    public static function validarDni($dni){
 
        
         $check_dni  = false; 
@@ -36,7 +36,7 @@ abstract class Persona {
         $letraCorrecta = $letras[intval($dni_numeros) % 23]; 
 
         if($letraIntroducida == $letraCorrecta) $check_dni=true; 
-        else throw new Exception('DNI INTRODUCIDO NO VÁLIDO'); 
+        else throw new Exception("dni $dni  no válido"); 
 
         return $check_dni; 
     }

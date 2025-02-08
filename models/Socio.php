@@ -225,6 +225,13 @@ final class Socio extends Persona
     }
 
 
+    public static function inscribirClase($id_clase){
+
+       
+
+    }
+
+
 
 
 }

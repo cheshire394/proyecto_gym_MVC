@@ -28,6 +28,10 @@ class ControladorRecepcionista
                 require_once('conexionBBDD.php');
         
                 try {
+
+                    $dni_valido = Persona::validarDni($dni); //lanza error de tipo Exception o true
+
+                if($dni_valido){
                     // Intentar registrar al recepcionista
                    $resistrar= Recepcionista::registrar($conn, $nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password);
                     
@@ -38,6 +42,8 @@ class ControladorRecepcionista
                                 exit();
 
                    }
+
+                }
                 
                     
                 }catch (PDOException $e) {
@@ -52,9 +58,14 @@ class ControladorRecepcionista
                         $msg = "Excepción PDO: la recepcionista no ha sido registrada"; 
                     }
 
-                    header("Location: /proyecto_gym_MVC/view/registro_recepcionista.php?msg=$msg");
-                    exit();
+
+                }catch(Exception $e){
+                    $msg = $e->getMessage(); 
                 }
+
+                //Redirigir con mensaje de error
+                header("Location: /proyecto_gym_MVC/view/registro_recepcionista.php?msg=$msg");
+                exit();
             }
         }
         

@@ -12,7 +12,7 @@ final class Clase {
     private $hora_inicio;
     private $hora_fin;
     private $id_clase;
-    
+    private $socios_inscritos = []; 
 
     function __construct() {
 
@@ -110,7 +110,7 @@ final class Clase {
         // Consulta SQL para obtener todas las clases disponibles
         $sql = "SELECT dni_monitor, nombre_actividad, dia_semana, hora_inicio FROM CLASES";
     
-        // Usamos prepare y execute en lugar de query
+        
         $stmt = $conn->prepare($sql);
 
         if(! $stmt->execute()) throw new PDOException('Excepción PDO al ejecutar la consulta para obtener el horario');
@@ -197,6 +197,29 @@ final class Clase {
     
        
         return $horas_ocupadas; 
+    }
+
+
+    public static function get_disciplinas(){
+
+        include  __DIR__ . '/../data/conexionBBDD.php'; 
+    
+        // Consulta SQL para obtener todas las clases disponibles (una única vez)
+        $sql = "SELECT DISTINCT nombre_actividad FROM CLASES ORDER BY nombre_actividad ASC";
+
+
+       if(!$stmt = $conn->prepare($sql)) throw new PDOException('Excepción PDO al preparar la consulta para el nombre de las disciplinas en get_disciplinas');
+
+        if(!$stmt->execute()) throw new PDOException('Excepción PDO al ejecutar la consulta para el nombre de las disciplinas en get_disciplinas');
+       
+    
+        $disciplinas = []; 
+        while ($disciplina = $stmt->fetchColumn()) { 
+            $disciplinas[] = $disciplina;  
+        }
+    
+        return $disciplinas;  
+
     }
 
     
@@ -363,10 +386,60 @@ final class Clase {
     }
     
     
+    public static function clasesSocios() {
+        include __DIR__ . '/../data/conexionBBDD.php'; 
+    
+        $sql = "SELECT 
+                    c.id_clase, 
+                    c.nombre_actividad, 
+                    m.nombre AS nombre_monitor, 
+                    s.nombre AS nombre_socio, 
+                    s.apellidos AS apellido_socio
+                FROM CLASES c
+                JOIN MONITORES m ON c.dni_monitor = m.dni
+                LEFT JOIN SOCIOS_CLASES cs ON c.id_clase = cs.id_clase
+                LEFT JOIN SOCIOS s ON cs.dni_socio = s.dni
+                ORDER BY c.id_clase";
+    
+        if (!$stmt = $conn->prepare($sql)) {
+            throw new PDOException('Error en la preparación de la consulta clasesSocios');
+        }
+    
+        if (!$stmt->execute()) {  // Verifica correctamente si `execute()` falla
+            throw new PDOException('Error en la ejecución de la consulta clasesSocios');
+        }
+    
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (!$resultado) {
+            return []; // Devuelve un array vacío si no hay resultados para evitar errores
+        }
+    
+        // Formatear los datos en un array estructurado
+        $clases = [];
+        foreach ($resultado as $fila) {
+            $id_clase = $fila['id_clase'];
+    
+            if (!isset($clases[$id_clase])) {
+                $clases[$id_clase] = [
+                    'id_clase' => $fila['id_clase'],
+                    'nombre_actividad' => $fila['nombre_actividad'],
+                    'nombre_monitor' => $fila['nombre_monitor'],
+                    'socios' => []
+                ];
+            }
+    
+            if (!empty($fila['nombre_socio']) && !empty($fila['apellido_socio'])) {
+                $clases[$id_clase]['socios'][] = $fila['nombre_socio'] . " " . $fila['apellido_socio'];
+            }
+        }
+    
+        return array_values($clases);
+    }
 
 
   
-
+    
 
 }
 ?>

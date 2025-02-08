@@ -1,3 +1,6 @@
+
+
+
 html, body {
     height: 100%;
     margin: 0;
@@ -22,7 +25,7 @@ main {
 h1 {
     font-size: 43px;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 6%;
     color: #2f5b96;
 }
 
@@ -102,19 +105,6 @@ button:active {
 
 }
 
-#divEnlace{
-    color: #2f5b96;
-    display: inline-flex; 
-    float: right;
-    margin: 2em;
-    align-items: center; 
-    text-decoration: none; 
-    
-}
-
-#divEnlace:hover{
-    color:#040934; 
-}
 
 
 
@@ -198,5 +188,112 @@ tr:hover {
     
 }
 
+/* Estilos para la lista principal (ul) */
+ul {
+    list-style-type: none;
+    padding: 20px;
+    margin: 15px 0;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 2px solid #2f5b96;
+    width: 95%; /* Aumentado de 90% a 95% */
+    max-width: 1200px; /* Aumentado de 600px a 1200px */
+    margin: 20px auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+/* Estilos para los elementos de la lista principal */
+ul > li {
+    font-size: 25px;
+    color: #2f5b96;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-bottom: 1px solid #dcdef7;
+}
+
+/* Estilos para las sublistas (ol) */
+ul ol {
+    list-style-type: decimal;
+    padding-left: 40px;
+    margin: 10px 0;
+    background-color: #dcdef7;
+    border-radius: 5px;
+    padding: 15px 40px;
+    width: 90%; /* Añadido para controlar el ancho */
+    margin: 10px auto; /* Centrado horizontal */
+}
+
+/* Estilos para los elementos de las sublistas ordenadas */
+ul ol > li {
+    font-size: 23px;
+    color: #2f5b96;
+    padding: 5px 0;
+    border-bottom: none;
+    text-align: center; /* Centrado del texto */
+    list-style-position: inside; /* Coloca los números dentro del contenido */
+}
+
+/* Estilos para las sublistas anidadas (ul dentro de ul) */
+ul ul {
+    list-style-type: circle;
+    padding-left: 40px;
+    margin: 10px 0;
+    background-color: #dcdef7;
+    border: none;
+    box-shadow: none;
+    width: 90%; /* Ajustado para mantener consistencia */
+    border-radius: 5px;
+    padding: 15px 40px;
+    margin: 10px auto; /* Centrado horizontal */
+}
+
+/* Estilos para los elementos de las sublistas no ordenadas */
+ul ul > li {
+    font-size: 23px;
+    color: #2f5b96;
+    padding: 5px 0;
+    border-bottom: none;
+}
+
+/* Efecto hover para todos los elementos de lista */
+ul li:hover,
+ol li:hover {
+    color: #040934;
+    transition: all 0.3s ease;
+}
+
+
+
+/* Estilos para la flecha  para subir y bajar en la misma pagina*/
+/* Estilos para la flecha para subir y bajar en la misma página */
+.scroll-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2f5b96;
+    padding: 12px;
+    margin-bottom: 2%;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer; /* Añadido para mejorar la usabilidad */
+}
+
+/* Icono dentro del botón */
+.scroll-icon, .icon {
+    width: 24px;
+    height: 24px;
+    fill: none; /* Asegúrate de que el SVG no tenga un fill predeterminado */
+    stroke: #fff; /* Color del trazo del SVG */
+    stroke-width: 2; /* Grosor del trazo */
+    stroke-linecap: round; /* Forma de los extremos del trazo */
+    stroke-linejoin: round; /* Forma de las uniones del trazo */
+}
+
+/* Efecto hover para el botón */
+.scroll-button:hover {
+    background-color: #1e3a5f; /* Cambia el color de fondo al pasar el mouse */
+    transform: scale(1.1); /* Efecto de escala al pasar el mouse */
+}
 

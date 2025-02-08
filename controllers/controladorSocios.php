@@ -25,7 +25,7 @@ class controladorSocios
 
     public static function filtrarSocios(){
 
-        require_once('conexionBBDD.php'); 
+       
 
         if (isset($_POST['filtrar_socios'])){ 
 
@@ -57,7 +57,7 @@ class controladorSocios
     public static function addSocio(){
 
         //Rescatamos los valores del formulario: 
-            require_once('conexionBBDD.php');
+            
     
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -70,13 +70,26 @@ class controladorSocios
                 $telefono = $_POST['telefono'] ?? null;
                 $email = $_POST['email'] ?? null;
                 $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null;
-    
+
+                
                 try {
+
+
+                    $dni_valido= Persona::validarDni($dni); 
+
+                if($dni_valido){
+
                     $insertado = Socio::addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);
                     
-                    if ($insertado) {
-                        $msg = "$nombre ha sido registrado con éxito";
-                    } 
+                        if ($insertado){
+
+                            $msg = "$nombre ha sido registrado con éxito";
+                            header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+                            exit;
+
+                        } 
+                    
+                }
 
                 } catch (PDOException $e) {
 
@@ -87,18 +100,22 @@ class controladorSocios
 
                        
                     } else {
-                        //Mensaje  de error desconocido
+                        //Mensaje  de error desconocido de PDOexcecption
                         $msg = $e->getMessage(); 
                     }
 
-                    header('Location: /proyecto_gym_MVC/view/socios/addSocio.php?msg=' . $msg);
-                    exit;
+                   
                   
+                }catch(Exception $e){
+                    $msg = $e->getMessage(); 
                 }
 
-
-                header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+                //redirigimos con mensaje de error por alguna excepcion capturada
+                header('Location: /proyecto_gym_MVC/view/socios/addSocio.php?msg=' . $msg);
                 exit;
+
+
+              
             }
 
 
@@ -109,7 +126,7 @@ class controladorSocios
         public static function eliminarSocio(){
 
         
-            require_once('conexionBBDD.php'); 
+            
             
             if(isset($_POST['dni_socio'])){
 
@@ -136,7 +153,7 @@ class controladorSocios
         // Este método rescata los valores del socio que el usuario quiere modificar para mostrarlos en el formulario modificar socio y facilitar al usuario 
         //la modificación de datos: 
         public static function mostrarFormularioModificar() {
-            require_once('conexionBBDD.php');
+         
     
             if(isset($_POST['dni_socio'])) {
 
@@ -178,8 +195,7 @@ class controladorSocios
 
     //Este método recoge los valores que el usurio ha modificado y los aplica a la BBDD
         public static function modificarSocio() {
-            require_once('conexionBBDD.php');
-    
+           
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $dni = $_POST['dni'];
                 $nombre = ucwords($_POST['nombre']);
@@ -206,6 +222,46 @@ class controladorSocios
                 header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
                 exit;
             }
+        }
+
+
+        public static function incribirClase(){
+            
+
+            if(isset($_POST['dni_socio'])) {
+
+
+                $dni = $_POST['dni_socio']; //enviado por oculto
+                $id_clase = ['id_clase'];
+
+
+    
+                try {
+
+                    $inscrito = Socio::inscribirClase($dni);
+
+                    if($inscrito){
+                        $msg = "socio inscrito con éxito"; 
+                    }
+
+                } catch(PDOException $e) {
+                    $msg = urlencode($e->getMessage());
+                   
+                }
+    
+              
+            } else {
+                $msg = "No se ha proporcionado el DNI del socio.";
+              
+            }
+
+            //Si no ha se ha enconrado ningun socio, o algún error ha hecho que el dni no se envie en el input hidden, redirigimos a la vista
+            //con mensaje de error.
+            header('Location: /proyecto_gym_MVC/view/socios/verSocios.php?msg=' . $msg);
+            exit;
+            
+
+
         }
 
 

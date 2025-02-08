@@ -35,6 +35,19 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
 <body>
     <h1>Listado de Monitores</h1>
 
+      <!--volver a bienvenida-->
+      <div style="position: absolute; top: 12%; left: 10%; margin: 10px; padding: 10px 15px; background-color: #2f5b96; border: 1px solid #2f5b96; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <a href="../bienvenida_recepcionista.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                    </svg>
+                                    <span style='color:white';>volver a página principal</span>
+                                </a>
+                                
+                     </div>
+        </div>
+
     <?php if (!empty($monitores)) { ?>
         <table>
             <thead>
@@ -114,17 +127,5 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
     <?php } ?>
    
 
-
-        <br>
-
-        <div id='divEnlace'>
-                    <a href="../bienvenida_recepcionista.php" style="display: inline-block; align-items: center; text-decoration: none; color: inherit;">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    <span>volver al menú principal</span>
-                    </a>
-            </div>
-            </div>
 </body>
 </html>

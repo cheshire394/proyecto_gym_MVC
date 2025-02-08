@@ -53,6 +53,18 @@ unset($_SESSION['socio']);
             <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" value="<?php echo htmlspecialchars($socio['cuenta_bancaria'] ?? 'no aportada'); ?>" required><br><br>
             
             <button type="submit">Modificar Socio</button>
+
+            <!--BOTON BIENVENIDA-->
+            <div  style="position: absolute; top: 91%; left: 51%; margin: 10px; padding: 10px 15px; background-color: #2f5b96; border: 1px solid #2f5b96; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <a href="verSocios.php" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                </svg>
+                                    
+                                    <span style='color:white';>volver a socios</span>
+                                </a>
+                                
+            </div>
         </form>
     </fieldset>
 </body>
