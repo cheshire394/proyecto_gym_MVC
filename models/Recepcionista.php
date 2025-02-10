@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/../data/conexionBBDD.php';
 
 class Recepcionista extends Persona {
 
@@ -42,8 +43,10 @@ class Recepcionista extends Persona {
     }
 
    
-    public static function registrar($conn, $nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password) {
-    
+    public static function registrar($nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password) {
+        
+            global $conn; 
+
             // Hashear la contraseña antes de almacenarla
             $password_hashed = password_hash($password, PASSWORD_DEFAULT);
     
@@ -80,7 +83,10 @@ class Recepcionista extends Persona {
     
    
 
-    public static function login($conn, $dni, $password) {
+    public static function login($dni, $password) {
+
+        global $conn;  
+
         $query = "SELECT nombre, password FROM RECEPCIONISTAS WHERE dni = :dni";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':dni', $dni, PDO::PARAM_STR);
@@ -97,7 +103,7 @@ class Recepcionista extends Persona {
 
     public static function verRecepcionistas(){
 
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
         
         $sql = "SELECT * FROM RECEPCIONISTAS"; 
 

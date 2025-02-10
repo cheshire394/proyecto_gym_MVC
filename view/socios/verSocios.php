@@ -213,7 +213,7 @@ if(isset($socios_filtrados)){
                                                     <path d="M3 6h18"></path>
                                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
                                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                                                </svg>
+                                        </svg>
                                         
                                             </button>
                                 </form>
@@ -229,7 +229,7 @@ if(isset($socios_filtrados)){
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3l4 4m0 0l-10 10H7v-4L17 3z"/>
                                             </svg>
 
-                
+                                      
                                     </button>
 
                                     </form>
@@ -245,7 +245,7 @@ if(isset($socios_filtrados)){
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                                     </svg>
-
+                                            
                                             </button>
                                     </form>
 

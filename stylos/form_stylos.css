@@ -116,7 +116,7 @@ table {
     border-collapse: collapse;
     border-radius: 4px;
     margin: 20px auto;
-    margin-bottom: 6%;
+    margin-bottom: 10%;
 
 }
 th, td {
@@ -128,15 +128,15 @@ th {
     background-color: #2f5b96;
     color: white;
 }
-td {
-    background-color: #f9f9f9;
+
+table tr:nth-child(even) {
+    background-color: #b9d0f0;
 }
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+
+table tr:hover {
+    background-color: #bbd4f8;
 }
-tr:hover {
-    background-color: #ddd;
-}
+
 
 
 
@@ -313,59 +313,57 @@ td.gestion-button-cell {
 
 
 /* Contenedor principal de la leyenda */
-/* Contenedor wrapper para el posicionamiento */
-.legend-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px 0;
+/* Contenedor principal usando grid */
+.page-grid {
+    display: grid;
+    grid-template-columns: 1fr 250px; /* Primera columna flexible, segunda columna fija de 250px */
+    gap: 20px;
+    width: 100%;
 }
 
-/* Contenedor principal de la leyenda */
-.icon-legend {
-    width: 250px;
-    margin-right: 20px;
+/* Contenedor del contenido principal (filtro y tabla) */
+.main-content {
+    grid-column: 1;
+}
+
+/* Leyenda de iconos */
+.legend-box {
+    grid-column: 2;
+    height: fit-content;
     background-color: #f8f9fa;
-    border-radius: 8px;
     border: 1px solid #e9ecef;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 8px;
     padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-top: 20px;
 }
 
-/* Título de la leyenda */
-.icon-legend h4 {
-    margin: 0 0 15px 0;
-    color: #2f5b96;
+.legend-box h3 {
+    color: #36577c;
     font-size: 1rem;
-    text-align: center;
-    border-bottom: 1px solid #e9ecef;
+    margin: 0 0 15px 0;
     padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
 }
 
-/* Grid de iconos en disposición vertical */
-.icon-legend-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Contenedor de cada icono y su texto */
-.icon-item {
+.legend-item {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 5px;
+    margin-bottom: 8px;
 }
 
-/* Estilos para los iconos SVG */
-.icon-item svg {
+.legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.legend-item i {
     width: 20px;
-    height: 20px;
-    stroke: #2f5b96;
-    flex-shrink: 0;
+    color: #36577c;
 }
 
-/* Texto de la descripción */
-.icon-item span {
+.legend-item span {
     color: #495057;
     font-size: 0.9rem;
 }

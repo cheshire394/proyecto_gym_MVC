@@ -1,4 +1,4 @@
-<!-- La clase `Socio` representa a un miembro con información personal, detalles de membresía y métodos para gestionar los datos del socio. -->
+
 
 <?php
 // Visualizar errores para depuración
@@ -6,6 +6,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+require_once __DIR__ . '/../data/conexionBBDD.php';
 
 final class Socio extends Persona
 {
@@ -52,7 +54,7 @@ final class Socio extends Persona
     public static function verSocios(){
        
 
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
         
         $sql = "SELECT * FROM SOCIOS"; 
 
@@ -81,7 +83,7 @@ final class Socio extends Persona
         if(!in_array($propiedad, $propiedades_validas)) throw new PDOException('Se ha manipulado el formulario desde el inspector'); 
 
 
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
 
         $sql = "SELECT * FROM SOCIOS WHERE $propiedad = ?"; 
 
@@ -114,7 +116,8 @@ final class Socio extends Persona
     public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
 
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
+
         // Insertado en la BBDDD
         $sql = "INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, fecha_alta, cuenta_bancaria) 
         VALUES (:dni, :nombre, :apellidos, :fecha_nac, :telefono, :email, :tarifa, :fecha_alta, :cuenta_bancaria)";
@@ -147,7 +150,8 @@ final class Socio extends Persona
 
     public static function eliminarSocio($dni) {
 
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
+
         $sql = "DELETE FROM SOCIOS WHERE DNI = ?"; 
         $stmt = $conn->prepare($sql);
         
@@ -164,7 +168,7 @@ final class Socio extends Persona
 
     public static function buscarSocio($dni) {
 
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
 
         $sql = "SELECT * FROM SOCIOS WHERE DNI = ?"; 
         $stmt = $conn->prepare($sql);
@@ -189,7 +193,7 @@ final class Socio extends Persona
 
     public static function modificarSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
         // update en la BBDD
          $sql = "UPDATE SOCIOS SET
          nombre = :nombre,
@@ -230,7 +234,8 @@ final class Socio extends Persona
      //si incribimos un socio que en una clase que ya esta inscrito.
 
      public static function get_clases_inscrito($dni_socio) {
-        include __DIR__ . '/../data/conexionBBDD.php';
+        
+        global $conn; 
     
         // Definir la consulta para obtener las clases en las que está inscrito el socio
         $sql = "SELECT id_clase FROM SOCIOS_CLASES  WHERE dni_socio = :dni_socio";
@@ -258,13 +263,13 @@ final class Socio extends Persona
 
     public static function inscribirClase($dni_socio, $id_clase){
 
-        include __DIR__ . '/../data/conexionBBDD.php';
+        global $conn; 
 
         $clases_inscrito = Socio::get_clases_inscrito($dni_socio); 
 
         if(in_array($id_clase, $clases_inscrito)) throw new Exception("Excepción: $dni_socio ya está inscrito en la clase del $id_clase"); 
 
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        
 
             // Obtenemos la tarifa del socio
             $sql = "SELECT tarifa FROM SOCIOS WHERE dni = :dni_socio";
@@ -301,7 +306,7 @@ final class Socio extends Persona
      
     public static function desapuntarClase($dni_socio, $id_clase) {
         
-        include __DIR__ . '/../data/conexionBBDD.php';
+        global $conn; 
     
 
         // Eliminamos la inscripción del socio en la clase

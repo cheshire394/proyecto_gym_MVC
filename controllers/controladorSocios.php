@@ -62,13 +62,13 @@ class controladorSocios
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $dni = $_POST['dni'];
-                $nombre = ucwords($_POST['nombre']); 
-                $apellidos = ucwords($_POST['apellidos']);
+                $nombre = ucwords(strtolower($_POST['nombre'])); 
+                $apellidos = ucwords(strtolower($_POST['apellidos']));
                 $fecha_nac = $_POST['fecha_nac'];
                 $tarifa = $_POST['tarifa'];
                 $fecha_alta = $_POST['fecha_alta'];
                 $telefono = $_POST['telefono'] ?? null;
-                $email = $_POST['email'] ?? null;
+                $email = strtolower($_POST['email']) ?? null;
                 $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null;
 
                 
@@ -198,14 +198,14 @@ class controladorSocios
            
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $dni = $_POST['dni'];
-                $nombre = ucwords($_POST['nombre']);
-                $apellidos = ucwords($_POST['apellidos']);
+                $nombre = ucwords(strtolower($_POST['nombre'])); 
+                $apellidos = ucwords(strtolower($_POST['apellidos']));
                 $fecha_nac = $_POST['fecha_nac'];
-                $telefono = $_POST['telefono'];
-                $email = $_POST['email'];
+                $telefono = $_POST['telefono'] ?? null;
+                $email = strtolower($_POST['email']) ?? null;
                 $tarifa = $_POST['tarifa'];
                 $fecha_alta = $_POST['fecha_alta'];
-                $cuenta_bancaria = $_POST['cuenta_bancaria'];
+                $cuenta_bancaria = $_POST['cuenta_bancaria'] ?? null;
     
                 try {
                     $modificado = Socio::modificarSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria);

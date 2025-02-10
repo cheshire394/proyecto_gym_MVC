@@ -25,7 +25,7 @@ class ControladorRecepcionista
                 $jornada = $_POST['jornada'];
                 $password = $_POST['password'];
         
-                require_once('conexionBBDD.php');
+                
         
                 try {
 
@@ -33,7 +33,7 @@ class ControladorRecepcionista
 
                 if($dni_valido){
                     // Intentar registrar al recepcionista
-                   $resistrar= Recepcionista::registrar($conn, $nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password);
+                   $resistrar= Recepcionista::registrar($nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password);
                     
 
                    if($resistrar){
@@ -76,9 +76,9 @@ class ControladorRecepcionista
                     $dni = $_POST['dni'];
                     $password = $_POST['password'];
         
-                    require_once('conexionBBDD.php');
+                    
                     // Llamar al método del modelo para verificar credenciales
-                    $usuario = Recepcionista::login($conn, $dni, $password);
+                    $usuario = Recepcionista::login($dni, $password);
         
                     // Verificar si el usuario existe
                     if ($usuario) {
@@ -107,11 +107,6 @@ class ControladorRecepcionista
         
 
   
-    
-  /**
-   * The function `logout` in PHP destroys the session and redirects the user to the login form for a
-   * receptionist in a gym project.
-   */
     public static function logout()
     {
         // Destruir la sesión

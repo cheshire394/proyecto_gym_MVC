@@ -34,23 +34,24 @@ unset($_SESSION['socio']);
             <input type="date" id="fecha_nac" name="fecha_nac" value="<?php echo htmlspecialchars($socio['fecha_nac']); ?>" required><br><br>
 
             <label for="telefono">Teléfono:</label>
-            <input type="number" id="telefono" name="telefono" value="<?php echo htmlspecialchars($socio['telefono'] ?? ''); ?>" required><br><br>
+            <input type="number" id="telefono" name="telefono" value="<?php echo htmlspecialchars($socio['telefono'] ?? 'dato no aportado'); ?>"><br><br>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($socio['email'] ?? 'no aportado'); ?>" required><br><br>
+            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($socio['email'] ?? 'dato no aportado'); ?>"><br><br>
 
             <label for="tarifa">Tarifa:</label>
             <select id="tarifa" name="tarifa" required>
                 <option value="1" <?php echo ($socio['tarifa'] ?? '') == '1' ? 'selected' : ''; ?>>1 clase</option>
                 <option value="2" <?php echo ($socio['tarifa'] ?? '') == '2' ? 'selected' : ''; ?>>2 clases</option>
                 <option value="3" <?php echo ($socio['tarifa'] ?? '') == '3' ? 'selected' : ''; ?>>3 clases</option>
+                <option value="24" <?php echo ($socio['tarifa'] ?? '') == '24' ? 'selected' : ''; ?>>ilimitada</option>
             </select><br><br>
 
             <label for="fecha_alta">Fecha de Alta:</label>
             <input type="date" id="fecha_alta" name="fecha_alta" value="<?php echo htmlspecialchars($socio['fecha_alta']); ?>" required><br><br>
 
             <label for="cuenta_bancaria">Cuenta Bancaria:</label>
-            <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" value="<?php echo htmlspecialchars($socio['cuenta_bancaria'] ?? 'no aportada'); ?>" required><br><br>
+            <input type="text" id="cuenta_bancaria" name="cuenta_bancaria" value="<?php echo htmlspecialchars($socio['cuenta_bancaria'] ?? 'dato no aportado'); ?>"><br><br>
             
             <button type="submit">Modificar Socio</button>
 

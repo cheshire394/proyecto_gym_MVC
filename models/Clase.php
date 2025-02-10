@@ -1,5 +1,6 @@
 <?php
-  
+
+require_once  __DIR__ . '/../data/conexionBBDD.php';
 final class Clase {
 
     
@@ -33,7 +34,8 @@ final class Clase {
 
     public static function addClase($id_clase, $dni_monitor, $nombre_actividad) {
         try {
-            include __DIR__ . '/../data/conexionBBDD.php';
+            
+            global $conn; 
     
             // Iniciar transacción para asegurar consistencia 
             $conn->beginTransaction();
@@ -105,7 +107,9 @@ final class Clase {
 
 
     public static function horario() {
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        
+
+        global $conn; 
     
         // Consulta SQL para obtener todas las clases disponibles
         $sql = "SELECT dni_monitor, nombre_actividad, dia_semana, hora_inicio FROM CLASES";
@@ -137,7 +141,7 @@ final class Clase {
 
         
 
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn;  
     
         // Generar todos los id_clase posibles
         $dias_semana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
@@ -175,7 +179,7 @@ final class Clase {
     public static function horas_ocupadas(){
 
         
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
     
     
         // Obtener los id_clase ya registrados en la base de datos, recibimos los datos ordenados con un criterio especifico 
@@ -202,7 +206,7 @@ final class Clase {
 
     public static function get_disciplinas(){
 
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
     
         // Consulta SQL para obtener todas las clases disponibles (una única vez)
         $sql = "SELECT DISTINCT nombre_actividad FROM CLASES ORDER BY nombre_actividad ASC";
@@ -227,7 +231,8 @@ final class Clase {
 
    
     public static function sustituirMonitor($dni_new_monitor, $id_clase) {
-        include __DIR__ . '/../data/conexionBBDD.php';
+        
+        global $conn; 
     
         try {
             $conn->beginTransaction(); 
@@ -276,7 +281,7 @@ final class Clase {
     
 
     public static function eliminarClase($id_clase) {
-        include __DIR__ . '/../data/conexionBBDD.php';
+        global $conn; 
     
         try {
             $conn->beginTransaction(); // Iniciar transacción
@@ -320,7 +325,7 @@ final class Clase {
   
     
     public static function eliminarDisciplina($nombre_actividad) {
-        include __DIR__ . '/../data/conexionBBDD.php';
+        global $conn; 
     
         try {
             $conn->beginTransaction(); // Iniciar la transacción
@@ -387,7 +392,7 @@ final class Clase {
     
     
     public static function clasesSocios() {
-        include __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
     
         $sql = "SELECT 
                     c.id_clase, 

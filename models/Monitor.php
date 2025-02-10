@@ -1,6 +1,6 @@
 <?php
 
-
+include __DIR__ . '/../data/conexionBBDD.php';
 final class Monitor extends Persona {
 
   
@@ -52,7 +52,7 @@ final class Monitor extends Persona {
     //funcion para obtener todos los datos de los monitores y verlo en una tarbla (crea los objetos)
     public static function verMonitores(){
 
-        include  __DIR__ . '/../data/conexionBBDD.php'; 
+       global $conn; 
         
         $sql = "SELECT * FROM MONITORES"; 
 
@@ -76,7 +76,8 @@ final class Monitor extends Persona {
 
 
         // Consulta para obtener los DNI y nombres de los monitores para que los formularios aparezcan
-        require_once  __DIR__ . '/../data/conexionBBDD.php'; 
+        global $conn; 
+        
         $sql = "SELECT dni, nombre FROM MONITORES";
         $stmt = $conn->prepare($sql);
 
