@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 session_start();
 if (!isset($_SESSION['nombre'])) {
     // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-    header('location: ../login_recepcionista.php');
+    header('location: ../index.php');
     exit(); 
 }
 
@@ -64,7 +64,7 @@ $horario = ControladorClases::horario();
 
             foreach ($horas as $hora) {
                 echo "<tr>";
-                echo "<td class='hora'>$hora</td>";
+                echo "<th class='hora'>$hora</th>";
             
                 foreach ($dias as $dia) {
                     echo "<td>";

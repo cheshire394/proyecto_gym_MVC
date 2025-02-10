@@ -7,7 +7,7 @@ session_start();
 
 // Verifica si existe una variable de sesión 'nombre'
 if (!isset($_SESSION['nombre'])) {
-    header('location: login_recepcionista.php');
+    header('location: index.php');
     exit(); 
 } 
 ?>

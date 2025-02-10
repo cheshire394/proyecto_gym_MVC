@@ -43,9 +43,6 @@ abstract class Persona {
         return $check_dni; 
     }
 
-   
-  
-
 
     // Método mágico abstracto para obtener el valor de $name
     abstract public function __get($name);

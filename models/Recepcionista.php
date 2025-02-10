@@ -37,7 +37,7 @@ class Recepcionista extends Trabajador {
     }
 
    
-    public static function registrar($nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password) {
+    public static function registrar($nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $jornada, $password) {
         
             global $conn; 
 
@@ -45,8 +45,8 @@ class Recepcionista extends Trabajador {
             $password_hashed = password_hash($password, PASSWORD_DEFAULT);
     
             // Sentencia SQL para la inserción
-            $sql_insert = "INSERT INTO RECEPCIONISTAS (nombre, apellidos, dni, fecha_nac, telefono, email, cuenta_bancaria, funcion, sueldo, horas_extra, jornada, password) 
-                           VALUES (:nombre, :apellidos, :dni, :fecha_nac, :telefono, :email, :cuenta_bancaria, :funcion, :sueldo, :horas_extra, :jornada, :password)";
+            $sql_insert = "INSERT INTO RECEPCIONISTAS (nombre, apellidos, dni, fecha_nac, telefono, email, cuenta_bancaria, funcion, sueldo, jornada, password) 
+                           VALUES (:nombre, :apellidos, :dni, :fecha_nac, :telefono, :email, :cuenta_bancaria, :funcion, :sueldo, :jornada, :password)";
     
             $stmt_insert = $conn->prepare($sql_insert);
     
@@ -60,7 +60,6 @@ class Recepcionista extends Trabajador {
             $stmt_insert->bindParam(':cuenta_bancaria', $cuenta_bancaria, PDO::PARAM_STR);
             $stmt_insert->bindParam(':funcion', $funcion, PDO::PARAM_STR);
             $stmt_insert->bindParam(':sueldo', $sueldo, PDO::PARAM_STR);
-            $stmt_insert->bindParam(':horas_extra', $horas_extra, PDO::PARAM_STR);
             $stmt_insert->bindParam(':jornada', $jornada, PDO::PARAM_STR);
             $stmt_insert->bindParam(':password', $password_hashed, PDO::PARAM_STR);
     

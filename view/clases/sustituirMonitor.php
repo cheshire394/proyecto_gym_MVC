@@ -7,7 +7,7 @@ session_start();
 // Verifica si existe una variable de sesión 'nombre'
 if (!isset($_SESSION['nombre'])) {
        // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-       header('location: ../login_recepcionista.php');
+       header('location: ../index.php');
        exit(); 
    }
 
@@ -56,6 +56,14 @@ if (!isset($_SESSION['nombre'])) {
                     <?php endforeach; ?>
                 </select>
 
+                <?php
+            //Si la clases no se filtran correctamente, mostramos el mensaje de error capturado en la excepcion: 
+            if (isset($_GET['msg'])) {
+                $mensaje = htmlspecialchars($_GET['msg']);
+                echo "<p style='display: inline-block;'><b>$mensaje</b></p>";
+            }
+            ?>
+
            
                 <label for="id_clase">Selecciona la clase</label>
               
@@ -90,13 +98,7 @@ if (!isset($_SESSION['nombre'])) {
                             </div>
             </div>
             <br>
-            <?php
-            //Si la clases no se filtran correctamente, mostramos el mensaje de error capturado en la excepcion: 
-            if (isset($_GET['msg'])) {
-                $mensaje = htmlspecialchars($_GET['msg']);
-                echo "<p style='display: inline-block;'><b>$mensaje</b></p>";
-            }
-            ?>
+            
         </form>
     </fieldset>
     

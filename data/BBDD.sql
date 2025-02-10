@@ -80,21 +80,32 @@ INSERT INTO MONITORES (dni, nombre, apellidos, fecha_nac, telefono, email, cuent
 
 -- Insertar clases
 INSERT INTO CLASES (id_clase, dni_monitor, nombre_actividad, dia_semana, hora_inicio, hora_fin) VALUES
+('lunes-10:00', '09626574Q', 'MMA', 'lunes', '10:00', '12:00'),
 ('lunes-12:00', '50489319H', 'Kickboxing', 'lunes', '12:00', '14:00'),
 ('lunes-18:00', '50489319H', 'Kickboxing', 'lunes', '18:00', '20:00'),
-('miercoles-12:00', '50489319H', 'Kickboxing', 'miércoles', '12:00', '14:00'),
-('miercoles-18:00', '50489319H', 'Kickboxing', 'miércoles', '18:00', '20:00'),
+('martes-10:00', '55462206Y', 'Judo', 'martes', '10:00', '12:00'),
+('martes-12:00', '55462206Y', 'Aikido', 'martes', '12:00', '14:00'),
+('martes-16:00', '55462206Y', 'Judo', 'martes', '16:00', '18:00'),
+('martes-18:00', '55462206Y', 'Aikido', 'martes', '18:00', '20:00'),
+('miercoles-10:00', '50489319H', 'Boxeo', 'miercoles', '10:00', '12:00'),
+('miercoles-12:00', '09626574Q', 'MMA', 'miercoles', '12:00', '14:00'),
+('miercoles-16:00', '55462206Y', 'Boxeo', 'miercoles', '16:00', '18:00'),
+('miercoles-18:00', '09626574Q', 'MMA', 'miercoles', '18:00', '20:00'),
+('jueves-10:00', '50489319H', 'Boxeo', 'jueves', '10:00', '12:00'),
+('jueves-12:00', '09626574Q', 'MMA', 'jueves', '12:00', '14:00'),
+('jueves-16:00', '55462206Y', 'Boxeo', 'jueves', '16:00', '18:00'),
+('jueves-18:00', '09626574Q', 'MMA', 'jueves', '18:00', '20:00'),
 ('viernes-10:00', '09626574Q', 'Taekwondo', 'viernes', '10:00', '12:00'),
 ('viernes-12:00', '09626574Q', 'Karate', 'viernes', '12:00', '14:00'),
 ('viernes-16:00', '09626574Q', 'Taekwondo', 'viernes', '16:00', '18:00'),
 ('viernes-18:00', '09626574Q', 'Karate', 'viernes', '18:00', '20:00'),
-('sabado-12:00', '09626574Q', 'Karate', 'sábado', '12:00', '14:00'),
-('sabado-18:00', '09626574Q', 'Taekwondo', 'sábado', '18:00', '20:00'),
-('lunes-10:00', '09626574Q', 'MMA', 'lunes', '10:00', '12:00'),
-('martes-10:00', '55462206Y', 'Judo', 'martes', '10:00', '12:00'),
-('martes-12:00', '55462206Y', 'Aikido', 'martes', '12:00', '14:00'),
-('martes-16:00', '55462206Y', 'Judo', 'martes', '16:00', '18:00'),
-('martes-18:00', '55462206Y', 'Aikido', 'martes', '18:00', '20:00');
+('sabado-10:00', '50489319H', 'Boxeo', 'sabado', '10:00', '12:00'),
+('sabado-12:00', '50489319H', 'MMA', 'sabado', '12:00', '14:00'),
+('sabado-16:00', '55462206Y', 'Boxeo', 'sabado', '16:00', '18:00'),
+('sabado-18:00', '09626574Q', 'MMA', 'sabado', '18:00', '20:00');
+
+
+
 
 
 -- Insertar socios
@@ -116,27 +127,68 @@ INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, 
 ('17304391L', 'Miguel', 'Gómez Martín', '1993-06-15', '615678234', 'miguel.gomez@gym.com', 3, 30.00, 'ES4721000418450200051516', '2024-12-10');
 
 
-
 -- Insertar inscripciones en la tabla intermedia SOCIOS_CLASES
 INSERT INTO SOCIOS_CLASES (dni_socio, id_clase) VALUES
+-- Socio 82709958A (tarifa 2) - Máximo 2 clases
 ('82709958A', 'lunes-12:00'),
-('93330782W', 'lunes-12:00'),
-('04173382D', 'lunes-12:00'),
-('28539505R', 'lunes-18:00'),
-('78419440C', 'lunes-18:00'),
-('16416926D', 'lunes-18:00'),
-('64592462K', 'miercoles-12:00'),
-('93330782W', 'miercoles-12:00'),
-('17304391L', 'miercoles-12:00'),
-('19517067A', 'miercoles-18:00'),
-('78419440C', 'miercoles-18:00'),
-('04173382D', 'miercoles-18:00'),
-('55534150Y', 'viernes-10:00'),
 ('82709958A', 'viernes-10:00'),
+
+-- Socio 93330782W (tarifa 3) - Máximo 3 clases
+('93330782W', 'lunes-12:00'),
 ('93330782W', 'viernes-10:00'),
-('84264364T', 'viernes-12:00'),
+('93330782W', 'miercoles-10:00'),
+
+-- Socio 04173382D (tarifa 3) - Máximo 3 clases
+('04173382D', 'lunes-12:00'),
+('04173382D', 'miercoles-18:00'),
+('04173382D', 'miercoles-10:00'),
+
+-- Socio 28539505R (tarifa 2) - Máximo 2 clases
+('28539505R', 'lunes-18:00'),
 ('28539505R', 'viernes-12:00'),
-('78419440C', 'viernes-12:00');
+
+-- Socio 78419440C (tarifa 3) - Máximo 3 clases
+('78419440C', 'lunes-18:00'),
+('78419440C', 'viernes-12:00'),
+('78419440C', 'jueves-18:00'),
+
+-- Socio 16416926D (tarifa 3) - Máximo 3 clases
+('16416926D', 'lunes-18:00'),
+('16416926D', 'miercoles-16:00'),
+('16416926D', 'sabado-18:00'),
+
+-- Socio 64592462K (tarifa 2) - Máximo 2 clases
+('64592462K', 'miercoles-18:00'),
+('64592462K', 'miercoles-12:00'),
+
+-- Socio 17304391L (tarifa 3) - Máximo 3 clases
+('17304391L', 'miercoles-12:00'),
+('17304391L', 'miercoles-18:00'),
+('17304391L', 'jueves-18:00'),
+
+-- Socio 19517067A (tarifa 2) - Máximo 2 clases
+('19517067A', 'miercoles-18:00'),
+('19517067A', 'jueves-16:00'),
+
+-- Socio 55534150Y (tarifa 1) - Máximo 1 clase
+('55534150Y', 'viernes-10:00'),
+
+-- Socio 84264364T (tarifa 1) - Máximo 1 clase
+('84264364T', 'viernes-12:00'),
+
+-- Socio 27988689N (tarifa 1) - Máximo 1 clase
+('27988689N', 'jueves-10:00'),
+
+-- Socio 98222874V (tarifa 2) - Máximo 2 clases
+('98222874V', 'jueves-12:00'),
+('98222874V', 'sabado-12:00'),
+
+-- Socio 94192599D (tarifa 1) - Máximo 1 clase
+('94192599D', 'jueves-16:00'),
+
+-- Socio 37945157X (tarifa 1) - Máximo 1 clase
+('37945157X', 'sabado-10:00');
+
 
 -- Insertar datos en Recepcionistas
 INSERT INTO RECEPCIONISTAS VALUES 

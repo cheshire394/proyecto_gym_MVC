@@ -104,9 +104,6 @@
                 <label for="sueldo">Sueldo</label>
                 <input type="number" id="sueldo" name="sueldo" value='1500' required><br>
 
-                <label for="horas_extra">Horas Extra</label>
-                <input type="number" id="horas_extra" name="horas_extra" value=0 min=0 required><br>
-
                 <label for="jornada">Jornada</label>
                 <input type="number" id="jornada" name="jornada" min=1 max=40  value=40 required><br>
          
@@ -120,7 +117,7 @@
 
                <!-- Enlace para ir al login -->
             <br>
-        <a href="login_recepcionista.php">Login recepción</a>
+        <a href="index.php">Login recepción</a>
         </form>
     
 

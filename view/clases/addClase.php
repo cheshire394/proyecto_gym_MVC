@@ -9,7 +9,7 @@
 session_start();
 if (!isset($_SESSION['nombre'])) {
        // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-       header('location: ../login_recepcionista.php');
+       header('location: ../index.php');
        exit(); 
    }
 

@@ -25,7 +25,7 @@ if (isset($_GET['action'])) {
 
         case 'registro':
             ControladorRecepcionista::registro();
-            include('/proyecto_gym_MVC/view/login_recepcionista.php'); 
+            include('/proyecto_gym_MVC/view/index.php'); 
             break;
 
         case 'logout':

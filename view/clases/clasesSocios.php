@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 // Verificación de sesión
 session_start(); 
 if (!isset($_SESSION['nombre'])) {
-    header('location: ../login_recepcionista.php');
+    header('location: ../index.php');
     exit(); 
 }
 

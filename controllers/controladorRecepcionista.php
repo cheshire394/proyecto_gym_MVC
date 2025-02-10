@@ -22,8 +22,7 @@ class ControladorRecepcionista
                 $cuenta_bancaria = $_POST['cuenta_bancaria'];
                 $funcion = $_POST['funcion'];
                 $sueldo = $_POST['sueldo'];
-                $horas_extra = $_POST['horas_extra'];
-                $jornada = $_POST['jornada'];
+                $jornada = intval($_POST['jornada']); 
                 $password = $_POST['password'];
         
                 
@@ -34,12 +33,12 @@ class ControladorRecepcionista
 
                 if($dni_valido){
                     // Intentar registrar al recepcionista
-                   $resistrar= Recepcionista::registrar($nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $horas_extra, $jornada, $password);
+                   $resistrar= Recepcionista::registrar($nombre, $apellidos, $dni, $fecha_nac, $telefono, $email, $cuenta_bancaria, $funcion, $sueldo, $jornada, $password);
                     
 
                    if($resistrar){
                             // Si el registro es exitoso, redirigir con mensaje de éxito a la pagina de logeo
-                                header("Location: /proyecto_gym_MVC/view/login_recepcionista.php?msg=recepcionista registrada correctamente");
+                                header("Location: /proyecto_gym_MVC/view/index.php?msg=recepcionista registrada correctamente");
                                 exit();
 
                    }
@@ -89,18 +88,18 @@ class ControladorRecepcionista
                         header("Location: /proyecto_gym_MVC/view/bienvenida_recepcionista.php");
                         exit;
                     } else {
-                        header("Location: /proyecto_gym_MVC/view/login_recepcionista.php?msg=Credenciales incorrectas");
+                        header("Location: /proyecto_gym_MVC/view/index.php?msg=Credenciales incorrectas");
                         exit;
                     }
 
 
                 } catch (PDOException $e) {
                     $msg = $e->getMessage(); 
-                    header("Location: /proyecto_gym_MVC/view/login_recepcionista.php?msg=$msg");
+                    header("Location: /proyecto_gym_MVC/view/index.php?msg=$msg");
                     exit; 
                 } catch (Exception $e) {
                     $msg = $e->getMessage();  
-                    header("Location: /proyecto_gym_MVC/view/login_recepcionista.php?msg=$msg");
+                    header("Location: /proyecto_gym_MVC/view/index.php?msg=$msg");
                     exit; 
                 }
             }
@@ -116,7 +115,7 @@ class ControladorRecepcionista
         session_destroy();
 
         // Redirigir al formulario de login
-        header('Location: /proyecto_gym_MVC/view/login_recepcionista.php');
+        header('Location: /proyecto_gym_MVC/view/index.php');
         exit;
     }
 

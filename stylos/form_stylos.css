@@ -332,3 +332,11 @@ td.gestion-button-cell {
     color: #244775;
     
 }
+
+
+/*Esquivar la imagen de fondo en el formulario sustituir monitor*/
+#sustituirMonitor{
+    margin-top: 13%;
+    margin-left: 10%;
+
+}

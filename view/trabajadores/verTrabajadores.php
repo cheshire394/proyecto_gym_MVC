@@ -9,7 +9,7 @@ session_start();
 // Verifica si existe una variable de sesión 'nombre'
 if (!isset($_SESSION['nombre'])) {
        // Si la sesión no contiene 'nombre', redirige al usuario a la página de inicio de sesión
-       header('location: ../login_recepcionista.php');
+       header('location: ../index.php');
        exit(); 
    }
  
@@ -115,7 +115,7 @@ $recepcionistas = ControladorTrabajadores::verRecepcionistas();
                         <td><?= htmlspecialchars($recepcionista->__get('fecha_nac')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('telefono')) ?></td>
                         <td><?= htmlspecialchars($recepcionista->__get('email')) ?></td>
-                        <td><?= htmlspecialchars($recepcionista->__get('jornada')) ?> horas</td>
+                        <td><?= htmlspecialchars($recepcionista->__get('jornada')) ?>horas</td>
                         <td><?= htmlspecialchars(number_format($recepcionista->__get('sueldo'), 2)) ?> €</td>
                       
                     </tr>
