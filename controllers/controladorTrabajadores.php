@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../models/Persona.php';
+require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Recepcionista.php';
 require_once __DIR__ . '/../models/Monitor.php';
 

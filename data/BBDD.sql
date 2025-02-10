@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS MONITORES (
     cuenta_bancaria VARCHAR(24),
     funcion VARCHAR(20) DEFAULT 'monitor',
     sueldo DECIMAL(10,2),
-    horas_extra INT,
     jornada INT
 );
 
@@ -41,6 +40,7 @@ CREATE TABLE IF NOT EXISTS SOCIOS (
     telefono VARCHAR(15),
     email VARCHAR(100),
     tarifa INT NOT NULL,
+    cuota_mensual DECIMAL(10,2),
     cuenta_bancaria VARCHAR(24),
     fecha_alta DATE
 );
@@ -67,18 +67,18 @@ CREATE TABLE IF NOT EXISTS RECEPCIONISTAS (
     cuenta_bancaria VARCHAR(30),
     funcion VARCHAR(20) DEFAULT 'recepcionista',
     sueldo DECIMAL(10,2),
-    horas_extra INT,
     jornada INT,
     password VARCHAR(255)
 );
 
--- Insertar monitores
-INSERT INTO MONITORES (dni, nombre, apellidos, fecha_nac, telefono, email, cuenta_bancaria, funcion, sueldo, horas_extra, jornada) VALUES
-('50489319H', 'Laura', 'Rodriguez Vallejo', '1994-06-17', '650448327', 'laura_boxing@gmail.com', 'ES9123456789012345678901', 'monitor', 240, 0, 8),
-('09626574Q', 'Carlos', 'Gómez Pérez', '1990-03-12', '691234567', 'carlos@gmail.com', 'ES9234567890123456789012', 'monitor', 420, 0, 14),
-('55462206Y', 'Ana', 'Martínez López', '1988-09-23', '677123456', 'ana.Judo@gmail.com', 'ES9345678901234567890123', 'monitor', 540, 0, 18);
 
--- Insertar clases SIN la columna socios_inscritos
+-- Insertar monitores
+INSERT INTO MONITORES (dni, nombre, apellidos, fecha_nac, telefono, email, cuenta_bancaria, funcion, sueldo, jornada) VALUES
+('50489319H', 'Laura', 'Rodriguez Vallejo', '1994-06-17', '650448327', 'laura_boxing@gmail.com', 'ES9123456789012345678901', 'monitor', 240, 8),
+('09626574Q', 'Carlos', 'Gómez Pérez', '1990-03-12', '691234567', 'carlos@gmail.com', 'ES9234567890123456789012', 'monitor', 420, 14),
+('55462206Y', 'Ana', 'Martínez López', '1988-09-23', '677123456', 'ana.Judo@gmail.com', 'ES9345678901234567890123', 'monitor', 540, 18);
+
+-- Insertar clases
 INSERT INTO CLASES (id_clase, dni_monitor, nombre_actividad, dia_semana, hora_inicio, hora_fin) VALUES
 ('lunes-12:00', '50489319H', 'Kickboxing', 'lunes', '12:00', '14:00'),
 ('lunes-18:00', '50489319H', 'Kickboxing', 'lunes', '18:00', '20:00'),
@@ -96,23 +96,26 @@ INSERT INTO CLASES (id_clase, dni_monitor, nombre_actividad, dia_semana, hora_in
 ('martes-16:00', '55462206Y', 'Judo', 'martes', '16:00', '18:00'),
 ('martes-18:00', '55462206Y', 'Aikido', 'martes', '18:00', '20:00');
 
+
 -- Insertar socios
-INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, cuenta_bancaria, fecha_alta) VALUES
-('82709958A', 'Luis', 'Pérez Sánchez', '1988-10-12', '611987654', 'luis.perez@gym.com', 2, 'ES9121000418450200051332', '2024-12-10'),
-('93330782W', 'Luis', 'López Jiménez', '1995-01-25', '612345987', 'sofia.lopez@gym.com', 3, NULL, '2024-12-10'),
-('55534150Y', 'Javier', 'Rodríguez Fernández', '1990-07-04', '613456123', 'javier.rod@gym.com', 1, 'ES1421000418450200051415', '2024-12-10'),
-('28539505R', 'Laura', 'Hernández Ruiz', '1986-11-30', '614567890', 'laura.hernandez@gym.com', 2, NULL, '2024-12-10'),
-('84264364T', 'Ana', 'Martín García', '1992-04-20', '612345678', 'ana.martin@gym.com', 1, NULL, '2024-12-10'),
-('64592462K', 'Carlos', 'Fernández López', '1985-08-15', '613456789', 'carlos.fernandez@gym.com', 2, 'ES9821000418450200051234', '2024-12-10'),
-('04173382D', 'Sofía', 'García Pérez', '1990-03-10', '614567890', 'sofia.garcia@gym.com', 3, NULL, '2024-12-10'),
-('37945157X', 'Diego', 'Jiménez Ruiz', '1988-12-01', '615678901', 'diego.jimenez@gym.com', 1, 'ES9121000418450200059876', '2024-12-10'),
-('19517067A', 'Marta', 'Sánchez Martín', '1995-07-25', '616789012', 'marta.sanchez@gym.com', 2, NULL, '2024-12-10'),
-('78419440C', 'Jorge', 'Rodríguez Gómez', '1983-05-30', '617890123', 'jorge.rodriguez@gym.com', 3, 'ES4721000418450200054567', '2024-12-10'),
-('27988689N', 'Elena', 'Hernández López', '1991-11-15', '618901234', 'elena.hernandez@gym.com', 1, NULL, '2024-12-10'),
-('98222874V', 'Pablo', 'Gómez Ruiz', '1987-09-05', '619012345', 'pablo.gomez@gym.com', 2, 'ES1421000418450200051234', '2024-12-10'),
-('16416926D', 'Raúl', 'Martínez Sánchez', '1994-06-20', '620123456', 'raul.martinez@gym.com', 3, NULL, '2024-12-10'),
-('94192599D', 'Clara', 'Vázquez Fernández', '1996-02-14', '621234567', 'clara.vazquez@gym.com', 1, 'ES9121000418450200057890', '2024-12-10'),
-('17304391L', 'Miguel', 'Gómez Martín', '1993-06-15', '615678234', 'miguel.gomez@gym.com', 3, 'ES4721000418450200051516', '2024-12-10');
+INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, cuota_mensual, cuenta_bancaria, fecha_alta) VALUES
+('82709958A', 'Luis', 'Pérez Sánchez', '1988-10-12', '611987654', 'luis.perez@gym.com', 2, 25.00, 'ES9121000418450200051332', '2024-12-10'),
+('93330782W', 'Luis', 'López Jiménez', '1995-01-25', '612345987', 'sofia.lopez@gym.com', 3, 30.00, NULL, '2024-12-10'),
+('55534150Y', 'Javier', 'Rodríguez Fernández', '1990-07-04', '613456123', 'javier.rod@gym.com', 1, 20.00, 'ES1421000418450200051415', '2024-12-10'),
+('28539505R', 'Laura', 'Hernández Ruiz', '1986-11-30', '614567890', 'laura.hernandez@gym.com', 2, 25.00, NULL, '2024-12-10'),
+('84264364T', 'Ana', 'Martín García', '1992-04-20', '612345678', 'ana.martin@gym.com', 1, 20.00, NULL, '2024-12-10'),
+('64592462K', 'Carlos', 'Fernández López', '1985-08-15', '613456789', 'carlos.fernandez@gym.com', 2, 25.00, 'ES9821000418450200051234', '2024-12-10'),
+('04173382D', 'Sofía', 'García Pérez', '1990-03-10', '614567890', 'sofia.garcia@gym.com', 3, 30.00, NULL, '2024-12-10'),
+('37945157X', 'Diego', 'Jiménez Ruiz', '1988-12-01', '615678901', 'diego.jimenez@gym.com', 1, 20.00, 'ES9121000418450200059876', '2024-12-10'),
+('19517067A', 'Marta', 'Sánchez Martín', '1995-07-25', '616789012', 'marta.sanchez@gym.com', 2, 25.00, NULL, '2024-12-10'),
+('78419440C', 'Jorge', 'Rodríguez Gómez', '1983-05-30', '617890123', 'jorge.rodriguez@gym.com', 3, 30.00, 'ES4721000418450200054567', '2024-12-10'),
+('27988689N', 'Elena', 'Hernández López', '1991-11-15', '618901234', 'elena.hernandez@gym.com', 1, 20.00, NULL, '2024-12-10'),
+('98222874V', 'Pablo', 'Gómez Ruiz', '1987-09-05', '619012345', 'pablo.gomez@gym.com', 2, 25.00, 'ES1421000418450200051234', '2024-12-10'),
+('16416926D', 'Raúl', 'Martínez Sánchez', '1994-06-20', '620123456', 'raul.martinez@gym.com', 3, 30.00, NULL, '2024-12-10'),
+('94192599D', 'Clara', 'Vázquez Fernández', '1996-02-14', '621234567', 'clara.vazquez@gym.com', 1, 20.00, 'ES9121000418450200057890', '2024-12-10'),
+('17304391L', 'Miguel', 'Gómez Martín', '1993-06-15', '615678234', 'miguel.gomez@gym.com', 3, 30.00, 'ES4721000418450200051516', '2024-12-10');
+
+
 
 -- Insertar inscripciones en la tabla intermedia SOCIOS_CLASES
 INSERT INTO SOCIOS_CLASES (dni_socio, id_clase) VALUES
@@ -137,4 +140,4 @@ INSERT INTO SOCIOS_CLASES (dni_socio, id_clase) VALUES
 
 -- Insertar datos en Recepcionistas
 INSERT INTO RECEPCIONISTAS VALUES 
-('16280029P', 'Iago', 'Fernandez Pereira', '1988-08-23', '677123456', 'Iago@gmail.com', 'ES9345678921244368890123', 'recepcionista', 1150, 0, 40, '$2y$10$GaYjfJDhGQFTGByJIjE2u.V1qb/HrYgVD34xh.oixO7GzxFamchwK');
+('16280029P', 'Iago', 'Fernandez Pereira', '1988-08-23', '677123456', 'Iago@gmail.com', 'ES9345678921244368890123', 'recepcionista', 1150, 40, '$2y$10$GaYjfJDhGQFTGByJIjE2u.V1qb/HrYgVD34xh.oixO7GzxFamchwK');

@@ -12,12 +12,15 @@ require_once __DIR__ . '/../data/conexionBBDD.php';
 final class Socio extends Persona
 {
 
-   
-     private $tarifa;
-     private $fecha_alta;
-     private $cuenta_bancaria;
-    
-        
+    const cuota_tarifa1 = 20.00; 
+    const cuota_tarifa2 = 25.00; 
+    const cuota_tarifa3 = 30.00; 
+    const cuota_ilimitada = 45.00; 
+
+    private $cuota_mensual; 
+    private $tarifa;
+    private $fecha_alta;
+          
     public function __construct() {
         
         // Constructor vacío para poder crear los objetos con PDO --> fetchObject
@@ -112,15 +115,41 @@ final class Socio extends Persona
         
     }
 
+
+    private static function calcular_cuota_mensual($tarifa){
+         //Adaptamos la cuota a la tarifa seleccionada:
+            switch($tarifa){
+                case '1': 
+                    $cuota_mensual= Socio::cuota_tarifa1; 
+                    break;
+                case '2':
+                    $cuota_mensual= Socio::cuota_tarifa2; 
+                    break;
+                case '3':
+                    $cuota_mensual= Socio::cuota_tarifa3;
+                    break;
+                default:
+                $cuota_mensual= Socio::cuota_ilimitada; 
+                break; 
+            }
+
+            return $cuota_mensual; 
+    }
+
     
     public static function addSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
 
         global $conn; 
 
+
+        //calculamos la cuota segun la tarifa
+        $cuota_mensual= self::calcular_cuota_mensual($tarifa); 
+
+
         // Insertado en la BBDDD
-        $sql = "INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, fecha_alta, cuenta_bancaria) 
-        VALUES (:dni, :nombre, :apellidos, :fecha_nac, :telefono, :email, :tarifa, :fecha_alta, :cuenta_bancaria)";
+        $sql = "INSERT INTO SOCIOS (dni, nombre, apellidos, fecha_nac, telefono, email, tarifa, cuota_mensual,fecha_alta, cuenta_bancaria) 
+        VALUES (:dni, :nombre, :apellidos, :fecha_nac, :telefono, :email, :tarifa, $cuota_mensual, :fecha_alta, :cuenta_bancaria)";
 
        
             $stmt = $conn->prepare($sql);
@@ -193,6 +222,9 @@ final class Socio extends Persona
 
     public static function modificarSocio($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $tarifa, $fecha_alta, $cuenta_bancaria){
 
+        //calculamos la cuota segun la tarifa (dato no introducido por el usuario)
+        $cuota_mensual= self::calcular_cuota_mensual($tarifa);
+
         global $conn; 
         // update en la BBDD
          $sql = "UPDATE SOCIOS SET
@@ -202,6 +234,7 @@ final class Socio extends Persona
          telefono = :telefono,
          email = :email,
          tarifa = :tarifa,
+         cuota_mensual = $cuota_mensual,
          fecha_alta = :fecha_alta,
          cuenta_bancaria = :cuenta_bancaria
         WHERE dni = :dni";

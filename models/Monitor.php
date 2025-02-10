@@ -1,18 +1,12 @@
 <?php
 
 include __DIR__ . '/../data/conexionBBDD.php';
-final class Monitor extends Persona {
+final class Monitor extends Trabajador {
 
   
 
     const EUROS_HORA=30;
     
-    private $jornada;
-    private $sueldo;
-    private $cuenta_bancaria;
-    private $funcion;
-    private $horas_extra;
-
     function __construct(){
 
         //contructor vacio para fetchObject()

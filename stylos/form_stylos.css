@@ -111,12 +111,13 @@ button:active {
 
 
 table {
-    width: 80%;
+    width: 90%;
     height: 40%;
     border-collapse: collapse;
     border-radius: 4px;
     margin: 20px auto;
-    margin-bottom: 10%;
+    margin-bottom: 3%;
+    margin-top: 3%;
 
 }
 th, td {
@@ -130,32 +131,17 @@ th {
 }
 
 table tr:nth-child(even) {
-    background-color: #b9d0f0;
+    background-color: #c2d8f5;
 }
 
 table tr:hover {
-    background-color: #bbd4f8;
-}
-
-
-
-
-
-
-#todoSocios{
-
-    float: left;
-    color:white;
-    margin-left: 15%;
-    padding: 1%;
-    text-decoration: none;
-    background-color: #adc8eb;
+    background-color: #f1e1bf;
     font-weight: bold;
-    max-width: 10%;
-    text-align: center;
-    border-radius: 7px;
-    
 }
+
+
+
+
 
 /* Estilos para la lista principal (ul) */
 ul {
@@ -234,7 +220,7 @@ ol li:hover {
 
 
 /* Estilos para la flecha  para subir y bajar en la misma pagina*/
-/* Estilos para la flecha para subir y bajar en la misma página */
+
 .scroll-button {
     display: inline-flex;
     align-items: center;
@@ -311,59 +297,38 @@ td.gestion-button-cell {
 }
 
 
+/** boton volver a ver todos los socios**/
 
-/* Contenedor principal de la leyenda */
-/* Contenedor principal usando grid */
-.page-grid {
-    display: grid;
-    grid-template-columns: 1fr 250px; /* Primera columna flexible, segunda columna fija de 250px */
-    gap: 20px;
-    width: 100%;
+#todoSocios {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    align-self: flex-start;
+    color: white;
+    padding: 10px;
+    background-color: #adc8eb;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 7px;
+    
 }
 
-/* Contenedor del contenido principal (filtro y tabla) */
-.main-content {
-    grid-column: 1;
-}
+/**leyenda de inconos **/
 
-/* Leyenda de iconos */
-.legend-box {
-    grid-column: 2;
-    height: fit-content;
-    background-color: #f8f9fa;
+.icon-legend {
+    position: sticky;
+    top: 20%; /* Adjust this value to align with the title */
+    left: 77%; /* Adjust the right position */
+    width: 260px;
+    background-color:  #adc8eb;
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    margin-top: 20px;
+    z-index: 10;
+    align-self: flex-start;
+    padding: 2%;
 }
-
-.legend-box h3 {
-    color: #36577c;
-    font-size: 1rem;
-    margin: 0 0 15px 0;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-    margin-bottom: 8px;
-}
-
-.legend-item:last-child {
-    margin-bottom: 0;
-}
-
-.legend-item i {
-    width: 20px;
-    color: #36577c;
-}
-
-.legend-item span {
-    color: #495057;
-    font-size: 0.9rem;
+.icon-legend h4{
+    color: #244775;
+    
 }

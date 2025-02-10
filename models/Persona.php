@@ -12,9 +12,10 @@ abstract class Persona {
     protected $edad; 
     protected $telefono; 
     protected $email; 
+    protected $cuenta_bancaria;
 
 
-    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email) {
+    function __construct($dni, $nombre, $apellidos, $fecha_nac, $telefono, $email, $cuenta_bancaria) {
 
         if($this->validarDni($dni))$this->dni = $dni;
         $this->nombre = $nombre;
@@ -22,6 +23,7 @@ abstract class Persona {
         $this->fecha_nac = $fecha_nac;
         $this->telefono = $telefono;  
         $this->email = $email; 
+        $this->cuenta_bancaria=$cuenta_bancaria; 
     }
 
  

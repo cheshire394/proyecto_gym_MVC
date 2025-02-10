@@ -2,18 +2,12 @@
 
 require_once __DIR__ . '/../data/conexionBBDD.php';
 
-class Recepcionista extends Persona {
+class Recepcionista extends Trabajador {
 
     
     const EUROS_HORA=30;
 
-
-    private $funcion;
-    private $sueldo;
-    private $jornada;
-    private $horas_extra;
-    private $cuenta_bancaria;
-    private $password;
+    private $password;//para el logeo
     
     function __construct() {
         // Constructor vacío para fetchObject

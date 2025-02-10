@@ -2,6 +2,7 @@
 
 
 require_once __DIR__ . '/../models/Persona.php';
+require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Monitor.php';
 require_once __DIR__ . '/../models/Clase.php';
 
@@ -22,7 +23,7 @@ class ControladorClases {
 
         //corregimos la entrada para evitar inconsistencias de nombre el la BBDD
         if($_POST['nombre_actividad'] == 'mma' || $_POST['nombre_actividad'] == 'Mma' || $_POST['nombre_actividad'] == 'MMA') $nombre_actividad = 'MMA'; 
-        else $nombre_actividad = trim(ucwords($_POST['nombre_actividad']));
+        else $nombre_actividad = trim(ucwords(strtolower($_POST['nombre_actividad'])));
 
         $id_clase = $_POST['id_clase'];
        

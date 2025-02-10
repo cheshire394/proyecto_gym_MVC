@@ -2,6 +2,7 @@
 
 
 require_once __DIR__ . '/../models/Persona.php';
+require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Recepcionista.php';
 
 class ControladorRecepcionista
@@ -12,12 +13,12 @@ class ControladorRecepcionista
         public static function registro()
         {
             if (isset($_POST['registrar'])) {
-                $nombre = $_POST['nombre'];
-                $apellidos = $_POST['apellidos'];
+                $nombre = ucwords(strtolower($_POST['nombre'])); 
+                $apellidos = ucwords(strtolower($_POST['apellidos']));
                 $dni = $_POST['dni'];
                 $fecha_nac = $_POST['fecha_nac'];
                 $telefono = $_POST['telefono'];
-                $email = $_POST['email'];
+                $email = strtolower($_POST['email']);
                 $cuenta_bancaria = $_POST['cuenta_bancaria'];
                 $funcion = $_POST['funcion'];
                 $sueldo = $_POST['sueldo'];

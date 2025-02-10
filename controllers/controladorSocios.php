@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 // Incluir las clases necesarias para gestionar personas, trabajadores, clases, monitores y socios.
 
 require_once __DIR__ . '/../models/Persona.php';
+require_once __DIR__ . '/../models/Trabajador.php';
 require_once __DIR__ . '/../models/Socio.php';
 
 class controladorSocios
