@@ -2,8 +2,8 @@
 
 
 $db_nombre = 'gimnasio';
-$db_usuario = 'alumno';
-$usuario_pass = 'alumno';
+$db_usuario = '*';
+$usuario_pass = '*';
 $dsn = "mysql:host=localhost;dbname=$db_nombre"; 
 
 try {
