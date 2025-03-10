@@ -23,7 +23,7 @@ sudo service apache2 start
 echo "CREATE USER 'alumno'@'localhost' IDENTIFIED BY 'alumno';"
 echo "GRANT ALL PRIVILEGES ON *.* TO 'alumno'@'localhost' WITH GRANT OPTION;"
 echo "FLUSH PRIVILEGES;"
-} | sudo mysql -u root
+} | sudo mysql -u root -p
 
 # Ejecutar el archivo BBDD.sql en MySQL
 sudo mysql -u root < /var/www/html/proyecto_gym_MVC/data/BBDD.sql
